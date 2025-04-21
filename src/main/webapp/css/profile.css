@@ -1,0 +1,129 @@
+body {
+    background-color: #1f1f23;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .container {
+    max-width: 700px;
+    width: 100%;
+  }
+
+  .profile-section {
+    display: flex;
+    align-items: center;
+    background-color: #2b2c30;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+
+  .profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    object-fit: cover;
+    margin-right: 30px;
+  }
+
+  
+
+  .input-group {
+    margin-bottom: 15px;
+  }
+
+  input{
+    background-color: #3a3b3f;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    width: 100%;
+  }
+
+  .button-group {
+    margin-top: 10px;
+  }
+
+  .button-group button {
+    margin-right: 15px; 
+  }
+
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+  }
+
+  .edit-btn {
+    background-color: #4a4a4a;
+  }
+
+  .delete-btn {
+    background-color: #7c2d2d;
+  }
+
+  .save-btn {
+    background-color: #4a5675;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .password-section{
+    background-color: #2b2c30;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+  }
+  .password-section .input-group {
+    max-width: 400px;
+    margin: 0 auto 15px auto;
+  }
+
+  .password-section button {
+    display: block;
+    margin: 20px auto 0;
+  }
+  .welcome{
+    text-transform:uppercase;
+}
+
+  /* responsive */
+  @media (max-width: 600px) {
+  .profile-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-image {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .button-group {
+    display: block;
+  }
+
+  .button-group button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .password-section .input-group {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  .password-section button {
+    width: 100%;
+    margin: 20px auto 0;
+  }
+}

@@ -1,0 +1,128 @@
+body {
+  height: 1000px;
+  overflow: hidden;
+  background-color: #1e2124;
+  color: #fff;
+}
+
+.mngmanga-sidebar {
+  height: 1000px;
+  background-color: #282b30;
+  color: #fff;
+}
+
+.mngmanga-sidebar h2 {
+  padding: 20px;
+  font-size: 24px;
+  text-align: center;
+  border-bottom: 1px solid #36393e;
+  color: #7289da;
+}
+
+.mngmanga-sidebar a {
+  display: block;
+  padding: 12px 20px;
+  color: #adb5bd;
+  text-decoration: none;
+}
+
+.mngmanga-sidebar a:hover {
+  background-color: #36393e;
+  color: #fff;
+}
+
+.mngmanga-main-content {
+  padding: 20px;
+  overflow-y: auto;
+  height: 1000px;
+  background-color: #1e2124;
+}
+
+.mngmanga-header {
+  background-color: #36393e;
+  padding: 15px;
+  border-bottom: 1px solid #424549;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.mngmanga-content-box {
+  background-color: #282b30;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.mngmanga-content-box h2 {
+  color: #7289da;
+}
+
+.mngmanga-btn-discord {
+  background-color: #7289da;
+  color: white;
+  border: none;
+}
+
+.mngmanga-btn-discord:hover {
+  background-color: #5b6eae;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 992px) {
+  .mngmanga-sidebar {
+    width: 180px;
+  }
+
+  .mngmanga-main-content {
+    margin-left: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mngmanga-sidebar {
+    width: 100%;
+    position: relative;
+    height: auto;
+    display: none;
+  }
+
+  .mngmanga-sidebar.active {
+    display: block;
+    height: 100vh;
+  }
+
+  .mngmanga-main-content {
+    margin-left: 0;
+  }
+
+  .mngmanga-header {
+    text-align: center;
+  }
+
+  .mngmanga-sidebar a {
+    text-align: center;
+  }
+
+  .mngmanga-content-box {
+    padding: 10px;
+  }
+
+  .mngmanga-btn-discord {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .mngmanga-sidebar h2 {
+    font-size: 1.2rem;
+  }
+
+  .mngmanga-sidebar a {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .mngmanga-content-box h2 {
+    font-size: 1.2rem;
+  }
+}
