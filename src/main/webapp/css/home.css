@@ -1,0 +1,492 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #3c3f45;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+
+/* Navbar Container */
+.navbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 90px;
+  background-color: #3c3f45;
+  padding: 0 2rem;
+  border-radius: 5px;
+}
+
+/* Logo Section */
+.navbar-left {
+  flex: 1;
+}
+
+.logo {
+  height: 120px;
+  background-color: transparent;
+}
+
+/* Center Nav Links */
+.nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5rem;
+}
+
+.nav-center a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.nav-center a:hover {
+  color: #7289DA;
+}
+
+/* Right Section */
+.navbar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.search-bar {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  font-weight: bold;
+  color: #333;
+}
+
+.login-btn {
+  background-color: #7289DA;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+  background-color: #4f56cc;
+}
+
+/* Footer */
+.footer {
+  background-color: #2a2c30;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #ccc;
+  border-top: 1px solid #444;
+}
+
+.footer-logo {
+  height: 150px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: #7289DA;
+}
+
+.footer-description {
+  max-width: 600px;
+  margin: 0 auto 0.5rem;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+ /* Highest Rated Frame */
+.highest-rated-frame {
+  display: flex;
+  flex-direction: column;
+  background-color: #282B30;
+  padding: 20px;
+  border-radius: 12px;
+  gap: 20px;
+  color: white;
+  max-width: 95%;
+  margin: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  height: auto;
+}
+
+/* Highest Rated Text Section */
+.highest-rated-text {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 20px;
+}
+
+.highest-rated-text h2 {
+  font-size: 24px;
+
+}
+
+/* Image and Content Section */
+.image-and-content-section {
+  display: flex;
+  gap: 20px;
+}
+
+/* Image Section */
+.image-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.highest-rated-image {
+  width: 250px;
+  height: 370px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Content Section */
+.content-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: auto;
+}
+
+.content-section h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.content-section .description {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.content-section p {
+  margin-bottom: 10px;
+}
+
+.genres span {
+  background-color: #444;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-right: 8px;
+  font-size: 13px;
+  display: inline-block;
+}
+
+.read-button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #7289DA;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 180px;
+}
+
+.read-button:hover {
+  background-color: #5568d9;
+}
+
+/* Comics Section */
+.comics {
+  background-color: #1E2124;
+  padding: 20px;
+  margin: auto;
+  margin-top: 25px;
+  max-width: 95%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  align-items: center;
+}
+
+.comics-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-left: 25px;
+}
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-end;
+  margin: 5px 0;
+}
+
+.filter-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #2c2c2c;
+  color: #eee;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.filter-select:focus {
+  border-color: #667aff;
+}
+
+.btn-filter {
+  background-color: #7289DA;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.btn-filter:hover {
+  background-color: #5568d9;
+}
+
+.btn-filter:active {
+  transform: translateY(1px);
+}
+
+.manga-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 25px;
+  padding: 38px;
+  background-color: #282B30;
+  max-width: 95%;
+}
+
+.manga-card {
+  width: 225px;
+  height: 360px;
+  background-color: #1e1f23;
+  border-radius: 0;
+  overflow: hidden;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(0,0,0,0.5);
+  transition: transform 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.manga-card:hover {
+  transform: scale(1.03);
+  background-color: #2a2b30;
+}
+
+.manga-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.manga-title {
+  height: 60px;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.prev-btn, .next-btn {
+  background-color: #7289DA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.prev-btn {
+  background-color: #424549;
+}
+
+.prev-btn:hover, .next-btn:hover {
+  background-color: #5568d9;
+}
+
+.prev-btn:disabled, .next-btn:disabled {
+  background-color: #888;
+  cursor: not-allowed;
+}
+
+.one-lanebar {
+  background-color: #1E2124;
+  padding: 20px;
+  margin: auto;
+  margin-top: 25px;
+  max-width: 95%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.share-bar {
+  background-color: #1E1E1E;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 30px;
+  font-family: sans-serif;
+  width: 95%;
+  margin: auto;
+}
+
+.share-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.share-info img {
+  height: 100px;
+}
+
+.share-title {
+  font-weight: bold;
+}
+
+.share-subtitle {
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.share-buttons {
+  display: flex;
+  width: 30%;
+  gap: 1rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.telegram { background-color: #229ED9; }
+.twitter  { background-color: #000000; }
+.facebook { background-color: #3b5998; }
+.reddit   { background-color: #FF4500; }
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .navbar {
+      flex-direction: column;
+      height: auto;
+  }
+
+  .nav-center {
+      position: static;
+      transform: none;
+      flex-direction: column;
+      gap: 1rem;
+  }
+
+  .navbar-right {
+      margin-top: 1rem;
+  }
+
+  .highest-rated-frame {
+      flex-direction: column;
+      height: auto;
+  }
+
+  .image-section img {
+      margin-top: 0;
+      width: 100%;
+      height: auto;
+  }
+
+  .content-section {
+      margin-top: 20px;
+  }
+
+  .manga-grid {
+      justify-content: space-around;
+  }
+
+  .manga-card {
+      width: 100%;
+      margin-bottom: 20px;
+  }
+
+  .share-bar {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .share-info {
+      margin-bottom: 1rem;
+  }
+
+  .share-buttons {
+      width: 100%;
+      justify-content: center;
+  }
+}
