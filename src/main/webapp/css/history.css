@@ -2,19 +2,19 @@ body {
   background-color: #282b30;
   color: #f1f1f1;
   font-family: "Segoe UI", sans-serif;
-  padding: 20px;
   margin: 0;
+  padding: 0;
 }
 
 /* Navbar Container */
 .navbar {
-  position: relative;
   display: flex;
   align-items: center;
   height: 90px;
   background-color: #3c3f45;
   padding: 0 2rem;
   border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 /* Logo Section */
@@ -23,7 +23,7 @@ body {
 }
 
 .logo {
-  height: 120px;
+  height: 100px;
   background-color: transparent;
 }
 
@@ -83,8 +83,30 @@ body {
 /* Container */
 .container {
   max-width: 800px;
-  margin: auto;
+  margin: 40px auto;
+  padding: 0 1rem;
 }
+
+/* Continue Button */
+.continue-btn-hist {
+  margin-top: 8px;
+  display: inline-block;
+  background-color: #7289da;
+  color: white;
+  padding: 6px 7px; /* reduced horizontal padding */
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.continue-btn-hist:hover {
+  background-color: #4f56cc;
+  transform: translateY(-2px);
+}
+
 
 /* Card Styles */
 .card {
@@ -121,31 +143,39 @@ body {
 
 .details p {
   font-size: 0.95rem;
-  margin: 2px 0;
+  margin: 3px 0;
   color: #dddddd;
 }
 
 /* Pagination */
 .pagination {
   text-align: center;
+  margin-top: 20px;
 }
 
 .pagination button {
   background: #7289da;
   color: #ffffff;
   border: none;
-  padding: 8px 16px;
+  padding: 6px 14px;
   margin: 5px;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .pagination button:hover {
   background: #5b6eae;
   transform: translateY(-2px);
+}
+
+.page-number {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  margin: 0 8px;
 }
 
 /* Footer */
@@ -155,10 +185,11 @@ body {
   text-align: center;
   color: #ccc;
   border-top: 1px solid #444;
+  margin-top: 40px;
 }
 
 .footer-logo {
-  height: 150px;
+  height: 120px;
 }
 
 .footer-links {
