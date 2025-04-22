@@ -1,11 +1,7 @@
+CREATE DATABASE book_choda_comic_padha;
 
--- Create the database
---CREATE DATABASE book_choda_comic_padha;
+USE book_choda_comic_padha;
 
--- Select the database
---USE book_choda_comic_padha;
-
--- USERS Table 
 CREATE TABLE users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(100) NOT NULL,
@@ -14,7 +10,7 @@ CREATE TABLE users (
     role VARCHAR(100) NOT NULL
 );
 
--- MANGA Table
+
 CREATE TABLE manga (
     manga_id INT PRIMARY KEY AUTO_INCREMENT,
     mangatitle VARCHAR(200) NOT NULL,
@@ -22,13 +18,12 @@ CREATE TABLE manga (
     mangadescription TEXT
 );
 
--- GENRE Table
+
 CREATE TABLE genre (
     genre_id INT PRIMARY KEY AUTO_INCREMENT,
     genrename VARCHAR(100) UNIQUE NOT NULL
 );
 
--- MANGA_GENRE Table (linking manga and genres)
 CREATE TABLE manga_genre (
     manga_id INT,
     genre_id INT,
@@ -37,7 +32,6 @@ CREATE TABLE manga_genre (
     FOREIGN KEY (genre_id) REFERENCES genre(genre_id)
 );
 
--- VOLUME Table
 CREATE TABLE volume (
     volume_id INT PRIMARY KEY AUTO_INCREMENT,
     isbn VARCHAR(20) UNIQUE,
@@ -47,7 +41,7 @@ CREATE TABLE volume (
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );
 
--- CHAPTER Table
+
 CREATE TABLE chapter (
     chapter_id INT PRIMARY KEY AUTO_INCREMENT,
     chapterno INT NOT NULL,
@@ -56,7 +50,6 @@ CREATE TABLE chapter (
     FOREIGN KEY (volume_id) REFERENCES volume(volume_id)
 );
 
--- REVIEW Table
 CREATE TABLE review (
     review_id INT PRIMARY KEY AUTO_INCREMENT,
     rating INT CHECK (rating >= 1 AND rating <= 5),
@@ -68,7 +61,7 @@ CREATE TABLE review (
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );
 
--- USER_MANGA Table (bookmarks)
+
 CREATE TABLE user_manga (
     user_id INT,
     manga_id INT,
