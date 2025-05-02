@@ -22,45 +22,33 @@ if (session != null && session.getAttribute("username") != null) {
 		<div class="logo"  style="margin:0 auto">
 		<img src="../resources/images/logo.png" alt="logo" style=" width:350px">
 		</div>
-		<%
-		String error = request.getParameter("error");
-		String success = request.getParameter("success");
-		%>
+        <% 
+        String error = (String) request.getAttribute("error");
+        Boolean success = (Boolean) request.getAttribute("success"); 
+        %>
 
-		<%
-		if (error != null) {
-		%>
-		<div class="alert alert-danger alert-dismissible fade show"
-			role="alert">
-		<%
-		if ("password_mismatch".equals(error)) {
-		%>
-		<strong>Error:</strong> Password and Confirm Password do not match.
-		<%
-		} else if ("fail".equals(error)) {
-		%>
-		<strong>Error:</strong> Registration failed. Please try again.
-		<%
-		}else if("user_exists".equals(error)){
-		%>
-		<strong>Error:</strong> This email is already registered. Please use a different email.
-		<%
-		}
-		%>
-		<button type="button" class="btn-close" data-bs-dismiss="alert"
-			aria-label="Close"></button>
-		</div>
-		<%
-		} 
-		else if ("true".equals(success)) {
-		%>
-		<div class="alert alert-success alert-dismissible fade show"
-			role="alert">
-		<strong>Success:</strong> Registration completed successfully. You
-		can now log in!</div>		
-		<%
-		}
-		%>
+        <%-- Error handling --%>
+        <% if (error != null) { %>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong>
+                <% if ("password_mismatch".equals(error)) { %>
+                    Password and Confirm Password do not match.
+                <% } else if ("fail".equals(error)) { %>
+                    Registration failed. Please try again.
+                <% } else if ("user_exists".equals(error)) { %>
+                    This email is already registered. Please use a different email.
+                <% } %>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
+
+        <%-- Success handling --%>
+        <% if (success != null && success) { %>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Success:</strong> Registration completed successfully. You can now log in!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% } %>
 	
 
 		<form method="POST" action="../RegistrationController">
