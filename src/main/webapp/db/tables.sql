@@ -7,7 +7,8 @@ CREATE TABLE users (
     username VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
-    role VARCHAR(100) NOT NULL
+    role VARCHAR(100) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -17,7 +18,6 @@ CREATE TABLE manga (
     author VARCHAR(150) NOT NULL,
     mangadescription TEXT
 );
-
 
 CREATE TABLE genre (
     genre_id INT PRIMARY KEY AUTO_INCREMENT,
