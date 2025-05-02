@@ -46,8 +46,10 @@
 		} 
 		else if ("true".equals(success)) {
 		%>
+		<div class="alert alert-success alert-dismissible fade show"
+			role="alert">
 		<strong>Success:</strong> Registration completed successfully. You
-		can now log in!		
+		can now log in!</div>		
 		<%
 		}
 		%>
