@@ -38,7 +38,7 @@ public class RegistrationController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/pages/profile.jsp");
         } else {
             // If no session exists, proceed to the registration page
-            response.getWriter().append("Served at: ").append(request.getContextPath());
+        	request.getRequestDispatcher("/pages/registerUser.jsp").forward(request, response);
         }
 	}
 
