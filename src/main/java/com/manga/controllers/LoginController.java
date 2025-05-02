@@ -39,7 +39,7 @@ public class LoginController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/pages/profile.jsp");
         } else {
             // If no session exists, proceed to the login page
-            response.getWriter().append("Served at: ").append(request.getContextPath());
+        	request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
         }
 	}
 
