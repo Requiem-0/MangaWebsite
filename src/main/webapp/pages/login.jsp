@@ -10,7 +10,9 @@
 <body>
 
   <div class="form-container">
-    <div class="logo">MangaZone ログイン</div>
+    <div class="logo"  style="margin:0 auto">
+		<img src="../resources/images/logo.png" alt="logo" style=" width:350px">
+		</div>
     <form method="POST" action="../LoginController">
       <div class="mb-3">
         <label for="email" class="form-label">Email address</label>
