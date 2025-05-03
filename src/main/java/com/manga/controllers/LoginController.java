@@ -53,22 +53,38 @@ public class LoginController extends HttpServlet {
 
 	        UserDAO userDAO = new UserDAO();
 
-	        // Checking if user exists and the password matches
-	        User user = userDAO.loginUser(email, password);
-	        
-	        if (user != null) {
-	        	 // Successful login: Store user info in session
-	            HttpSession session = request.getSession();  // Creating or getting the existing session
-	            session.setAttribute("username", user.getUsername());  // Storing username in session
-	            
-	            // Optionally, you can store other user info like email
-	            session.setAttribute("email", user.getEmail());
-	            // Successful login: redirect to the profile page
-	            response.sendRedirect(request.getContextPath() + "/pages/profile.jsp");
-	        } else {
-	            // Invalid credentials: redirect back to login with error
-	            response.sendRedirect(request.getContextPath() + "/pages/login.jsp?error=true");
-	        }
+		        // Checking if user exists and the password matches
+		        User user = userDAO.loginUser(email, password);
+		       
+		        if (user != null) {
+		        	 System.out.println("User role from DB: " + user.getRole());
+		        	 // Successful login: Store user info in session
+		            HttpSession session = request.getSession();  // Creating or getting the existing session
+		           
+		            session.setAttribute("username", user.getUsername());  // Storing username in session
+		            
+		            // Optionally, you can store other user info like email
+		            session.setAttribute("email", user.getEmail());
+		            
+		            session.setAttribute("role", user.getRole());  // Storing user role for access control	
+		            
+		            // Redirect based on user role
+		            String role = user.getRole();
+		            
+		            if ("admin".equalsIgnoreCase(role)) {
+		                // If user is an admin, redirect to admin dashboard
+		                response.sendRedirect(request.getContextPath() + "/pages/dashboard.jsp");
+		            } else if ("user".equalsIgnoreCase(role)) {
+		                // If user is a regular user, redirect to profile page
+		                response.sendRedirect(request.getContextPath() + "/pages/profile.jsp");
+		            } else {
+		                // Fallback for unknown roles — redirect to login with error
+		                response.sendRedirect(request.getContextPath() + "/pages/login.jsp?error=unknownrole");
+		            }
+		        } else {
+		            // Invalid credentials: redirect back to login with error
+		            response.sendRedirect(request.getContextPath() + "/pages/login.jsp?error=true");
+		        }
+		}
+	
 	}
-
-}

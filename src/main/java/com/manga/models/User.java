@@ -2,6 +2,7 @@ package com.manga.models;
 
 import java.sql.Timestamp;
 
+
 public class User {
     private String username;
     private String email;
@@ -9,11 +10,11 @@ public class User {
     private String role;
     private Timestamp createdAt;
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String role ) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = "user";
+        this.role = role;// No default role, set from the database
     }
 
     // Getters and setters

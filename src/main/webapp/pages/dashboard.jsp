@@ -1,3 +1,12 @@
+<%
+    String role = (String) session.getAttribute("role");
+
+    if (role == null || !"admin".equalsIgnoreCase(role)) {
+        // If user is not logged in or not an admin, redirect to unauthorized page
+        response.sendRedirect(request.getContextPath() + "/unauthorized.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -84,7 +84,8 @@ public class UserDAO {
 	}
 	
 	public User loginUser(String email, String password) {
-	    User user = null; // Will store the user if found
+	    System.out.println("loginUser() called with email: " + email + " and password: " + password); // Debugging line
+		User user = null; // Will store the user if found
 
 	    try {
 	        // Get a connection to the database
@@ -100,6 +101,8 @@ public class UserDAO {
 
 	        // Execute the query
 	        ResultSet rs = stmt.executeQuery();
+	        // Debugging result count
+	        System.out.println("Query executed, checking if any user matches...");
 
 	        // If a matching user is found
 	        if (rs.next()) {
@@ -107,16 +110,27 @@ public class UserDAO {
 	            String username = rs.getString("username");
 	            String role = rs.getString("role");
 	            Timestamp createdAt = rs.getTimestamp("created_at");
+	            
+	            // Debugging the values fetched directly from the ResultSet
+	            System.out.println("Fetched data from DB:");
+	            System.out.println("Username: " + username);
+	            System.out.println("Role: " + role);
+	            System.out.println("Created At: " + createdAt);
 
 	            // Create a User object and populate it
-	            user = new User(username, email, password); // Using your constructor
-	            user.setRole(role);
+	            user = new User(username, email, password, role); // Pass the role here
 	            user.setCreatedAt(createdAt);
 
-	            System.out.println("Login success for user: " + username);
+//	            System.out.println("Login success for user: " + username);
+
+	            // Debugging after User object creation
+	            System.out.println("User object created: Username = " + user.getUsername() + ", Role = " + user.getRole());  // <-- This should now print
+
+	            
 	        } else {
 	            // No user found with given email/password
 	            System.out.println("Login failed: No matching user found.");
+	            
 	        }
 
 	    } catch (SQLException | ClassNotFoundException e) {
