@@ -51,6 +51,7 @@ public class RegistrationController extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirm = request.getParameter("confirmPassword");
+
         
         //Checking
         System.out.println("Form data: " + username + " | " + email + " | " + password + " | " + confirm);
@@ -72,7 +73,7 @@ public class RegistrationController extends HttpServlet {
 
         // Proceeding with registration if no issues
         else {
-        User user = new User(username, email, password);
+        User user = new User(username, email, password, null);
        
         boolean success = userDAO.register(user);
         if (success) {
