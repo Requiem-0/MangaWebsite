@@ -92,6 +92,20 @@
 .login-btn:hover {
   background-color: #4f56cc;
 }
+.logout-btn {
+  background-color: #7289DA;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #4f56cc;
+}
   /* Footer */
 .footer {
   background-color: #2a2c30;
@@ -146,39 +160,31 @@
       font-family: sans-serif;
     }
 
-    .settings-box {
-      background-color: #282b30;
-      border: 1px solid #424549;
+   .settings-box, .password-box {
+      background-color: #2d2f33;
       border-radius: 10px;
-      padding: 2rem;
-      max-width: 400px;
-      margin: 2rem auto;
+      padding: 30px;
+      margin: 20px auto 40px auto;
+      max-width: 600px;
     }
-
-    .form-control {
-      background-color: #36393e;
-      border: none;
-      color: #fff;
+    .profile-img {
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      object-fit: cover;
     }
-
-    .form-control[readonly] {
-      opacity: 0.7;
-      cursor: not-allowed;
+    .btn-space {
+      margin-right: 10px;
     }
-
-    .form-control::placeholder {
-      color: #ccc;
+    footer {
+      text-align: center;
+      color: #aaa;
+      font-size: 0.85rem;
+      margin-top: 30px;
     }
-
-    .btn-primary {
-      background-color: #7289da;
-      border: none;
-      font-size: 0.9rem;
-      padding: 6px 12px;
-    }
-
-    .btn-primary:hover {
-      background-color: #5b6eae;
+    footer img {
+      height: 40px;
+      margin-bottom: 10px;
     }
 
     footer {
@@ -219,41 +225,42 @@
     <div class="navbar-right">
       <input type="text" placeholder="Search" class="search-bar" />
       <button class="login-btn">Login</button>
+      <button class="logout-btn">Log out</button>
     </div>
   </header>
-  
-  <!-- Navbar End -->
-
-  <div class="settings-box">
-    <h5 class="mb-3">Account Settings</h5>
-    <input type="text" class="form-control mb-2" placeholder="<%= username != null ? username : "" %>" value="">
-    <input type="email" class="form-control mb-3" placeholder="<%= email != null ? email : "" %>" readonly>
-    <button class="btn btn-primary">Save changes</button>
-  </div>
-
-  <div class="settings-box">
-    <h5 class="mb-3">Change Password</h5>
-    <input type="password" class="form-control mb-2" placeholder="Current Password">
-    <input type="password" class="form-control mb-2" placeholder="New Password">
-    <input type="password" class="form-control mb-3" placeholder="Confirm Password">
-    <button class="btn btn-primary">Update Password</button>
-  </div>
-
- <!-- Footer -->
-  <footer class="footer">
-    <img src="../resources/images/logo.png" alt="Footer Logo" class="footer-logo" />
-
-    <div class="footer-links">
-      <a href="#">Home</a>
-      <a href="#">Privacy</a>
-      <a href="#">Terms of Service</a>
+  <!-- Account Info Section -->
+  <div class="settings-box text-center">
+    <div class="d-flex justify-content-center mb-3">
+      <img src="../resources/images/eren.jpg" alt="Profile" class="profile-img me-3">
+      <div class="text-start">
+        <input type="text" class="form-control mb-2" placeholder="<%= username != null ? username : "" %>" value="">
+         <input type="email" class="form-control mb-3" placeholder="<%= email != null ? email : "" %>" readonly>
+        <div class="d-flex">
+          <button class="btn btn-secondary btn-space">Edit Photo</button>
+          <button class="btn btn-danger btn-space">Delete Photo</button>
+          <button class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <p class="footer-description">
-      Read. Track. Repeat. Manga made seamless – follow your favorites, pick up where you left off, and dive into new worlds anytime.
-    </p>
+  <!-- Change Password Section -->
+  <div class="password-box text-center">
+    <h5 class="mb-4">Change Password</h5>
+    <input type="password" class="form-control mb-3" placeholder="Current password">
+    <input type="password" class="form-control mb-3" placeholder="New Password">
+    <input type="password" class="form-control mb-4" placeholder="Confirm Password">
+    <button class="btn btn-primary">Save Changes</button>
+  </div>
 
-    <p class="footer-copy">Copyright © Book Choda Comic Padha</p>
+  <!-- Footer -->
+  <footer>
+    <img src="../resources/images/logo.png" alt="Logo"><br>
+    <a href="#" class="text-decoration-none text-light mx-2">Home</a>
+    <a href="#" class="text-decoration-none text-light mx-2">Privacy</a>
+    <a href="#" class="text-decoration-none text-light mx-2">Terms of Service</a>
+    <p class="mt-2">Read. Track. Repeat. Manga made seamless – follow your favorites, pick up where you left off, and dive into new worlds anytime.</p>
+    <p>Copyright © Book Choda Comic Padha</p>
   </footer>
 
 </body>
