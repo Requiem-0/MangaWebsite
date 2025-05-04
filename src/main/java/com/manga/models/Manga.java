@@ -6,24 +6,36 @@ public class Manga {
     private int mangaId;
     private String title;
     private String author;
+    private List<String> genres;
     private String status;
     private String publishedDate;
     private String description;
-    private List<String> genres; // List of genre names
-
-    // Default constructor
-    public Manga() {}
-
-    // Constructor without ID (for insert)
-    public Manga(String title, String author, String status, String publishedDate, String description) {
+    
+    public Manga() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    public Manga(String title, String author, List<String> genres, String status, String publishedDate, String description) {
         this.title = title;
         this.author = author;
+        this.genres = genres;
         this.status = status;
         this.publishedDate = publishedDate;
         this.description = description;
     }
 
-    // Getters and setters
+    // Constructor for updating manga (with mangaId)
+    public Manga(int mangaId, String title, String author, List<String> genres, String status, String publishedDate, String description) {
+        this.mangaId = mangaId;
+        this.title = title;
+        this.author = author;
+        this.genres = genres;
+        this.status = status;
+        this.publishedDate = publishedDate;
+        this.description = description;
+    }
+
+	// Getters and Setters for all fields (you already have these, don't forget to add them if not)
     public int getMangaId() {
         return mangaId;
     }
@@ -48,6 +60,14 @@ public class Manga {
         this.author = author;
     }
 
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -70,13 +90,5 @@ public class Manga {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
     }
 }

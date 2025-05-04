@@ -13,7 +13,7 @@ public class MangaDAOTest {
 
         // 1. Test addManga method
         List<String> genreList = Arrays.asList("Adventure", "Action"); // multiple genres
-        Manga manga = new Manga("One Piece", "Eiichiro Oda", "Ongoing", "1997-07-22", "A story about pirates.");
+        Manga manga = new Manga("One Piece", "Eiichiro Oda", genreList, "Ongoing", "1997-07-22", "A story about pirates.");
         manga.setGenres(genreList);
 
         boolean isAdded = mangaDAO.addManga(manga);
@@ -29,7 +29,7 @@ public class MangaDAOTest {
         }
 
         // 3. Test deleteManga method (delete by ID)
-        boolean isDeleted = mangaDAO.deleteManga(1); // Delete manga with ID 1 if exists
+        boolean isDeleted = mangaDAO.deleteManga(2); // Delete manga with ID 1 if exists
         System.out.println("\nManga deleted successfully: " + isDeleted);
 
         // 4. Test updateManga method (e.g., change description)

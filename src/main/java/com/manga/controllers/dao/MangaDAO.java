@@ -179,6 +179,8 @@ public class MangaDAO {
         return isDeletedSuccessfully;
     }
 
+
+    // Optional: Update an existing manga
     public boolean editManga(Manga manga) {
         boolean isUpdatedSuccessfully = false;
 
