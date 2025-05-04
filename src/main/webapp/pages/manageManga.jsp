@@ -81,11 +81,11 @@
               </div>
               <div class="half-width">
                 <label for="genre">Genre</label>
-                <input type="text" id="manga genre" name="genre" class="form-control">
+                <input type="text" id="genre" name="genre" class="form-control">
               </div>
               <div class="half-width">
                 <label for="status">Status</label>
-                <select id="manga status" name="status" class="form-select">
+                <select id="status" name="status" class="form-select">
                   <option value="Ongoing">Ongoing</option>
                   <option value="Completed">Completed</option>
                   <option value="Hiatus">Hiatus</option>
@@ -93,7 +93,7 @@
               </div>
               <div class="half-width">
                 <label for="publishedDate">Published Date</label>
-                <input type="manga pb date" id="publishedDate" name="published_date" class="form-control">
+                <input type="date" id="publishedDate" name="published_date" class="form-control">
               </div>
               <div class="full-width">
                 <label for="description">Description</label>
