@@ -1,14 +1,14 @@
 body {
-  height: 1000px;
-  overflow: hidden;
   background-color: #1e2124;
   color: #fff;
+  overflow: hidden;
+  height: 1000px;
 }
 
 .mngmanga-sidebar {
-  height: 1000px;
   background-color: #282b30;
   color: #fff;
+  height: 1000px;
 }
 
 .mngmanga-sidebar h2 {
@@ -67,62 +67,34 @@ body {
   background-color: #5b6eae;
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 992px) {
-  .mngmanga-sidebar {
-    width: 180px;
-  }
-
-  .mngmanga-main-content {
-    margin-left: 200px;
-  }
+/* Popup Form Fields Layout */
+.modal-content {
+  background-color: #2f3136;
+  color: #fff;
+  border-radius: 10px;
 }
 
+.modal-title {
+  color: #7289da;
+}
+
+.modal-body .form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.form-group .half-width {
+  width: 48%;
+}
+
+.form-group .full-width {
+  width: 100%;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .mngmanga-sidebar {
+  .form-group .half-width {
     width: 100%;
-    position: relative;
-    height: auto;
-    display: none;
-  }
-
-  .mngmanga-sidebar.active {
-    display: block;
-    height: 100vh;
-  }
-
-  .mngmanga-main-content {
-    margin-left: 0;
-  }
-
-  .mngmanga-header {
-    text-align: center;
-  }
-
-  .mngmanga-sidebar a {
-    text-align: center;
-  }
-
-  .mngmanga-content-box {
-    padding: 10px;
-  }
-
-  .mngmanga-btn-discord {
-    width: 100%;
-  }
-}
-
-@media (max-width: 576px) {
-  .mngmanga-sidebar h2 {
-    font-size: 1.2rem;
-  }
-
-  .mngmanga-sidebar a {
-    font-size: 0.9rem;
-    padding: 10px;
-  }
-
-  .mngmanga-content-box h2 {
-    font-size: 1.2rem;
   }
 }

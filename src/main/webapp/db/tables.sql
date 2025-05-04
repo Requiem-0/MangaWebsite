@@ -16,8 +16,11 @@ CREATE TABLE manga (
     manga_id INT PRIMARY KEY AUTO_INCREMENT,
     mangatitle VARCHAR(200) NOT NULL,
     author VARCHAR(150) NOT NULL,
-    mangadescription TEXT
+    mangadescription TEXT,
+    status VARCHAR(50), 
+    published_date DATE
 );
+
 
 CREATE TABLE genre (
     genre_id INT PRIMARY KEY AUTO_INCREMENT,
