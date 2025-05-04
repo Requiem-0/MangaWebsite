@@ -1,23 +1,31 @@
-<%@ page import="java.util.List" %>
-<%@ page import="com.manga.controllers.dao.UploadPDFDAO" %>
-<%@ page import="com.manga.models.UploadPDF" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head><title>Read PDFs</title></head>
-<body>
-    <h2>Available PDFs</h2>
+<%@ page import="java.util.List" %>
+<%@ page import="com.manga.models.UploadPDF" %>
+<%@ page import="com.manga.controllers.dao.UploadPDFDAO" %>
 
-    <%
-        UploadPDFDAO dao = new UploadPDFDAO();
-        List<UploadPDF> list = dao.getAllPDFs();
-        for (UploadPDF pdf : list) {
-    %>
-        <p>
-            <b><%= pdf.getTitle() %></b><br>
-            <iframe src="view-pdf?id=<%= pdf.getId() %>" width="80%" height="400px"></iframe>
-        </p>
-    <%
-        }
-    %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View PDFs</title>
+</head>
+<body>
+<h2>Uploaded PDFs</h2>
+<%
+    UploadPDFDAO dao = new UploadPDFDAO();
+    List<UploadPDF> pdfList = dao.getAllPDFs();
+
+    if (pdfList != null && !pdfList.isEmpty()) {
+%>
+    <ul>
+        <% for (UploadPDF pdf : pdfList) { %>
+            <li>
+                <strong><%= pdf.getTitle() %></strong> -
+                <a href="<%= request.getContextPath() + "/" + pdf.getFilePath() %>" target="_blank">View PDF</a>
+            </li>
+        <% } %>
+    </ul>
+<% } else { %>
+    <p>No PDFs found.</p>
+<% } %>
 </body>
 </html>
