@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="java.util.*, com.manga.models.Manga" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +14,7 @@
     <div class="row">
       <!-- Sidebar -->
       <nav class="col-md-3 col-lg-2 mngmanga-sidebar d-md-block">
-        <h2>Manga Admin type shi</h2>
+        <h2>Manga Admin Panel</h2>
         <a href="dashboard.jsp">Dashboard</a>
         <a href="manageManga.jsp">Manage Manga</a>
         <a href="manageUsers.jsp">Manage Users</a>
@@ -28,31 +30,60 @@
         <div class="mngmanga-content-box">
           <h2 class="h5">Manga Management</h2>
           <button class="btn mngmanga-btn-discord mb-3" data-bs-toggle="modal" data-bs-target="#addMangaModal">Add New Manga</button>
+
           <table class="table table-dark table-striped">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Title</th>
                 <th>Author</th>
-                <th>Genre</th>
+                <th>Genres</th>
                 <th>Status</th>
                 <th>Published</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Naruto</td>
-                <td>Masashi Kishimoto</td>
-                <td>Action</td>
-                <td>Completed</td>
-                <td>1999-09-21</td>
-                <td>
-                  <button class="btn btn-sm mngmanga-btn-discord">Edit</button>
-                  <button class="btn btn-sm btn-danger">Delete</button>
-                </td>
-              </tr>
+              <%
+                List<Manga> mangaList = (List<Manga>) request.getAttribute("mangaList");
+                if (mangaList != null && !mangaList.isEmpty()) {
+                  for (Manga manga : mangaList) {
+              %>
+                <tr>
+                  <td><%= manga.getMangaId() %></td>
+                  <td><%= manga.getTitle() %></td>
+                  <td><%= manga.getAuthor() %></td>
+                  <td>
+                    <%
+                      List<String> genres = manga.getGenres();
+                      if (genres != null && !genres.isEmpty()) {
+                        for (String genre : genres) {
+                    %>
+                          <span class="badge bg-secondary"><%= genre %></span>
+                    <%
+                        }
+                      } else {
+                    %>
+                          <span class="badge bg-secondary">No genres available</span>
+                    <%
+                      }
+                    %>
+                  </td>
+                  <td><%= manga.getStatus() %></td>
+                  <td><%= manga.getPublishedDate() %></td>
+                  <td>
+                    <a href="ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm mngmanga-btn-discord">Edit</a>
+                    <a href="ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
+                  </td>
+                </tr>
+              <%
+                  }
+                } else {
+              %>
+                <tr><td colspan="7" class="text-center">No manga found.</td></tr>
+              <%
+                }
+              %>
             </tbody>
           </table>
         </div>
@@ -60,11 +91,12 @@
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Add Manga Modal -->
   <div class="modal fade" id="addMangaModal" tabindex="-1" aria-labelledby="addMangaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="addMangaServlet" method="post">
+        <form action="ManageMangaController" method="post">
+          <input type="hidden" name="action" value="addManga">
           <div class="modal-header">
             <h5 class="modal-title" id="addMangaModalLabel">Add New Manga</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -73,14 +105,14 @@
             <div class="form-group">
               <div class="half-width">
                 <label for="mangaTitle">Title</label>
-                <input type="text" id="mangaTitle" name="mangatitle" class="form-control" required>
+                <input type="text" id="mangaTitle" name="title" class="form-control" required>
               </div>
               <div class="half-width">
                 <label for="author">Author</label>
                 <input type="text" id="author" name="author" class="form-control" required>
               </div>
               <div class="half-width">
-                <label for="genre">Genre</label>
+                <label for="genre">Genre (comma separated)</label>
                 <input type="text" id="genre" name="genre" class="form-control">
               </div>
               <div class="half-width">
@@ -93,11 +125,11 @@
               </div>
               <div class="half-width">
                 <label for="publishedDate">Published Date</label>
-                <input type="date" id="publishedDate" name="published_date" class="form-control">
+                <input type="date" id="publishedDate" name="publishedDate" class="form-control">
               </div>
               <div class="full-width">
                 <label for="description">Description</label>
-                <textarea id="manga description" name="mangadescription" class="form-control" rows="3"></textarea>
+                <textarea id="description" name="description" class="form-control" rows="3"></textarea>
               </div>
             </div>
           </div>
