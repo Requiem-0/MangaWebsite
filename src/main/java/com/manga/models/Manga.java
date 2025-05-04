@@ -1,82 +1,82 @@
 package com.manga.models;
 
+import java.util.List;
+
 public class Manga {
-    private int mangaId;        // Primary key
-    private String title;       // Manga title
-    private String author;      // Author of the manga
-    private String genre;       // Genre of the manga 
-    private String status;      // Status of the manga 
-    private String publishedDate; // The date when the manga was published
-    private String description; // Manga description
+    private int mangaId;
+    private String title;
+    private String author;
+    private String status;
+    private String publishedDate;
+    private String description;
+    private List<String> genres; // List of genre names
 
-    // Constructor
-    public Manga() {
-    }
+    // Default constructor
+    public Manga() {}
 
-    public Manga(String title, String author, String genre, String status, String publishedDate, String description) {
+    // Constructor without ID (for insert)
+    public Manga(String title, String author, String status, String publishedDate, String description) {
         this.title = title;
         this.author = author;
-        this.genre = genre;
         this.status = status;
         this.publishedDate = publishedDate;
         this.description = description;
     }
 
-	public int getMangaId() {
-		return mangaId;
-	}
+    // Getters and setters
+    public int getMangaId() {
+        return mangaId;
+    }
 
-	public void setMangaId(int mangaId) {
-		this.mangaId = mangaId;
-	}
+    public void setMangaId(int mangaId) {
+        this.mangaId = mangaId;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getAuthor() {
-		return author;
-	}
+    public String getAuthor() {
+        return author;
+    }
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-	public String getGenre() {
-		return genre;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setGenre(String genre) {
-		this.genre = genre;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getPublishedDate() {
+        return publishedDate;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setPublishedDate(String publishedDate) {
+        this.publishedDate = publishedDate;
+    }
 
-	public String getPublishedDate() {
-		return publishedDate;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setPublishedDate(String publishedDate) {
-		this.publishedDate = publishedDate;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public List<String> getGenres() {
+        return genres;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-   
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
+    }
 }
