@@ -1,13 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.manga.models.Manga" %>
+
+<%
+    // If mangaList is not set, redirect to the controller to fetch it
+    if (request.getAttribute("mangaList") == null) {
+        response.sendRedirect(request.getContextPath() + "/ManageMangaController?action=list");
+        return;
+    }
+
+    List<Manga> mangaList = (List<Manga>) request.getAttribute("mangaList");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Manga Admin Panel</title>
+  <link href="<%= request.getContextPath() %>/css/admin_manage_manga.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../css/admin_manage_manga.css" rel="stylesheet">
+
 </head>
 <body>
   <div class="container-fluid">
@@ -15,9 +27,9 @@
       <!-- Sidebar -->
       <nav class="col-md-3 col-lg-2 mngmanga-sidebar d-md-block">
         <h2>Manga Admin Panel</h2>
-        <a href="dashboard.jsp">Dashboard</a>
-        <a href="manageManga.jsp">Manage Manga</a>
-        <a href="manageUsers.jsp">Manage Users</a>
+        <a href="<%= request.getContextPath() %>/DashboardController">Dashboard</a>
+        <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
+        <a href="<%= request.getContextPath() %>/ManageUsersController">Manage Users</a>
         <a href="#">Logout</a>
       </nav>
 
@@ -45,9 +57,7 @@
             </thead>
             <tbody>
               <%
-                List<Manga> mangaList = (List<Manga>) request.getAttribute("mangaList");
-                if (mangaList != null && !mangaList.isEmpty()) {
-                  for (Manga manga : mangaList) {
+                for (Manga manga : mangaList) {
               %>
                 <tr>
                   <td><%= manga.getMangaId() %></td>
@@ -72,15 +82,10 @@
                   <td><%= manga.getStatus() %></td>
                   <td><%= manga.getPublishedDate() %></td>
                   <td>
-                    <a href="ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm mngmanga-btn-discord">Edit</a>
-                    <a href="ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
+                    <a href="<%= request.getContextPath() %>/ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm mngmanga-btn-discord">Edit</a>
+                    <a href="<%= request.getContextPath() %>/ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
                   </td>
                 </tr>
-              <%
-                  }
-                } else {
-              %>
-                <tr><td colspan="7" class="text-center">No manga found.</td></tr>
               <%
                 }
               %>
@@ -95,7 +100,7 @@
   <div class="modal fade" id="addMangaModal" tabindex="-1" aria-labelledby="addMangaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form action="ManageMangaController" method="post">
+        <form action="<%= request.getContextPath() %>/ManageMangaController" method="post">
           <input type="hidden" name="action" value="addManga">
           <div class="modal-header">
             <h5 class="modal-title" id="addMangaModalLabel">Add New Manga</h5>
