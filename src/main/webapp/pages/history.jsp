@@ -14,9 +14,9 @@
     </div>
 
     <nav class="nav-center">
-      <a href="#">Home</a>
+      <a href="home.jsp">Home</a>
       <a href="#">Bookmark</a>
-      <a href="#">History</a>
+      <a href="history.jsp">History</a>
       <a href="#">Random</a>
     </nav>
 
