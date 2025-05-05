@@ -32,7 +32,7 @@ public class MangaDAOTest {
             System.out.println("Description: " + manga.getDescription());
             System.out.println("Status: " + manga.getStatus());
             System.out.println("Published Date: " + manga.getPublishedDate());
-            System.out.println("Genres: " + String.join(", ", manga.getGenres())); // This will now safely handle empty or null genres
+            System.out.println("Genres: " + (manga.getGenres() != null ? String.join(", ", manga.getGenres()) : "No genres"));
             System.out.println("--------------------------");
         }
 
@@ -50,5 +50,13 @@ public class MangaDAOTest {
             boolean isDeleted = mangaDAO.deleteManga(mangaToDelete.getMangaId());
             System.out.println("Delete Manga: " + (isDeleted ? "Success" : "Failed"));
         }
+
+        // Test: Count total manga
+        int totalManga = mangaDAO.getMangaCount();
+        System.out.println("Total Manga in Database: " + totalManga);
+
+        // Test: Count total unique genres
+        int totalGenres = mangaDAO.getGenreCount();
+        System.out.println("Total Unique Genres in Database: " + totalGenres);
     }
 }

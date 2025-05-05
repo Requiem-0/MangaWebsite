@@ -142,5 +142,33 @@ public class UserDAO {
 	    // Return the User object (or null if login failed)
 	    return user;
 	}
+	    public int countUser() {
+	        int userCount = 0;
 
-}
+	        try {
+	            // Establish a connection to the database
+	            Connection conn = DatabaseConnection.getConnection();
+	            
+	            // SQL query to count all distinct 'user_id' values in the 'users' table
+	            String sql = "SELECT COUNT(user_id) FROM users";
+	            PreparedStatement stmt = conn.prepareStatement(sql);
+
+	            // Execute the query
+	            ResultSet rs = stmt.executeQuery();
+
+	            // If the result set is not empty, retrieve the count
+	            if (rs.next()) {
+	                userCount = rs.getInt(1); // Retrieve the first column (the count)
+	            }
+
+	        } catch (SQLException | ClassNotFoundException e) {
+	            // Handle errors connecting to DB or JDBC driver not found
+	            System.out.println("Exception during countUser()");
+	            e.printStackTrace();
+	        }
+
+	        // Return the total user count
+	        return userCount;
+	    }
+	}
+
