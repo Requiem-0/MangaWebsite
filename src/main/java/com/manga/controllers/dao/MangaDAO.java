@@ -11,6 +11,19 @@ public class MangaDAO {
 
     // Method to add a new manga to the database
     public boolean addManga(Manga manga) {
+        if (manga == null || manga.getTitle() == null || manga.getTitle().isEmpty()) {
+            System.out.println("Manga title is required.");
+            return false; // or throw an exception
+        }
+        if (manga.getAuthor() == null || manga.getAuthor().isEmpty()) {
+            System.out.println("Manga author is required.");
+            return false; // or throw an exception
+        }
+        if (manga.getDescription() == null || manga.getDescription().isEmpty()) {
+            System.out.println("Manga description is required.");
+            return false; // or throw an exception
+        }
+
         boolean isAddedSuccessfully = false;
 
         try {
@@ -50,6 +63,11 @@ public class MangaDAO {
 
     // Helper method to insert genres into manga_genre table
     private boolean addGenresToManga(int mangaId, List<String> genres, Connection databaseConnection) {
+        if (genres == null || genres.isEmpty()) {
+            System.out.println("Genres list is empty or null.");
+            return false;
+        }
+
         boolean isSuccessful = false;
 
         try {
@@ -59,6 +77,11 @@ public class MangaDAO {
 
             for (String genreName : genres) {
                 // Check if the genre exists
+                if (genreName == null || genreName.isEmpty()) {
+                    System.out.println("Invalid genre name: " + genreName);
+                    continue; // Skip invalid genres
+                }
+
                 int genreId = getGenreIdByName(genreName, databaseConnection);
                 if (genreId == -1) {
                     // If the genre doesn't exist, insert it into the genre table
@@ -84,6 +107,11 @@ public class MangaDAO {
 
     // Helper method to get genreId by genre name
     private int getGenreIdByName(String genreName, Connection conn) throws SQLException {
+        if (genreName == null || genreName.isEmpty()) {
+            System.out.println("Invalid genre name: " + genreName);
+            return -1;
+        }
+
         String sql = "SELECT genre_id FROM genre WHERE genrename = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, genreName);
@@ -97,6 +125,11 @@ public class MangaDAO {
 
     // Helper method to insert a new genre into the genre table
     private int insertGenre(String genreName, Connection conn) throws SQLException {
+        if (genreName == null || genreName.isEmpty()) {
+            System.out.println("Invalid genre name: " + genreName);
+            return -1;
+        }
+
         String sql = "INSERT INTO genre (genrename) VALUES (?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, genreName);
@@ -144,6 +177,9 @@ public class MangaDAO {
                 mangaList.add(manga);
             }
 
+            // Debug log to check if the manga list is populated
+            System.out.println("Manga List Size: " + mangaList.size());
+
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -153,6 +189,11 @@ public class MangaDAO {
 
     // Optional: Delete manga by ID
     public boolean deleteManga(int mangaId) {
+        if (mangaId <= 0) {
+            System.out.println("Invalid manga ID.");
+            return false;
+        }
+
         boolean isDeletedSuccessfully = false;
 
         try {
@@ -179,9 +220,21 @@ public class MangaDAO {
         return isDeletedSuccessfully;
     }
 
-
     // Optional: Update an existing manga
     public boolean editManga(Manga manga) {
+        if (manga == null || manga.getMangaId() <= 0) {
+            System.out.println("Invalid manga or manga ID.");
+            return false;
+        }
+        if (manga.getTitle() == null || manga.getTitle().isEmpty()) {
+            System.out.println("Manga title cannot be empty.");
+            return false; // or throw an exception
+        }
+        if (manga.getAuthor() == null || manga.getAuthor().isEmpty()) {
+            System.out.println("Manga author cannot be empty.");
+            return false; // or throw an exception
+        }
+
         boolean isUpdatedSuccessfully = false;
 
         try {

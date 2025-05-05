@@ -1,12 +1,4 @@
-<%
-    String role = (String) session.getAttribute("role");
 
-    if (role == null || !"admin".equalsIgnoreCase(role)) {
-        // If user is not logged in or not an admin, redirect to unauthorized page
-        response.sendRedirect(request.getContextPath() + "/pages/unauthorized.jsp");
-        return;
-    }
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +16,7 @@
       <nav class="col-md-3 col-lg-2 dashbrd-sidebar d-md-block">
         <h2>Manga Admin type shi</h2>
         <a href="dashboard.jsp">Dashboard</a>
-        <a href="manageManga.jsp">Manage Manga</a>
+         <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
         <a href="manageUsers.jsp">Manage Users</a>
         <a href="#">Logout</a>
       </nav>

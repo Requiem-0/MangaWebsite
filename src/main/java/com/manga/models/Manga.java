@@ -91,4 +91,5 @@ public class Manga {
     public void setDescription(String description) {
         this.description = description;
     }
+   
 }
