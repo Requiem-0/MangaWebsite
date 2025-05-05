@@ -343,39 +343,32 @@ body {
 }
 
 .pagination {
-	display: flex;
-	justify-content: center;
-	margin: 10px 0;
-	width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  width: 100%;
 }
 
-.prev-btn,
-.next-btn {
-	background-color: #7289DA;
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	margin: 0 5px;
-	font-size: 16px;
-	font-weight: 600;
-	border-radius: 8px;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
+.prev-btn, .next-btn, .page-btn {
+  background-color: #7289DA;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px; /* Increased margin for more space */
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.prev-btn {
-	background-color: #424549;
+.prev-btn:hover, .next-btn:hover, .page-btn:hover {
+  background-color: #5568d9;
 }
 
-.prev-btn:hover,
-.next-btn:hover {
-	background-color: #5568d9;
-}
-
-.prev-btn:disabled,
-.next-btn:disabled {
-	background-color: #888;
-	cursor: not-allowed;
+.prev-btn:disabled, .next-btn:disabled, .page-btn:disabled {
+  background-color: #424549;
+  cursor: not-allowed;
 }
 
 .one-lanebar {

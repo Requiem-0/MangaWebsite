@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, com.manga.models.Manga" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,12 +16,12 @@
   <header class="navbar">
     <!-- Logo -->
     <div class="navbar-left">
-      <img src="../resources/images/logo.png" alt="Logo" class="logo" />
+      <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
     </div>
 
     <!-- Navigation Links (Centered) -->
     <nav class="nav-center">
-      <a href="home.jsp">Home</a>
+      <a href="HomeMangaServlet">Home</a>
       <a href="#">Bookmark</a>
       <a href="history.jsp">History</a>
       <a href="#">Random</a>
@@ -43,7 +45,7 @@
     
     <div class="image-and-content-section">
       <div class="image-section">
-        <img src="../resources/images/solo.jpeg" alt="Solo Leveling Poster" class="highest-rated-image" />
+        <img src="${pageContext.request.contextPath}/resources/images/solo.jpeg" alt="Solo Leveling Poster" class="highest-rated-image" />
       </div>
       
       <div class="content-section">
@@ -74,7 +76,7 @@
 
   <div class="comics">
     <div class="comics-header">
-      <h2>Comics</h2>
+      <h2>Mangas</h2>
 
       <div class="filter-bar">
         <!-- Genre Filter -->
@@ -114,104 +116,73 @@
   </div>
 
   <div class="manga-grid">
+    <%
+      List<Manga> mangaList = (List<Manga>) request.getAttribute("mangaList");
+      if (mangaList != null && !mangaList.isEmpty()) {
+        for (Manga manga : mangaList) {
+    %>
     <div class="manga-card">
-      <img src="../resources/images/bad.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">bad </div>
+      <img src="${pageContext.request.contextPath}/resources/images/<%= manga.getTitle().toLowerCase() %>.png" alt="<%= manga.getTitle() %>" class="manga-image" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/images/default.png';" />
+      <div class="manga-title"><%= manga.getTitle() %></div>
     </div>
-    <div class="manga-card">
-      <img src="../resources/images/baki.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">baki</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/berserk.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">berserk</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/bleach.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">bleach</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/dragon.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">dragon</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/eren.jpg" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">eren</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/fullmetal.jpg" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">fullmetal</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/gintama.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">gintama</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/haikyuu.jpg" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">haikyuu</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/hunter.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">hunter</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/jojo.jpg" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">jojo</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/jujutsu.jpg" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">jujutsu</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/kingdom.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">kingdom</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/myhero.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">myhero</div>
-    </div>
-    <div class="manga-card">
-      <img src="../resources/images/naruto.jpg" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">naruto</div>
-    </div>
-
-    <!-- Pagination buttons -->
-    <div class="pagination">
-      <button class="prev-btn">Previous</button>
-      <button class="next-btn">Next</button>
-    </div>
+    <%
+        }
+      } else {
+    %>
+    <p>No manga found.</p>
+    <%
+      }
+    %>
+    
+   <div class="pagination">
+  <%
+    Integer currentPage = (Integer) request.getAttribute("currentPage");
+    Integer totalPages = (Integer) request.getAttribute("totalPages");
+    if (currentPage == null) currentPage = 1;
+    if (totalPages == null) totalPages = 1;
+  %>
+  <button class="prev-btn" <%= (currentPage == 1) ? "disabled" : "" %> onclick="location.href='HomeMangaServlet?page=<%= Math.max(currentPage - 1, 1) %>'">Previous</button>
+  
+  <% for (int i = 1; i <= totalPages; i++) { %>
+    <button class="page-btn" <%= (currentPage == i) ? "disabled" : "" %> onclick="location.href='HomeMangaServlet?page=<%= i %>'"><%= i %></button>
+  <% } %>
+  
+  <button class="next-btn" <%= (currentPage == totalPages) ? "disabled" : "" %> onclick="location.href='HomeMangaServlet?page=<%= Math.min(currentPage + 1, totalPages) %>'">Next</button>
+</div>
   </div>
 
-  <div class="one-lanebar">
+  
+
+  <div class="one-lanebar"> 
     <h2>Recommendation</h2>
   </div>
 
   <div class="manga-grid">
     <div class="manga-card">
-      <img src="../resources/images/onep.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/onep.jpg" alt="Manga Title" class="manga-image" />
       <div class="manga-title">onep</div>
     </div>
     <div class="manga-card">
-      <img src="../resources/images/seven.png" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/seven.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">seven</div>
     </div>
     <div class="manga-card">
-      <img src="../resources/images/slam.png" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/slam.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">slam</div>
     </div>
     <div class="manga-card">
-      <img src="../resources/images/tail.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/tail.jpg" alt="Manga Title" class="manga-image" />
       <div class="manga-title">tail</div>
     </div>
     <div class="manga-card">
-      <img src="../resources/images/tanjiro.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/tanjiro.jpg" alt="Manga Title" class="manga-image" />
       <div class="manga-title">tanjiro</div>
     </div>
   </div>
 
   <div class="share-bar">
     <div class="share-info">
-      <img src="../resources/images/logo.png" alt="Avatar">
+      <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Avatar">
       <div>
         <div class="share-title">Share Book Choda Comic Padha</div>
         <div class="share-subtitle">to your friends</div>
@@ -232,30 +203,30 @@
 
   <div class="manga-grid">
     <div class="manga-card">
-      <img src="../resources/images/tokyo.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/tokyo.jpg" alt="Manga Title" class="manga-image" />
       <div class="manga-title">tokyo </div>
     </div>
     <div class="manga-card">
-      <img src="../resources/images/vega.png" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/vega.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">vega</div>
     </div>
     <div class="manga-card">
-      <img src="../resources/images/ghoul.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/ghoul.jpg" alt="Manga Title" class="manga-image" />
       <div class="manga-title">ghoul</div>
     </div>
     <div class="manga-card">
-      <img src="../resources/images/chain.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/chain.jpg" alt="Manga Title" class="manga-image" />
       <div class="manga-title">chain</div>
     </div>
     <div class="manga-card">
-      <img src="../resources/images/pokemon.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/pokemon.jpg" alt="Manga Title" class="manga-image" />
       <div class="manga-title">pokemon</div>
     </div>
   </div>
 
   <!-- Footer -->
   <footer class="footer">
-    <img src="../resources/images/logo.png" alt="Footer Logo" class="footer-logo" />
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Footer Logo" class="footer-logo" />
 
     <div class="footer-links">
       <a href="#">Home</a>
