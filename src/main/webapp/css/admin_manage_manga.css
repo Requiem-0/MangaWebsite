@@ -63,9 +63,9 @@ body {
   background-color: #7289da; /* Button background */
   color: white;
   border: none;
-  padding: 8px 15px;  /* Added padding */
-  font-size: 16px;    /* Adjusted font size */
-  border-radius: 5px; /* Rounded corners */
+  padding: 8px 15px;
+  font-size: 16px;
+  border-radius: 5px;
   display: inline-block;
   cursor: pointer;
 }
@@ -107,25 +107,28 @@ body {
   width: 100%;
 }
 
-/* Aligning Buttons in Modal */
+/* Fixed Aligning Buttons in Modal */
 .modal-footer {
   display: flex;
-  justify-content: space-between;
-  padding: 20px 30px;  /* Spacing for buttons */
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px 30px;
 }
 
 .modal-footer .btn {
-  width: 48%;  /* Ensures buttons are the same width and spaced equally */
+  flex: 1 1 48%;
+  min-width: 120px;
 }
 
 .modal-footer .btn-primary {
-  background-color: #7289da; /* Primary button color */
-  border-color: #7289da; /* Border color for primary button */
+  background-color: #7289da;
+  border-color: #7289da;
 }
 
 .modal-footer .btn-secondary {
-  background-color: #636c74; /* Secondary button color */
-  border-color: #636c74; /* Border color for secondary button */
+  background-color: #636c74;
+  border-color: #636c74;
 }
 
 /* Responsive Styles */
@@ -135,6 +138,6 @@ body {
   }
 
   .modal-footer .btn {
-    width: 100%;  /* Stack buttons vertically in smaller screens */
+    flex: 1 1 100%;
   }
 }

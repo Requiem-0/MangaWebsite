@@ -1,14 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.manga.models.Manga" %>
-<%@ page errorPage="true" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Manga Admin Panel</title>
-  <link href="<%= request.getContextPath() %>/css/admin_manage_manga.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<%= request.getContextPath() %>/css/admin_manage_manga.css" rel="stylesheet">
+
 </head>
 <body>
   <div class="container-fluid">
@@ -30,7 +31,7 @@
 
         <div class="mngmanga-content-box">
           <h2 class="h5">Manga Management</h2>
-          <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addMangaModal">Add New Manga</button>
+          <button class="btn mngmanga-btn-discord mb-3" data-bs-toggle="modal" data-bs-target="#addMangaModal">Add New Manga</button>
 
           <table class="table table-dark table-striped">
             <thead>
@@ -45,47 +46,48 @@
               </tr>
             </thead>
             <tbody>
-              <%
-                List<Manga> mangaList = (List<Manga>) request.getAttribute("mangaList");
-
-                if (mangaList == null || mangaList.isEmpty()) {
-                  // Forward to the controller if mangaList is not available
-                  request.getRequestDispatcher("/ManageMangaController?action=list").forward(request, response);
-                } else {
-                  // Display manga list if available
-                  for (Manga manga : mangaList) {
-              %>
-                <tr>
-                  <td><%= manga.getMangaId() %></td>
-                  <td><%= manga.getTitle() %></td>
-                  <td><%= manga.getAuthor() %></td>
-                  <td>
-                    <%
-                      List<String> genres = manga.getGenres();
-                      if (genres != null && !genres.isEmpty()) {
-                        for (String genre : genres) {
-                    %>
-                          <span class="badge bg-secondary"><%= genre %></span>
-                    <%
-                        }
-                      } else {
-                    %>
-                          <span class="badge bg-secondary">No genres available</span>
-                    <%
+            <%
+              List<Manga> mangaList = (List<Manga>) request.getAttribute("mangaList");
+              if (mangaList == null || mangaList.isEmpty()) {
+            %>
+              <tr><td colspan="7" class="text-center">No manga found.</td></tr>
+            <%
+              } else {
+                for (Manga manga : mangaList) {
+            %>
+              <tr>
+                <td><%= manga.getMangaId() %></td>
+                <td><%= manga.getTitle() %></td>
+                <td><%= manga.getAuthor() %></td>
+                <td>
+                  <%
+                    List<String> genres = manga.getGenres();
+                    if (genres != null && !genres.isEmpty()) {
+                      for (String genre : genres) {
+                  %>
+                    <span class="badge bg-secondary"><%= genre %></span>
+                  <%
                       }
-                    %>
-                  </td>
-                  <td><%= manga.getStatus() %></td>
-                  <td><%= manga.getPublishedDate() %></td>
-                  <td>
-                    <a href="<%= request.getContextPath() %>/ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-warning">Edit</a>
-                    <a href="<%= request.getContextPath() %>/ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
-                  </td>
-                </tr>
-              <%
-                  }
+                    } else {
+                  %>
+                    <span class="badge bg-secondary">No genres available</span>
+                  <%
+                    }
+                  %>
+                </td>
+                <td><%= manga.getStatus() %></td>
+                <td><%= manga.getPublishedDate() %></td>
+                <td>
+                 <a href="<%= request.getContextPath() %>/ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-primary custom-btn">Edit</a>
+<a href="<%= request.getContextPath() %>/ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger custom-btn" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
+
+
+                </td>
+              </tr>
+            <%
                 }
-              %>
+              }
+            %>
             </tbody>
           </table>
         </div>
@@ -136,8 +138,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary w-100 w-md-auto">Save</button>
+            <button type="button" class="btn btn-secondary w-100 w-md-auto" data-bs-dismiss="modal">Cancel</button>
           </div>
         </form>
       </div>
