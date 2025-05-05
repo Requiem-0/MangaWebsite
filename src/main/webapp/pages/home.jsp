@@ -45,7 +45,7 @@
     
     <div class="image-and-content-section">
       <div class="image-section">
-        <img src="${pageContext.request.contextPath}/resources/images/solo.jpeg" alt="Solo Leveling Poster" class="highest-rated-image" />
+        <img src="${pageContext.request.contextPath}/resources/images/solo leveling.png" alt="Solo Leveling Poster" class="highest-rated-image" />
       </div>
       
       <div class="content-section">
@@ -159,7 +159,7 @@
 
   <div class="manga-grid">
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/onep.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/one piece.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">onep</div>
     </div>
     <div class="manga-card">
@@ -171,11 +171,11 @@
       <div class="manga-title">slam</div>
     </div>
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/tail.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/tail.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">tail</div>
     </div>
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/tanjiro.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/Demon Slayer.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">tanjiro</div>
     </div>
   </div>
@@ -203,7 +203,7 @@
 
   <div class="manga-grid">
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/tokyo.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/Tokyo Ghoul.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">tokyo </div>
     </div>
     <div class="manga-card">
@@ -211,15 +211,15 @@
       <div class="manga-title">vega</div>
     </div>
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/ghoul.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/ghoul.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">ghoul</div>
     </div>
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/chain.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/Chainsaw Man.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">chain</div>
     </div>
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/pokemon.jpg" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/pokemon.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">pokemon</div>
     </div>
   </div>
