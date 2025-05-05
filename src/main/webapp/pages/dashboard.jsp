@@ -16,7 +16,7 @@
       <nav class="col-md-3 col-lg-2 dashbrd-sidebar d-md-block">
         <h2>Manga Admin type shi</h2>
         <a href="dashboard.jsp">Dashboard</a>
-        <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
+         <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
         <a href="manageUsers.jsp">Manage Users</a>
         <a href="#">Logout</a>
       </nav>

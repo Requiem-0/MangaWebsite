@@ -1,16 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.manga.models.Manga" %>
-
-<%
-    // If mangaList is not set, redirect to the controller to fetch it
-    if (request.getAttribute("mangaList") == null) {
-        response.sendRedirect(request.getContextPath() + "/ManageMangaController?action=list");
-        return;
-    }
-
-    List<Manga> mangaList = (List<Manga>) request.getAttribute("mangaList");
-%>
-
+<%@ page errorPage="true" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +9,6 @@
   <title>Manga Admin Panel</title>
   <link href="<%= request.getContextPath() %>/css/admin_manage_manga.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 <body>
   <div class="container-fluid">
@@ -41,7 +30,7 @@
 
         <div class="mngmanga-content-box">
           <h2 class="h5">Manga Management</h2>
-          <button class="btn mngmanga-btn-discord mb-3" data-bs-toggle="modal" data-bs-target="#addMangaModal">Add New Manga</button>
+          <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addMangaModal">Add New Manga</button>
 
           <table class="table table-dark table-striped">
             <thead>
@@ -57,7 +46,14 @@
             </thead>
             <tbody>
               <%
-                for (Manga manga : mangaList) {
+                List<Manga> mangaList = (List<Manga>) request.getAttribute("mangaList");
+
+                if (mangaList == null || mangaList.isEmpty()) {
+                  // Forward to the controller if mangaList is not available
+                  request.getRequestDispatcher("/ManageMangaController?action=list").forward(request, response);
+                } else {
+                  // Display manga list if available
+                  for (Manga manga : mangaList) {
               %>
                 <tr>
                   <td><%= manga.getMangaId() %></td>
@@ -82,11 +78,12 @@
                   <td><%= manga.getStatus() %></td>
                   <td><%= manga.getPublishedDate() %></td>
                   <td>
-                    <a href="<%= request.getContextPath() %>/ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm mngmanga-btn-discord">Edit</a>
+                    <a href="<%= request.getContextPath() %>/ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-warning">Edit</a>
                     <a href="<%= request.getContextPath() %>/ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
                   </td>
                 </tr>
               <%
+                  }
                 }
               %>
             </tbody>
