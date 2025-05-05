@@ -1,10 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Comic</title>
-  <link rel="stylesheet" href="../css/home.css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/nav_footer.css">
 </head>
 <body>
 
@@ -17,9 +19,9 @@
 
     <!-- Navigation Links (Centered) -->
     <nav class="nav-center">
-      <a href="#">Home</a>
+      <a href="home.jsp">Home</a>
       <a href="#">Bookmark</a>
-      <a href="#">History</a>
+      <a href="history.jsp">History</a>
       <a href="#">Random</a>
     </nav>
 

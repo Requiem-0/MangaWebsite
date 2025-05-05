@@ -1,33 +1,34 @@
+/* General Styles */
 body {
-  height: 1000px;
-  overflow: hidden;
-  background-color: #1e2124;
+  background-color: #1e2124; /* Background color from palette */
   color: #fff;
+  overflow: hidden;
+  height: 1000px;
 }
 
 .mngmanga-sidebar {
-  height: 1000px;
-  background-color: #282b30;
+  background-color: #282b30; /* Sidebar background */
   color: #fff;
+  height: 1000px;
 }
 
 .mngmanga-sidebar h2 {
   padding: 20px;
   font-size: 24px;
   text-align: center;
-  border-bottom: 1px solid #36393e;
-  color: #7289da;
+  border-bottom: 1px solid #36393e; /* Border color from palette */
+  color: #7289da; /* Heading color from palette */
 }
 
 .mngmanga-sidebar a {
   display: block;
   padding: 12px 20px;
-  color: #adb5bd;
+  color: #adb5bd; /* Light gray text color for links */
   text-decoration: none;
 }
 
 .mngmanga-sidebar a:hover {
-  background-color: #36393e;
+  background-color: #36393e; /* Hover background */
   color: #fff;
 }
 
@@ -35,94 +36,108 @@ body {
   padding: 20px;
   overflow-y: auto;
   height: 1000px;
-  background-color: #1e2124;
+  background-color: #1e2124; /* Main content background */
 }
 
 .mngmanga-header {
-  background-color: #36393e;
+  background-color: #36393e; /* Header background */
   padding: 15px;
-  border-bottom: 1px solid #424549;
+  border-bottom: 1px solid #424549; /* Border color for the header */
   margin-bottom: 20px;
   color: #fff;
 }
 
 .mngmanga-content-box {
-  background-color: #282b30;
+  background-color: #282b30; /* Content box background */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .mngmanga-content-box h2 {
-  color: #7289da;
+  color: #7289da; /* Title color for content box */
 }
 
+/* Button Styles */
 .mngmanga-btn-discord {
-  background-color: #7289da;
+  background-color: #7289da; /* Button background */
   color: white;
   border: none;
+  padding: 8px 15px;
+  font-size: 16px;
+  border-radius: 5px;
+  display: inline-block;
+  cursor: pointer;
 }
 
 .mngmanga-btn-discord:hover {
-  background-color: #5b6eae;
+  background-color: #5b6eae; /* Hover state for button */
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 992px) {
-  .mngmanga-sidebar {
-    width: 180px;
-  }
-
-  .mngmanga-main-content {
-    margin-left: 200px;
-  }
+.mngmanga-btn-discord:focus {
+  outline: none;
 }
 
+.mngmanga-btn-discord:active {
+  background-color: #4f5a79; /* Darker shade on active */
+}
+
+/* Modal Styling */
+.modal-content {
+  background-color: #2f3136; /* Modal background */
+  color: #fff;
+  border-radius: 10px;
+}
+
+.modal-title {
+  color: #7289da; /* Modal title color */
+}
+
+.modal-body .form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.form-group .half-width {
+  width: 48%;
+}
+
+.form-group .full-width {
+  width: 100%;
+}
+
+/* Fixed Aligning Buttons in Modal */
+.modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px 30px;
+}
+
+.modal-footer .btn {
+  flex: 1 1 48%;
+  min-width: 120px;
+}
+
+.modal-footer .btn-primary {
+  background-color: #7289da;
+  border-color: #7289da;
+}
+
+.modal-footer .btn-secondary {
+  background-color: #636c74;
+  border-color: #636c74;
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-  .mngmanga-sidebar {
-    width: 100%;
-    position: relative;
-    height: auto;
-    display: none;
-  }
-
-  .mngmanga-sidebar.active {
-    display: block;
-    height: 100vh;
-  }
-
-  .mngmanga-main-content {
-    margin-left: 0;
-  }
-
-  .mngmanga-header {
-    text-align: center;
-  }
-
-  .mngmanga-sidebar a {
-    text-align: center;
-  }
-
-  .mngmanga-content-box {
-    padding: 10px;
-  }
-
-  .mngmanga-btn-discord {
+  .form-group .half-width {
     width: 100%;
   }
-}
 
-@media (max-width: 576px) {
-  .mngmanga-sidebar h2 {
-    font-size: 1.2rem;
-  }
-
-  .mngmanga-sidebar a {
-    font-size: 0.9rem;
-    padding: 10px;
-  }
-
-  .mngmanga-content-box h2 {
-    font-size: 1.2rem;
+  .modal-footer .btn {
+    flex: 1 1 100%;
   }
 }

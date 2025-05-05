@@ -79,11 +79,15 @@ public class LoginController extends HttpServlet {
 		                response.sendRedirect(request.getContextPath() + "/pages/profile.jsp");
 		            } else {
 		                // Fallback for unknown roles — redirect to login with error
-		                response.sendRedirect(request.getContextPath() + "/pages/login.jsp?error=unknownrole");
+		            	request.setAttribute("error", "unknown_role");
+		            	request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
+
 		            }
 		        } else {
 		            // Invalid credentials: redirect back to login with error
-		            response.sendRedirect(request.getContextPath() + "/pages/login.jsp?error=true");
+		        	request.setAttribute("error", "invalid_credentials");
+		        	request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
+
 		        }
 		}
 	

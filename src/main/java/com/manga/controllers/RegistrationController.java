@@ -2,6 +2,7 @@ package com.manga.controllers;
 
 import java.io.IOException;
 
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +39,7 @@ public class RegistrationController extends HttpServlet {
             request.getRequestDispatcher("/pages/profile.jsp").forward(request, response);
         } else {
             // If no session exists, proceed to the registration page
-        	request.getRequestDispatcher("/pages/registerUser.jsp").include(request, response);
+        	request.getRequestDispatcher("/pages/registerUser.jsp").forward(request, response);
         }
 	}
 
@@ -51,7 +52,9 @@ public class RegistrationController extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String confirm = request.getParameter("confirmPassword");
-
+        
+		
+      
         
         //Checking
         System.out.println("Form data: " + username + " | " + email + " | " + password + " | " + confirm);
@@ -61,27 +64,27 @@ public class RegistrationController extends HttpServlet {
         
         if (!password.equals(confirm)) {
             request.setAttribute("error", "password_mismatch");
-            request.getRequestDispatcher("/pages/registerUser.jsp").include(request, response);
+            request.getRequestDispatcher("/pages/registerUser.jsp").forward(request, response);
             return;
         }
 
         else if (userDAO.userExists(email, password)) {
             request.setAttribute("error", "user_exists");
-            request.getRequestDispatcher("/pages/registerUser.jsp").include(request, response);
+            request.getRequestDispatcher("/pages/registerUser.jsp").forward(request, response);
             return;
         }
 
         // Proceeding with registration if no issues
         else {
-        User user = new User(username, email, password, null);
+        User user = new User(username, email, password,"user");
        
         boolean success = userDAO.register(user);
         if (success) {
             request.setAttribute("success", true);
-            request.getRequestDispatcher("/pages/registerUser.jsp").include(request, response);
+            request.getRequestDispatcher("/pages/registerUser.jsp").forward(request, response);
         } else {
             request.setAttribute("error", "fail");
-            request.getRequestDispatcher("/pages/registerUser.jsp").include(request, response);
+            request.getRequestDispatcher("/pages/registerUser.jsp").forward(request, response);
         }
         
       } 
