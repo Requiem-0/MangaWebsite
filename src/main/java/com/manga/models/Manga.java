@@ -1,88 +1,95 @@
-package com.manga.controllers;
+package com.manga.models;
 
-import com.manga.controllers.dao.MangaDAO;
-import com.manga.models.Manga;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/ManageMangaController")
-public class ManageMangaController extends HttpServlet {
-    private MangaDAO mangaDAO;
-
-    @Override
-    public void init() {
-        mangaDAO = new MangaDAO();
+public class Manga {
+    private int mangaId;
+    private String title;
+    private String author;
+    private List<String> genres;
+    private String status;
+    private String publishedDate;
+    private String description;
+    
+    public Manga() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    public Manga(String title, String author, List<String> genres, String status, String publishedDate, String description) {
+        this.title = title;
+        this.author = author;
+        this.genres = genres;
+        this.status = status;
+        this.publishedDate = publishedDate;
+        this.description = description;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String action = request.getParameter("action");
-
-        try {
-            if (action == null || action.equals("list")) {
-                listManga(request, response);
-            } else if (action.equals("deleteManga")) {
-                deleteManga(request, response);
-            } else if (action.equals("editManga")) {
-                // Optional edit logic
-                listManga(request, response);
-            } else {
-                listManga(request, response); // default action
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("error", "Something went wrong.");
-            listManga(request, response);
-        }
+    // Constructor for updating manga (with mangaId)
+    public Manga(int mangaId, String title, String author, List<String> genres, String status, String publishedDate, String description) {
+        this.mangaId = mangaId;
+        this.title = title;
+        this.author = author;
+        this.genres = genres;
+        this.status = status;
+        this.publishedDate = publishedDate;
+        this.description = description;
     }
 
-    private void listManga(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Manga> mangaList = mangaDAO.getAllManga();
-        request.setAttribute("mangaList", mangaList);
-        request.getRequestDispatcher("/pages/manageManga.jsp").forward(request, response);
+	// Getters and Setters for all fields (you already have these, don't forget to add them if not)
+    public int getMangaId() {
+        return mangaId;
     }
 
-    private void deleteManga(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        try {
-            int id = Integer.parseInt(request.getParameter("mangaId"));
-            mangaDAO.deleteManga(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            request.setAttribute("error", "An error occurred while deleting the manga.");
-        }
-        listManga(request, response);
+    public void setMangaId(int mangaId) {
+        this.mangaId = mangaId;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String title = request.getParameter("title");
-        String author = request.getParameter("author");
-        String genre = request.getParameter("genre");
-        List<String> genres = new ArrayList<>();
-        if (genre != null && !genre.trim().isEmpty()) {
-            for (String g : genre.split(",")) {
-                genres.add(g.trim());
-            }
-        }
-
-        String status = request.getParameter("status");
-        String publishedDate = request.getParameter("publishedDate");
-        String description = request.getParameter("description");
-
-        Manga manga = new Manga();
-        manga.setTitle(title);
-        manga.setAuthor(author);
-        manga.setGenres(genres);
-        manga.setStatus(status);
-        manga.setPublishedDate(publishedDate);
-        manga.setDescription(description);
-
-        mangaDAO.addManga(manga);
-        listManga(request, response);
+    public String getTitle() {
+        return title;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public List<String> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(String publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+   
 }
