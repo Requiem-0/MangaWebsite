@@ -1,4 +1,10 @@
 <%
+// Disable caching for login page
+response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+
+// Check if the user is already logged in
 if (session != null && session.getAttribute("username") != null) {
     response.sendRedirect("profile.jsp");
     return;
