@@ -79,9 +79,9 @@ public class UserDAO {
 		}
 		return success;
 				
-		
-	//login user			 
 	}
+	//login user			 
+	
 	
 	public User loginUser(String email, String password) {
 	    System.out.println("loginUser() called with email: " + email + " and password: " + password); // Debugging line
@@ -142,6 +142,7 @@ public class UserDAO {
 	    // Return the User object (or null if login failed)
 	    return user;
 	}
+	
 	    public int countUser() {
 	        int userCount = 0;
 
@@ -170,9 +171,7 @@ public class UserDAO {
 	        // Return the total user count
 	        return userCount;
 	    }
-	g
 
-<<<<<<< HEAD
 	   // Update the username in the database
 	public boolean updateUsername(String email, String newUsername) {
 	    boolean success = false;
@@ -265,8 +264,4 @@ public class UserDAO {
         return user;
     }
 
-    
-	
 }
-=======
->>>>>>> origin/main
