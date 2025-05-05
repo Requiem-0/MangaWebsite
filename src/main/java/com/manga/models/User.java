@@ -17,7 +17,11 @@ public class User {
         this.role = role;// No default role, set from the database
     }
 
-    // Getters and setters
+    public User() {
+		// TODO Auto-generated constructor stub
+	}
+
+	// Getters and setters
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 
