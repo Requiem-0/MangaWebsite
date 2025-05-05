@@ -1,4 +1,9 @@
 <%
+// Disable caching for this page
+response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+
     // Retrieve the username and email from the session
     String username = (String) session.getAttribute("username");
     String email = (String) session.getAttribute("email");
