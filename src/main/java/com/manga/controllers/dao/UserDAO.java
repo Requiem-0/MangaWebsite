@@ -79,9 +79,9 @@ public class UserDAO {
 		}
 		return success;
 				
-		
-	//login user			 
 	}
+	//login user			 
+	
 	
 	public User loginUser(String email, String password) {
 	    System.out.println("loginUser() called with email: " + email + " and password: " + password); // Debugging line
@@ -142,6 +142,7 @@ public class UserDAO {
 	    // Return the User object (or null if login failed)
 	    return user;
 	}
+	
 	    public int countUser() {
 	        int userCount = 0;
 
@@ -170,5 +171,97 @@ public class UserDAO {
 	        // Return the total user count
 	        return userCount;
 	    }
+
+	   // Update the username in the database
+	public boolean updateUsername(String email, String newUsername) {
+	    boolean success = false;
+	    System.out.println("updateUsername() called for user with email: " + email);
+
+	    try {
+	        Connection conn = DatabaseConnection.getConnection();
+	        if (conn == null) {
+	            System.out.println("Failed to connect to the database in updateUsername.");
+	            return false;
+	        }
+
+	        String sql = "UPDATE users SET username = ? WHERE email = ?";
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        stmt.setString(1, newUsername); // Set new username
+	        stmt.setString(2, email); // Set email
+	        
+	        int rowsUpdated = stmt.executeUpdate();
+	        success = rowsUpdated > 0;
+	        System.out.println("Rows updated: " + rowsUpdated);
+	    } catch (SQLException | ClassNotFoundException e) {
+	        System.out.println("Exception in updateUsername():");
+	        e.printStackTrace();
+	    }
+
+	    return success;
 	}
 
+    
+ // Update the password in the database
+    public boolean updatePassword(String email, String newPassword) {
+        boolean success = false;
+        System.out.println("updatePassword() called for user with email: " + email);
+
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            if (conn == null) {
+                System.out.println("Failed to connect to database in updatePassword.");
+                return false;
+            }
+
+            String sql = "UPDATE users SET password = ? WHERE email = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, newPassword);  // Set the new password
+            stmt.setString(2, email);        // Set the user's email
+            
+            System.out.println("Executing SQL: " + sql);
+            int rowsUpdated = stmt.executeUpdate();
+            System.out.println("Rows updated: " + rowsUpdated);
+
+            success = rowsUpdated > 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Exception in updatePassword():");
+            e.printStackTrace();
+        }
+        return success;
+    }
+
+    
+    public User getUserByEmail(String email) {
+        User user = null;
+
+        try {
+            // Establish connection to the database
+            Connection conn = DatabaseConnection.getConnection();
+
+            // SQL query to get user by email
+            String sql = "SELECT * FROM users WHERE email = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, email);  // Set email parameter
+
+            // Execute the query
+            ResultSet rs = stmt.executeQuery();
+
+            // If a user is found, create a User object with the retrieved data
+            if (rs.next()) {
+                String username = rs.getString("username");
+                String role = rs.getString("role");
+                String password = rs.getString("password");
+                Timestamp createdAt = rs.getTimestamp("created_at");
+
+                user = new User(username, email, password, role);
+                user.setCreatedAt(createdAt);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            // Handle exception and print the stack trace for debugging
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+}
