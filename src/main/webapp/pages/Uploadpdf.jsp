@@ -1,42 +1,15 @@
-1<%@page import="java.util.Base64"%>
-<%@ page import="java.sql.*"%>
-<%@ page import="java.io.*"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-            .main{
-                width: 300px;
-                height: 200px;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-                border: 2px solid;
-            }
-            form{
-                width: 100%;
-                position: relative;
-                display: block;
-                margin: 20px auto;
-            }
-            input{
-                margin: 10px 0;
-            }
- 
-        </style>
+    <title>Upload PDF</title>
 </head>
 <body>
-	<div class="main">
-            <form method="POST" action="UploadServlet" enctype="multipart/form-data" >
-                <input type="file" name="file"/>
-                <input type="submit" value="Upload"/>
-            </form>
-     </div>
+<h2>Upload PDF</h2>
+<form action="<%= request.getContextPath() %>/upload" method="post" enctype="multipart/form-data">
+    Title: <input type="text" name="title" required><br><br>
+    Select PDF: <input type="file" name="pdf" accept="application/pdf" required><br><br>
+    <input type="submit" value="Upload">
+</form>
 </body>
 </html>

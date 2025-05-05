@@ -72,3 +72,10 @@ CREATE TABLE user_manga (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );
+CREATE TABLE uploaded_pdf (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    title VARCHAR(100) NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
