@@ -1,4 +1,4 @@
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Manga Admin Panel</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="../css/admin_dashboard.css" rel="stylesheet" />
-
+  <link href="<%= request.getContextPath() %>/css/admin_dashboard.css" rel="stylesheet" />
 </head>
 <body>
   <div class="container-fluid">
@@ -16,8 +15,8 @@
       <nav class="col-md-3 col-lg-2 dashbrd-sidebar d-md-block">
         <h2>Manga Admin type shi</h2>
         <a href="dashboard.jsp">Dashboard</a>
-         <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
-        <a href="manageUsers.jsp">Manage Users</a>
+        <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
+        <a href="#">Manage Users</a>
         <a href="#">Logout</a>
       </nav>
 
@@ -34,7 +33,7 @@
             <div class="col-md-4">
               <div class="dashbrd-stat-card">
                 <h5>Total Users</h5>
-                <h3>1234</h3>
+                <h3><%= request.getAttribute("userCount") %></h3>
               </div>
             </div>
 
@@ -42,33 +41,41 @@
             <div class="col-md-4">
               <div class="dashbrd-stat-card">
                 <h5>Total Mangas</h5>
-                <h3>89</h3>
+                <h3><%= request.getAttribute("mangaCount") %></h3>
               </div>
             </div>
 
-            <!-- Total Chapters -->
+            <!-- Total Genres -->
             <div class="col-md-4">
               <div class="dashbrd-stat-card">
-                <h5>Total Chapters</h5>
-                <h3>456</h3>
+                <h5>Total Genres</h5>
+                <h3><%= request.getAttribute("genreCount") %></h3>
               </div>
             </div>
 
-            <!-- Most Popular Manga -->
-            <div class="col-md-6">
+            <!-- Total Reviews -->
+            <div class="col-md-4">
               <div class="dashbrd-stat-card">
-                <h5>Most Popular Manga</h5>
-                <h3>Attack on Titan</h3>
-                <small>Bookmarked by 520 users</small>
+                <h5>Total Reviews</h5>
+                <h3><%= request.getAttribute("reviewCount") %></h3>
+              </div>
+            </div>
+
+            <!-- Most Bookmarked Manga -->
+            <div class="col-md-4">
+              <div class="dashbrd-stat-card">
+                <h5>Most Bookmarked Manga</h5>
+                <h3><%= request.getAttribute("mostBookmarkedTitle") != null ? request.getAttribute("mostBookmarkedTitle") : "N/A" %></h3>
+                <small>Bookmarked by <%= request.getAttribute("mostBookmarkedCount") != null ? request.getAttribute("mostBookmarkedCount") : "0" %> users</small>
               </div>
             </div>
 
             <!-- Highest Rated Manga -->
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="dashbrd-stat-card">
                 <h5>Highest Rated Manga</h5>
-                <h3>One Piece</h3>
-                <small>Average Rating: 4.9</small>
+                <h3><%= request.getAttribute("highestRatedTitle") != null ? request.getAttribute("highestRatedTitle") : "N/A" %></h3>
+                <small>Average Rating: <%= request.getAttribute("highestRating") != null ? request.getAttribute("highestRating") : "0.0" %></small>
               </div>
             </div>
           </div>
