@@ -51,7 +51,7 @@ if (session != null && session.getAttribute("username") != null) {
         <% } %>
 	
 
-		<form method="POST" action="../RegistrationController">
+		<form method="POST" action="${pageContext.request.contextPath}/RegistrationController">
 			<div class="mb-3">
 				<label for="name" class="form-label">Username</label> <input
 					type="text" class="form-control" id="name" name="username" required />
@@ -79,7 +79,7 @@ if (session != null && session.getAttribute("username") != null) {
 		</form>
 
 		<p class="text-center mt-3">
-			Already have an account? <a href="login.jsp">Log in</a>
+			Already have an account? <a href="${pageContext.request.contextPath}/pages/login.jsp">Log in</a>
 		</p>
 	</div>
 
