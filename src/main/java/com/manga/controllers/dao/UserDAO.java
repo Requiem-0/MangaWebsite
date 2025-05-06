@@ -46,12 +46,14 @@ public class UserDAO {
 			else {
 				System.out.println("DB connection failed");
 			}
-			 String sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
-	            PreparedStatement stmt = conn.prepareStatement(sql);
+            String sql = "INSERT INTO users (username, email, password, role, profile_picture) VALUES (?, ?, ?, ?, ?)";
+			PreparedStatement stmt = conn.prepareStatement(sql);
 	            stmt.setString(1, user.getUsername());
 	            stmt.setString(2, user.getEmail());
 	            stmt.setString(3, user.getPassword());
 	            stmt.setString(4, user.getRole());
+	            stmt.setString(5, user.getProfilePicture());  // Insert profile picture (can be null initially)
+
 	            
 	            //Just checking in case
 	            System.out.println("Executing SQL with values:");
@@ -59,6 +61,7 @@ public class UserDAO {
 	            System.out.println("Email: " + user.getEmail());
 	            System.out.println("Password: " + user.getPassword());
 	            System.out.println("Role: " + user.getRole());
+	            
 	            
 	            int rows = stmt.executeUpdate();
 	            success = rows > 0;
@@ -110,6 +113,8 @@ public class UserDAO {
 	            String username = rs.getString("username");
 	            String role = rs.getString("role");
 	            Timestamp createdAt = rs.getTimestamp("created_at");
+	            String profilePicture = rs.getString("profile_picture");  // Retrieve the profile picture
+
 	            
 	            // Debugging the values fetched directly from the ResultSet
 	            System.out.println("Fetched data from DB:");
@@ -118,7 +123,7 @@ public class UserDAO {
 	            System.out.println("Created At: " + createdAt);
 
 	            // Create a User object and populate it
-	            user = new User(username, email, password, role); // Pass the role here
+	            user = new User(username, email, password, role,profilePicture); // Pass the role here
 	            user.setCreatedAt(createdAt);
 
 //	            System.out.println("Login success for user: " + username);
@@ -263,5 +268,28 @@ public class UserDAO {
 
         return user;
     }
+    
+    
+    public boolean updateProfilePicture(String email, String profilePicturePath) {
+        boolean success = false;
+
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            
+            String sql = "UPDATE users SET profile_picture = ? WHERE email = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            
+            stmt.setString(1, profilePicturePath);  // Update with the new profile picture path
+            stmt.setString(2, email);  // The user's email to identify them
+            
+            int rowsUpdated = stmt.executeUpdate();
+            success = rowsUpdated > 0;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return success;
+    }
+
 
 }

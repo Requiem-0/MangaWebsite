@@ -1,24 +1,33 @@
 package com.manga.controllers;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 import com.manga.models.User;
 import com.manga.controllers.dao.UserDAO;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  * Servlet implementation class ProfileController
  */
 @WebServlet("/ProfileController")
+@MultipartConfig
+
 public class ProfileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	 // Directory to store uploaded profile pictures
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -47,7 +56,10 @@ public class ProfileController extends HttpServlet {
         } 
         else if ("changePassword".equals(action)) {
             changePassword(request, response);
-        } 
+        }
+        else if ("uploadProfilePicture".equals(action)) {
+            uploadProfilePicture(request, response); // Handle the profile picture upload
+        }
 	}
     // Method for updating the username
 	public void updateUsername(HttpServletRequest request, HttpServletResponse response)
@@ -168,6 +180,91 @@ public class ProfileController extends HttpServlet {
         } else {
             // New password and confirmation do not match
             request.setAttribute("error", "New password and confirmation do not match.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/profile.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
+    
+    // Method for uploading profile picture
+    public void uploadProfilePicture(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("email");
+
+        // If no email is found in session, redirect to login page
+        if (email == null) {
+            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+            return;
+        }
+        
+        String uploadDirectory = request.getServletContext().getRealPath("/resources/images");
+        
+     // Add debug log to check the resolved path
+        System.out.println("Upload Directory: " + uploadDirectory);
+
+        // Get the file part (profile picture)
+        Part filePart = request.getPart("profilePicture");
+        
+	     // Log the file size and name
+	        System.out.println("File name: " + filePart.getSubmittedFileName());
+	        System.out.println("File size: " + filePart.getSize());
+	        
+	        
+        // Check if a file is uploaded
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = UUID.randomUUID().toString() + "_" + Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String filePath = uploadDirectory + File.separator + fileName;
+            // Create the directory if it doesn't exist
+            File uploadDir = new File(uploadDirectory);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+
+            // Save the file
+            filePart.write(filePath);
+         // Log if the file was saved successfully
+            System.out.println("File saved at: " + filePath);
+
+            // Get the relative path to store in the database
+            String relativePath = "/resources/images/" + fileName;
+
+            // Update the user's profile picture in the database
+            UserDAO userDAO = new UserDAO();
+            User user = userDAO.getUserByEmail(email);  // Get the logged-in user
+
+            if (user != null) {
+                boolean isUpdated = userDAO.updateProfilePicture(user.getEmail(), relativePath);
+             // Log the result of the database update
+           
+
+                if (isUpdated) {
+                    System.out.println("Profile picture updated successfully for user: " + email);
+                    user.setProfilePicture(relativePath);
+                    session.setAttribute("user", user);
+
+                    // Forward to the profile page with a success message
+                    request.setAttribute("message", "Profile picture updated successfully.");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/profile.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    // If update fails
+                    System.out.println("Failed to update profile picture for user: " + email);
+                    request.setAttribute("error", "Failed to update profile picture.");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/profile.jsp");
+                    dispatcher.forward(request, response);
+                }
+            } else {
+                System.out.println("User not found for email: " + email);
+                request.setAttribute("error", "User not found.");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/profile.jsp");
+                dispatcher.forward(request, response);
+            }
+        } else {
+            // If no file is uploaded
+            System.out.println("No file selected for upload.");
+
+            request.setAttribute("error", "No file selected.");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/profile.jsp");
             dispatcher.forward(request, response);
         }

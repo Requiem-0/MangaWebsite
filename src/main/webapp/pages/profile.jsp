@@ -1,3 +1,12 @@
+<%@ page import="com.manga.models.User" %>
+
+<%
+    User loggedInUser = (User) session.getAttribute("user");
+    String profilePicPath = (loggedInUser != null && loggedInUser.getProfilePicture() != null)
+        ? request.getContextPath() + loggedInUser.getProfilePicture()
+        : request.getContextPath() + "/resources/images/hunter.png"; // fallback image
+%>
+
 <%
 // Disable caching for this page
 response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
@@ -19,6 +28,10 @@ String message = (String) request.getAttribute("message");
 String error = (String) request.getAttribute("error");
 
 %>
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -133,16 +146,16 @@ String error = (String) request.getAttribute("error");
 
          <!-- Card to show uploaded image -->
 		  <div class="card mb-3" style="width: 120px; height: 150px; overflow: hidden;">
-		    <img src="<%= request.getContextPath() %>/user-images/<%= username %>.jpg" 
+		    <img src="<%= profilePicPath %>" 
 		         class="card-img-top" 
 		         alt="Profile Image" 
 		         style="width: 100%; object-fit: cover; height: 200px;">
 		  </div>
 		
 		  <!-- Form to upload profile picture -->
-		  <form action="<%= request.getContextPath() %>/ProfileController" method="post" enctype="multipart/form-data">
-		    <input type="file" name="profile-image" class="form-control mb-3" accept="image/*">
-		    <input type="hidden" name="action" value="uploadProfileImage">
+		  <form action="${pageContext.request.contextPath}/ProfileController" method="post" enctype="multipart/form-data">
+		    <input type="file" name="profilePicture" class="form-control mb-3" accept="image/*">
+		    <input type="hidden" name="action" value="uploadProfilePicture">
 		    <button class="btn btn-secondary" type="submit">Upload Photo</button>
 		  </form>
         </div>
