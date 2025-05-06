@@ -27,24 +27,15 @@ String error = (String) request.getAttribute("error");
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Settings</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/nav_footer.css">
+  
   <style>
-    body {
-      background-color: #1e2124;
-      color: #fff;
-      font-family: sans-serif;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
     .container {
       display: flex;
       flex-direction: column;
       gap: 20px;
       align-items: center;
+      padding:20px 0;
     }
 
     .settings-box, .password-box {
@@ -93,6 +84,31 @@ String error = (String) request.getAttribute("error");
   </style>
 </head>
 <body>
+  <!-- Navbar Start -->
+  <header class="navbar">
+    <!-- Logo -->
+    <div class="navbar-left">
+      <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
+    </div>
+
+    <!-- Navigation Links (Centered) -->
+    <nav class="nav-center">
+      <a href="home.jsp">Home</a>
+      <a href="#">Bookmark</a>
+      <a href="history.jsp">History</a>
+      <a href="#">Random</a>
+    </nav>
+
+    <!-- Search and Login -->
+    <div class="navbar-right">
+      <input type="text" placeholder="Search" class="search-bar" />
+      <button class="login-btn">Login</button>
+    </div>
+  </header>
+  
+  <!-- Navbar End -->
+  
+  
   <!-- Main Container -->
   <div class="container">
   <% if (message != null) { %>
@@ -111,15 +127,24 @@ String error = (String) request.getAttribute("error");
   
     <!-- Account Info Section -->
     <div class="settings-box text-center">
-      <div class="d-flex justify-content-center mb-3">
+      <div class="d-flex justify-content-center align-items-center mb-3">
         <!-- Profile Image Upload Section -->
         <div class="profile-img-container me-3">
-          <!-- Form to upload profile picture -->
-          <form action="<%= request.getContextPath() %>/ProfileController" method="post" enctype="multipart/form-data">
-            <input type="file" name="profile-image" class="form-control mb-3" accept="image/*">
-            <input type="hidden" name="action" value="uploadProfileImage"> <!-- Action for uploading the profile image -->
-            <button class="btn btn-secondary" type="submit">Upload Photo</button>
-          </form>
+
+         <!-- Card to show uploaded image -->
+		  <div class="card mb-3" style="width: 120px; height: 150px; overflow: hidden;">
+		    <img src="<%= request.getContextPath() %>/user-images/<%= username %>.jpg" 
+		         class="card-img-top" 
+		         alt="Profile Image" 
+		         style="width: 100%; object-fit: cover; height: 200px;">
+		  </div>
+		
+		  <!-- Form to upload profile picture -->
+		  <form action="<%= request.getContextPath() %>/ProfileController" method="post" enctype="multipart/form-data">
+		    <input type="file" name="profile-image" class="form-control mb-3" accept="image/*">
+		    <input type="hidden" name="action" value="uploadProfileImage">
+		    <button class="btn btn-secondary" type="submit">Upload Photo</button>
+		  </form>
         </div>
 
         <div class="text-start">
@@ -156,5 +181,22 @@ String error = (String) request.getAttribute("error");
       <button type="submit">Log Out</button>
     </form>
   </div>
+  
+    <!-- Footer -->
+  <footer class="footer">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Footer Logo" class="footer-logo" />
+
+    <div class="footer-links">
+      <a href="#">Home</a>
+      <a href="#">Privacy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+
+    <p class="footer-description">
+      Read. Track. Repeat. Manga made seamless – follow your favorites, pick up where you left off, and dive into new worlds anytime.
+    </p>
+
+    <p class="footer-copy">Copyright © Book Choda Comic Padha</p>
+  </footer>
 </body>
 </html>
