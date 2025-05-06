@@ -9,6 +9,7 @@ CREATE TABLE users (
     email VARCHAR(150) UNIQUE NOT NULL,
     role VARCHAR(100) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    profile_picture VARCHAR(255) DEFAULT NULL
 );
 
 
