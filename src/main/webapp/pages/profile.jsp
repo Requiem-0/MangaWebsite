@@ -1,10 +1,24 @@
 <%@ page import="com.manga.models.User" %>
 
 <%
-    User loggedInUser = (User) session.getAttribute("user");
-    String profilePicPath = (loggedInUser != null && loggedInUser.getProfilePicture() != null)
-        ? request.getContextPath() + loggedInUser.getProfilePicture()
-        : request.getContextPath() + "/resources/images/hunter.png"; // fallback image
+//Retrieve user object from session
+User loggedInUser = (User) session.getAttribute("user");
+
+//Redirect if not logged in
+if (loggedInUser == null) {
+ response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+ return;
+}
+
+//Get username and email from the User object
+String username = loggedInUser.getUsername();
+String email = loggedInUser.getEmail();
+
+//Profile picture path
+String profilePicPath = (loggedInUser.getProfilePicture() != null)
+     ? request.getContextPath() + loggedInUser.getProfilePicture()
+     : request.getContextPath() + "/resources/images/hunter.png";
+
 %>
 
 <%
@@ -12,10 +26,6 @@
 response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
 response.setHeader("Pragma", "no-cache");
 response.setDateHeader("Expires", 0);
-
-// Retrieve the username and email from the session
-String username = (String) session.getAttribute("username");
-String email = (String) session.getAttribute("email");
 
 // If the user is not logged in, redirect them to the login page
 if (username == null) {
@@ -30,6 +40,9 @@ String error = (String) request.getAttribute("error");
 %>
 
 
+<%
+    getServletContext().log("Profile Image Path: " + profilePicPath);
+%>
 
 
 
@@ -211,5 +224,7 @@ String error = (String) request.getAttribute("error");
 
     <p class="footer-copy">Copyright © Book Choda Comic Padha</p>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  
 </body>
 </html>
