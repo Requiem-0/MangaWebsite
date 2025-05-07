@@ -68,7 +68,7 @@ public class LoginController extends HttpServlet {
 		            
 		            session.setAttribute("role", user.getRole());  // Storing user role for access control	
 		            
-		            session.setAttribute("profilePicture", user.getProfilePicture());  // Storing profile picture path in session
+		            session.setAttribute("user", user);  // Store full user object
 
 		            
 		            // Redirect based on user role

@@ -22,7 +22,12 @@ import javax.servlet.http.Part;
  * Servlet implementation class ProfileController
  */
 @WebServlet("/ProfileController")
-@MultipartConfig
+@MultipartConfig(
+	    fileSizeThreshold = 1024 * 1024,  // 1 MB
+	    maxFileSize = 1024 * 1024 * 5,    // 5 MB
+	    maxRequestSize = 1024 * 1024 * 10 // 10 MB
+		)
+
 
 public class ProfileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -204,7 +209,7 @@ public class ProfileController extends HttpServlet {
         System.out.println("Upload Directory: " + uploadDirectory);
 
         // Get the file part (profile picture)
-        Part filePart = request.getPart("profilePicture");
+        Part filePart = request.getPart("profilePicture");	
         
 	     // Log the file size and name
 	        System.out.println("File name: " + filePart.getSubmittedFileName());
@@ -220,11 +225,20 @@ public class ProfileController extends HttpServlet {
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
+            
+            if (uploadDir.canWrite()) {
+                System.out.println("Write permission granted for the directory.");
+            } else {
+                System.out.println("No write permission for the directory.");
+            }
 
             // Save the file
-            filePart.write(filePath);
-         // Log if the file was saved successfully
-            System.out.println("File saved at: " + filePath);
+            try {
+                filePart.write(filePath);
+                System.out.println("File saved at: " + filePath);  // Log successful save
+            } catch (IOException e) {
+                System.out.println("Error while saving file: " + e.getMessage());
+            }
 
             // Get the relative path to store in the database
             String relativePath = "/resources/images/" + fileName;
