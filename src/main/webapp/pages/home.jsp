@@ -45,7 +45,7 @@
     
     <div class="image-and-content-section">
       <div class="image-section">
-        <img src="${pageContext.request.contextPath}/resources/images/solo leveling.png" alt="Solo Leveling Poster" class="highest-rated-image" />
+        <img src="${pageContext.request.contextPath}/resources/images/solo leveling.png" alt="solo leveling Poster" class="highest-rated-image" />
       </div>
       
       <div class="content-section">
@@ -84,17 +84,22 @@
           <label for="genre-select">Genre:</label>
           <select id="genre-select" class="filter-select">
             <option value="">All</option>
-            <option value="Action">Action</option>
-            <option value="Adventure">Adventure</option>
-            <option value="Fantasy">Fantasy</option>
-            <option value="Comedy">Comedy</option>
-            <option value="Shounen">Shounen</option>
-            <option value="Horror">Horror</option> 
-            <option value="Supernatural">Supernatural</option>
-            <option value="Sport">Sport</option>
-            <option value="Isekai">Isekai</option>
-            <option value="Romance">Romance</option>
-            <option value="Thriller">Thriller</option>
+			<option value="Action">Action</option>
+			<option value="Adventure">Adventure</option>
+			<option value="Comedy">Comedy</option>
+			<option value="Drama">Drama</option>
+			<option value="Fantasy">Fantasy</option>
+			<option value="Horror">Horror</option>
+			<option value="Mystery">Mystery</option>
+			<option value="Psychological">Psychological</option>
+			<option value="Sci-Fi">Sci-Fi</option>
+			<option value="Thriller">Thriller</option>
+			<option value="Supernatural">Supernatural</option>
+			<option value="Sports">Sports</option>
+			<option value="Dark Fantasy">Dark Fantasy</option>
+			<option value="Historical">Historical</option>
+			<option value="Slice of Life">Slice of Life</option>
+
           </select>
         </div>
 
@@ -175,7 +180,7 @@
       <div class="manga-title">tail</div>
     </div>
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/Demon Slayer.png" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/demon slayer.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">tanjiro</div>
     </div>
   </div>
@@ -203,7 +208,7 @@
 
   <div class="manga-grid">
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/Tokyo Ghoul.png" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/tokyo ghoul.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">tokyo </div>
     </div>
     <div class="manga-card">
@@ -215,7 +220,7 @@
       <div class="manga-title">ghoul</div>
     </div>
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/Chainsaw Man.png" alt="Manga Title" class="manga-image" />
+      <img src="${pageContext.request.contextPath}/resources/images/chainsaw man.png" alt="Manga Title" class="manga-image" />
       <div class="manga-title">chain</div>
     </div>
     <div class="manga-card">
