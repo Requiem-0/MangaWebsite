@@ -58,11 +58,14 @@ body {
 }
 
 .dashbrd-stat-card {
-  background-color: #1f2225;
-  border-radius: 6px;
-  padding: 15px;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .dashbrd-stat-card h5 {
