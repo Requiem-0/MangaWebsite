@@ -1,0 +1,56 @@
+/* manga-landing.css */
+.hero {
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #7289DA;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 50px 20px;
+}
+
+.feature-item {
+  flex: 1 1 300px;
+  margin: 20px;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.feature-item h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.feature-item p {
+  font-size: 1rem;
+}
