@@ -9,7 +9,6 @@
   <title>Manga Admin Panel</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="<%= request.getContextPath() %>/css/admin_manage_manga.css" rel="stylesheet">
-
 </head>
 <body>
   <div class="container-fluid">
@@ -78,12 +77,49 @@
                 <td><%= manga.getStatus() %></td>
                 <td><%= manga.getPublishedDate() %></td>
                 <td>
-                 <a href="<%= request.getContextPath() %>/ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-primary custom-btn">Edit</a>
-<a href="<%= request.getContextPath() %>/ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger custom-btn" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
-
-
+                  <a href="<%= request.getContextPath() %>/ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-primary custom-btn">Edit</a>
+                  <a href="<%= request.getContextPath() %>/ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger custom-btn" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
+                  <a href="<%= request.getContextPath() %>/ManageMangaController?action=viewVolumes&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-info custom-btn">View Volumes</a>
+                  <button class="btn btn-sm btn-success custom-btn" data-bs-toggle="modal" data-bs-target="#addVolumeModal<%= manga.getMangaId() %>">Add Volume</button>
                 </td>
               </tr>
+
+              <!-- Add Volume Modal for this manga -->
+              <div class="modal fade" id="addVolumeModal<%= manga.getMangaId() %>" tabindex="-1" aria-labelledby="addVolumeModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form action="<%= request.getContextPath() %>/ManageMangaController" method="post">
+                      <input type="hidden" name="action" value="addVolume">
+                      <input type="hidden" name="manga_id" value="<%= manga.getMangaId() %>">
+
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="addVolumeModalLabel">Add Volume to "<%= manga.getTitle() %>"</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+
+                      <div class="modal-body">
+                        <div class="mb-3">
+                          <label for="isbn" class="form-label">ISBN</label>
+                          <input type="text" class="form-control" name="isbn" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="volumenumber" class="form-label">Volume Number</label>
+                          <input type="number" class="form-control" name="volumenumber" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="releasedate" class="form-label">Release Date</label>
+                          <input type="date" class="form-control" name="releasedate">
+                        </div>
+                      </div>
+
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Add Volume</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
             <%
                 }
               }
@@ -99,55 +135,53 @@
   <div class="modal fade" id="addMangaModal" tabindex="-1" aria-labelledby="addMangaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-       <form action="<%= request.getContextPath() %>/ManageMangaController" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="action" value="addManga">
-  <div class="modal-header">
-    <h5 class="modal-title" id="addMangaModalLabel">Add New Manga</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-  </div>
-  <div class="modal-body">
-    <div class="form-group">
-      <div class="half-width">
-        <label for="mangaTitle">Title</label>
-        <input type="text" id="mangaTitle" name="title" class="form-control" required>
-      </div>
-      <div class="half-width">
-        <label for="author">Author</label>
-        <input type="text" id="author" name="author" class="form-control" required>
-      </div>
-      <div class="half-width">
-        <label for="genre">Genre (comma separated)</label>
-        <input type="text" id="genre" name="genre" class="form-control">
-      </div>
-      <div class="half-width">
-        <label for="status">Status</label>
-        <select id="status" name="status" class="form-select">
-          <option value="Ongoing">Ongoing</option>
-          <option value="Completed">Completed</option>
-          <option value="Hiatus">Hiatus</option>
-        </select>
-      </div>
-      <div class="half-width">
-        <label for="publishedDate">Published Date</label>
-        <input type="date" id="publishedDate" name="publishedDate" class="form-control">
-      </div>
-      <div class="full-width">
-        <label for="description">Description</label>
-        <textarea id="description" name="description" class="form-control" rows="3"></textarea>
-      </div>
-      <!-- New file input for manga image -->
-      <div class="full-width mt-3">
-        <label for="mangaImageFile">Manga Image</label>
-        <input type="file" id="mangaImageFile" name="mangaImageFile" accept="image/*" class="form-control">
-      </div>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="submit" class="btn btn-primary w-100 w-md-auto">Save</button>
-    <button type="button" class="btn btn-secondary w-100 w-md-auto" data-bs-dismiss="modal">Cancel</button>
-  </div>
-</form>
-
+        <form action="<%= request.getContextPath() %>/ManageMangaController" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="action" value="addManga">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addMangaModalLabel">Add New Manga</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <div class="half-width">
+                <label for="mangaTitle">Title</label>
+                <input type="text" id="mangaTitle" name="title" class="form-control" required>
+              </div>
+              <div class="half-width">
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author" class="form-control" required>
+              </div>
+              <div class="half-width">
+                <label for="genre">Genre (comma separated)</label>
+                <input type="text" id="genre" name="genre" class="form-control">
+              </div>
+              <div class="half-width">
+                <label for="status">Status</label>
+                <select id="status" name="status" class="form-select">
+                  <option value="Ongoing">Ongoing</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Hiatus">Hiatus</option>
+                </select>
+              </div>
+              <div class="half-width">
+                <label for="publishedDate">Published Date</label>
+                <input type="date" id="publishedDate" name="publishedDate" class="form-control">
+              </div>
+              <div class="full-width">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" class="form-control" rows="3"></textarea>
+              </div>
+              <div class="full-width mt-3">
+                <label for="mangaImageFile">Manga Image</label>
+                <input type="file" id="mangaImageFile" name="mangaImageFile" accept="image/*" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary w-100 w-md-auto">Save</button>
+            <button type="button" class="btn btn-secondary w-100 w-md-auto" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
