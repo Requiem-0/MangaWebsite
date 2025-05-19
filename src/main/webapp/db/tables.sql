@@ -18,8 +18,9 @@ CREATE TABLE manga (
     mangatitle VARCHAR(200) NOT NULL,
     author VARCHAR(150) NOT NULL,
     mangadescription TEXT,
-    status VARCHAR(50), 
-    published_date DATE
+    status VARCHAR(50),
+    published_date DATE,
+    mangaImage VARCHAR(255)    
 );
 
 

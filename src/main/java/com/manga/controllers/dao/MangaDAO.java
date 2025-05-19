@@ -10,51 +10,53 @@ import java.util.List;
 public class MangaDAO {
 
     // Method to add a new manga to the database
-    public boolean addManga(Manga manga) {
-        if (manga == null || manga.getTitle() == null || manga.getTitle().isEmpty()) {
-            System.out.println("Manga title is required.");
-            return false;
-        }
-        if (manga.getAuthor() == null || manga.getAuthor().isEmpty()) {
-            System.out.println("Manga author is required.");
-            return false;
-        }
-        if (manga.getDescription() == null || manga.getDescription().isEmpty()) {
-            System.out.println("Manga description is required.");
-            return false;
-        }
+	public boolean addManga(Manga manga) {
+	    if (manga == null || manga.getTitle() == null || manga.getTitle().isEmpty()) {
+	        System.out.println("Manga title is required.");
+	        return false;
+	    }
+	    if (manga.getAuthor() == null || manga.getAuthor().isEmpty()) {
+	        System.out.println("Manga author is required.");
+	        return false;
+	    }
+	    if (manga.getDescription() == null || manga.getDescription().isEmpty()) {
+	        System.out.println("Manga description is required.");
+	        return false;
+	    }
 
-        boolean isAddedSuccessfully = false;
+	    boolean isAddedSuccessfully = false;
 
-        try {
-            Connection databaseConnection = DatabaseConnection.getConnection();
+	    try {
+	        Connection databaseConnection = DatabaseConnection.getConnection();
 
-            String insertMangaSql = "INSERT INTO manga (mangatitle, author, mangadescription, status, published_date) VALUES (?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = databaseConnection.prepareStatement(insertMangaSql, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, manga.getTitle());
-            preparedStatement.setString(2, manga.getAuthor());
-            preparedStatement.setString(3, manga.getDescription());
-            preparedStatement.setString(4, manga.getStatus());
-            preparedStatement.setString(5, manga.getPublishedDate());
+	        String insertMangaSql = "INSERT INTO manga (mangatitle, author, mangadescription, status, published_date, mangaImage) VALUES (?, ?, ?, ?, ?, ?)";
+	        PreparedStatement preparedStatement = databaseConnection.prepareStatement(insertMangaSql, Statement.RETURN_GENERATED_KEYS);
+	        preparedStatement.setString(1, manga.getTitle());
+	        preparedStatement.setString(2, manga.getAuthor());
+	        preparedStatement.setString(3, manga.getDescription());
+	        preparedStatement.setString(4, manga.getStatus());
+	        preparedStatement.setString(5, manga.getPublishedDate());
+	        preparedStatement.setString(6, manga.getMangaImage());  // Use mangaImage here
 
-            int rowsInserted = preparedStatement.executeUpdate();
+	        int rowsInserted = preparedStatement.executeUpdate();
 
-            if (rowsInserted > 0) {
-                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int mangaId = generatedKeys.getInt(1);
-                    manga.setMangaId(mangaId);
+	        if (rowsInserted > 0) {
+	            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+	            if (generatedKeys.next()) {
+	                int mangaId = generatedKeys.getInt(1);
+	                manga.setMangaId(mangaId);
 
-                    isAddedSuccessfully = addGenresToManga(mangaId, manga.getGenres(), databaseConnection);
-                }
-            }
+	                isAddedSuccessfully = addGenresToManga(mangaId, manga.getGenres(), databaseConnection);
+	            }
+	        }
 
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
 
-        return isAddedSuccessfully;
-    }
+	    return isAddedSuccessfully;
+	}
+
 
     private boolean addGenresToManga(int mangaId, List<String> genres, Connection databaseConnection) {
         if (genres == null || genres.isEmpty()) {
@@ -130,21 +132,18 @@ public class MangaDAO {
         }
         return -1;
     }
-
     public List<Manga> getAllManga() {
         List<Manga> mangaList = new ArrayList<>();
 
         try {
             Connection databaseConnection = DatabaseConnection.getConnection();
-            // Updated SQL to join manga with manga_genre and genre to get genre information
-            String selectAllMangaSql = "SELECT m.manga_id, m.mangatitle, m.author, m.mangadescription, m.status, m.published_date, g.genrename " +
+            String selectAllMangaSql = "SELECT m.manga_id, m.mangatitle, m.author, m.mangadescription, m.status, m.published_date, m.mangaImage, g.genrename " +
                                        "FROM manga m " +
                                        "LEFT JOIN manga_genre mg ON m.manga_id = mg.manga_id " +
                                        "LEFT JOIN genre g ON mg.genre_id = g.genre_id";
             Statement sqlStatement = databaseConnection.createStatement();
             ResultSet mangaResultSet = sqlStatement.executeQuery(selectAllMangaSql);
 
-            // Temporary variables to store manga information and genres
             Manga currentManga = null;
             List<String> genres = null;
 
@@ -155,17 +154,15 @@ public class MangaDAO {
                 String description = mangaResultSet.getString("mangadescription");
                 String status = mangaResultSet.getString("status");
                 String publishedDate = mangaResultSet.getString("published_date");
+                String mangaImage = mangaResultSet.getString("mangaImage");  // Add this
                 String genreName = mangaResultSet.getString("genrename");
 
-                // Check if a new manga has started (manga_id changes)
                 if (currentManga == null || currentManga.getMangaId() != mangaId) {
-                    // If there was an old manga, add it to the list
                     if (currentManga != null) {
-                        currentManga.setGenres(genres); // Set genres to the manga object
+                        currentManga.setGenres(genres);
                         mangaList.add(currentManga);
                     }
 
-                    // Create a new Manga object for the new manga
                     currentManga = new Manga();
                     currentManga.setMangaId(mangaId);
                     currentManga.setTitle(title);
@@ -173,18 +170,16 @@ public class MangaDAO {
                     currentManga.setDescription(description);
                     currentManga.setStatus(status);
                     currentManga.setPublishedDate(publishedDate);
+                    currentManga.setMangaImage(mangaImage);  // Set image here
 
-                    // Initialize the genres list for the new manga
                     genres = new ArrayList<>();
                 }
 
-                // Add genre if it's not null
                 if (genreName != null) {
                     genres.add(genreName);
                 }
             }
 
-            // Add the last manga in the result set
             if (currentManga != null) {
                 currentManga.setGenres(genres);
                 mangaList.add(currentManga);
@@ -268,24 +263,19 @@ public class MangaDAO {
         return isUpdatedSuccessfully;
     }
 
-
-
     // New method to count total number of manga
     public int getMangaCount() {
         int count = 0;
 
         try {
-            // Establish a connection to the database
             Connection conn = DatabaseConnection.getConnection();
 
-            // SQL query to count all distinct 'manga_id' values in the 'manga' table
             String sql = "SELECT COUNT(manga_id) FROM manga";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
-            // If the result set is not empty, retrieve the count
             if (rs.next()) {
-                count = rs.getInt(1); // Retrieve the count value
+                count = rs.getInt(1);
             }
 
         } catch (SQLException | ClassNotFoundException e) {
@@ -294,7 +284,6 @@ public class MangaDAO {
 
         return count;
     }
-
 
     // New method to count total number of unique genres
     public int getGenreCount() {
@@ -317,5 +306,36 @@ public class MangaDAO {
 
         return count;
     }
-}
 
+   
+    public boolean uploadMangaImage(int mangaId, String mangaImage) {
+        if (mangaId <= 0) {
+            System.out.println("Invalid manga ID.");
+            return false;
+        }
+        if (mangaImage == null || mangaImage.isEmpty()) {
+            System.out.println("Image path cannot be null or empty.");
+            return false;
+        }
+
+        boolean isUpdatedSuccessfully = false;
+
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+
+            // Make sure your manga table has a column like 'image_path' to store the filename/path
+            String updateImageSql = "UPDATE manga SET mangaImage = ? WHERE manga_id = ?";
+            PreparedStatement stmt = conn.prepareStatement(updateImageSql);
+            stmt.setString(1, mangaImage);
+            stmt.setInt(2, mangaId);
+
+            int rowsUpdated = stmt.executeUpdate();
+            isUpdatedSuccessfully = rowsUpdated > 0;
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return isUpdatedSuccessfully;
+    }
+}

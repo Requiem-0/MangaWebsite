@@ -18,6 +18,7 @@ public class MangaDAOTest {
         newManga.setStatus("Ongoing");
         newManga.setPublishedDate("1999-09-21");
         newManga.setGenres(List.of("Action", "Adventure", "Shonen"));
+        newManga.setMangaImage("naruto_cover.jpg"); // Set image filename or path here
 
         boolean isAdded = mangaDAO.addManga(newManga);
         System.out.println("Add Manga: " + (isAdded ? "Success" : "Failed"));
@@ -33,13 +34,15 @@ public class MangaDAOTest {
             System.out.println("Status: " + manga.getStatus());
             System.out.println("Published Date: " + manga.getPublishedDate());
             System.out.println("Genres: " + (manga.getGenres() != null ? String.join(", ", manga.getGenres()) : "No genres"));
+            System.out.println("Image: " + manga.getMangaImage());
             System.out.println("--------------------------");
         }
 
-        // Test: Editing a manga (update the description of the first manga)
+        // Test: Editing a manga (update the description and image of the first manga)
         if (!mangaList.isEmpty()) {
             Manga mangaToEdit = mangaList.get(0);
             mangaToEdit.setDescription("Updated description for the manga.");
+            mangaToEdit.setMangaImage("updated_naruto_cover.jpg"); 
             boolean isEdited = mangaDAO.editManga(mangaToEdit);
             System.out.println("Edit Manga: " + (isEdited ? "Success" : "Failed"));
         }

@@ -10,22 +10,25 @@ public class Manga {
     private String status;
     private String publishedDate;
     private String description;
-    
+    private String mangaImage;  // 🆕 New field for image path or filename
+
     public Manga() {
-		// TODO Auto-generated constructor stub
-	}
-    
-    public Manga(String title, String author, List<String> genres, String status, String publishedDate, String description) {
+        // Default constructor
+    }
+
+    // Constructor without mangaId (for insertion)
+    public Manga(String title, String author, List<String> genres, String status, String publishedDate, String description, String mangaImage) {
         this.title = title;
         this.author = author;
         this.genres = genres;
         this.status = status;
         this.publishedDate = publishedDate;
         this.description = description;
+        this.mangaImage = mangaImage;
     }
 
-    // Constructor for updating manga (with mangaId)
-    public Manga(int mangaId, String title, String author, List<String> genres, String status, String publishedDate, String description) {
+    // Constructor with mangaId (for update)
+    public Manga(int mangaId, String title, String author, List<String> genres, String status, String publishedDate, String description, String mangaImage) {
         this.mangaId = mangaId;
         this.title = title;
         this.author = author;
@@ -33,9 +36,10 @@ public class Manga {
         this.status = status;
         this.publishedDate = publishedDate;
         this.description = description;
+        this.mangaImage = mangaImage;
     }
 
-	// Getters and Setters for all fields (you already have these, don't forget to add them if not)
+    // Getters and Setters
     public int getMangaId() {
         return mangaId;
     }
@@ -91,5 +95,12 @@ public class Manga {
     public void setDescription(String description) {
         this.description = description;
     }
-   
+
+    public String getMangaImage() {
+        return mangaImage;
+    }
+
+    public void setMangaImage(String mangaImage) {
+        this.mangaImage = mangaImage;
+    }
 }
