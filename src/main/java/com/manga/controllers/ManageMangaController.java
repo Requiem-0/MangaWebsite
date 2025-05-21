@@ -132,4 +132,4 @@ public class ManageMangaController extends HttpServlet {
         }
         listManga(request, response);
     }
-}
+} 

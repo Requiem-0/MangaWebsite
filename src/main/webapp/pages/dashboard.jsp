@@ -1,3 +1,21 @@
+<%@ page import="com.manga.models.User" %>
+<%
+    // Retrieve user object from session
+    User loggedInUser = (User) session.getAttribute("user");
+
+    // Redirect if not logged in
+    if (loggedInUser == null) {
+        response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+        return;
+    }
+
+    // Check for role 
+    if (!"admin".equals(loggedInUser.getRole())) {
+        response.sendRedirect(request.getContextPath() + "/pages/unauthorized.jsp");
+        return;
+
+    }
+%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,9 +32,9 @@
       <!-- Sidebar -->
       <nav class="col-md-3 col-lg-2 dashbrd-sidebar d-md-block">
         <h2>Manga Admin type shi</h2>
-        <a href="dashboard.jsp">Dashboard</a>
+        <a href="<%= request.getContextPath() %>/DashboardController">Dashboard</a>
         <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
-        <a href="#">Manage Users</a>
+        <a href="<%= request.getContextPath() %>/ManageUsersServlet?action=list">Manage Users</a>
         <a href="#">Logout</a>
       </nav>
 
