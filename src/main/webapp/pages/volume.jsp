@@ -28,7 +28,11 @@
 </header>
 
 <%
+<<<<<<< HEAD
     int mangaId = 1;
+=======
+    int mangaId = 2;
+>>>>>>> origin/main
     String mangaIdParam = request.getParameter("manga_id");
     if (mangaIdParam != null) {
         try {
@@ -120,13 +124,20 @@
 
 <div id="container">
   <div class="media-card">
+<<<<<<< HEAD
     <img src="../resources/images/<%= mangaImage %>" alt="manga <%= mangaId %>" class="cover-img" />
+=======
+  <img src="<%= request.getContextPath() + mangaImage %>" alt="manga <%= mangaId %>" class="cover-img" />
+
+
+>>>>>>> origin/main
     <div class="card-details">
       <h2 class="main-title"><%= mangatitle %></h2>
       <div class="meta-info">
         <p><strong>Type:</strong> Manga</p>
         <p><strong>Status:</strong> <%= status %></p>
         <p><strong>Authors:</strong> <%= author %></p>
+<<<<<<< HEAD
         <p><strong>Magazines:</strong> Shounen Jump (Weekly)</p>
         <p><strong>Published:</strong> <%= publishedDate %></p>
         <p><strong>Score:</strong> 8.52</p>
@@ -145,6 +156,40 @@
       </p>
       <a href="#" class="read-full">+ Read full</a>
     </div>
+=======
+      
+        <p><strong>Published:</strong> <%= publishedDate %></p>
+      
+      </div>
+      <%
+    // Genre list retrieval
+    String genreQuery = "SELECT g.genrename FROM genre g " +
+                        "JOIN manga_genre mg ON g.genre_id = mg.genre_id " +
+                        "WHERE mg.manga_id = ?";
+    pstmt = conn.prepareStatement(genreQuery);
+    pstmt.setInt(1, mangaId);
+    rs = pstmt.executeQuery();
+%>
+<div class="genres">
+  <p>
+<%
+    while (rs.next()) {
+        String genre = rs.getString("genrename");
+%>
+    <button><%= genre %></button>
+<%
+    }
+    rs.close();
+    pstmt.close();
+%>
+  </p>
+</div>
+
+      <p class="desc">
+        <%= mangadescription %>
+      </p>
+        </div>
+>>>>>>> origin/main
   </div>
 </div>
 
@@ -152,6 +197,7 @@
 <div id="Volume1" style="padding: 20px;">
   <h1 style="color:#9656ce;">Volumes</h1>
   <div class="pro-container">
+<<<<<<< HEAD
     <%
       // Load volumes
       String volumeQuery = "SELECT volumenumber, volume_img FROM volume WHERE manga_id = ? ORDER BY volumenumber";
@@ -176,6 +222,34 @@
     %>
   </div>
 </div>
+=======
+    
+    <%
+    // Load volumes
+    String volumeQuery = "SELECT volumenumber, volume_img FROM volume WHERE manga_id = ? ORDER BY volumenumber";
+    pstmt = conn.prepareStatement(volumeQuery);
+    pstmt.setInt(1, mangaId);
+    rs = pstmt.executeQuery();
+
+    while (rs.next()) {
+      int volNumber = rs.getInt("volumenumber");
+      String volImg = rs.getString("volume_img"); // example: /resources/images/volumes/vol1.jpg
+  %>
+  <div class="pro">
+    <a href="volume.jsp?manga_id=<%= mangaId %>&volume=<%= volNumber %>#SelectedChapters">
+      <img src="<%= request.getContextPath() + volImg %>" alt="Volume <%= volNumber %>" />
+      <div class="des">Volume <%= volNumber %></div>
+    </a>
+  </div>
+  <%
+    }
+    rs.close();
+    pstmt.close();
+  %>
+</div>
+</div>
+
+>>>>>>> origin/main
 
 <!-- Dynamic Chapter List -->
 <%
@@ -262,4 +336,8 @@
 </footer>
 
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> origin/main

@@ -101,6 +101,16 @@ CREATE TABLE reading_history (
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );
 
+CREATE TABLE comment (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    manga_id INT NOT NULL,
+    comment_text TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
+);
+
 
 
 

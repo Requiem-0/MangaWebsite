@@ -1,3 +1,4 @@
+
 package com.manga.controllers.dao;
 
 import com.manga.database.DatabaseConnection;
@@ -9,29 +10,51 @@ import java.util.List;
 
 public class BookmarkDAO {
 
-	public List<Bookmark> getAllBookmarks() {
-	    List<Bookmark> bookmarks = new ArrayList<>();
+    public List<Bookmark> getBookmarksByUserId(int userId) throws ClassNotFoundException {
+        List<Bookmark> bookmarks = new ArrayList<>();
+        String sql = "SELECT b.manga_id, m.manga_title, m.manga_image, u.username FROM bookmark b " +
+                     "JOIN manga m ON b.manga_id = m.manga_id " +
+                     "JOIN user u ON b.user_id = u.user_id " +
+                     "WHERE b.user_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Bookmark b = new Bookmark(userId, sql, sql, sql);
+                b.setMangaId(rs.getInt("manga_id"));
+                b.setMangaTitle(rs.getString("manga_title"));
+                b.setMangaImage(rs.getString("manga_image"));
+                b.setUsername(rs.getString("username"));
+                bookmarks.add(b);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookmarks;
+    }
 
-	    try (Connection conn = DatabaseConnection.getConnection()) {
-	    	String sql = "SELECT b.manga_id, m.mangatitle AS manga_title, m.mangaImage AS manga_image, u.username " +
-	                "FROM bookmarks b " +
-	                "JOIN users u ON b.user_id = u.user_id " +
-	                "JOIN manga m ON b.manga_id = m.manga_id";
+    public void addBookmark(int userId, int mangaId) throws ClassNotFoundException {
+        String sql = "INSERT INTO bookmark (user_id, manga_id) VALUES (?, ?) ON DUPLICATE KEY UPDATE user_id = user_id";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, mangaId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-	        PreparedStatement stmt = conn.prepareStatement(sql);
-	        ResultSet rs = stmt.executeQuery();
-
-	        while (rs.next()) {
-	            int mangaId = rs.getInt("manga_id");
-	            String mangaTitle = rs.getString("manga_title");
-	            String mangaImage = rs.getString("manga_image");
-	            String username = rs.getString("username");
-	            bookmarks.add(new Bookmark(mangaId, mangaTitle, mangaImage, username));
-	        }
-
-	    } catch (SQLException | ClassNotFoundException e) {
-	        e.printStackTrace();
-	    }
-
-	    return bookmarks;
-	} }
+    public void removeBookmark(int userId, int mangaId) throws ClassNotFoundException {
+        String sql = "DELETE FROM bookmark WHERE user_id = ? AND manga_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, mangaId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
