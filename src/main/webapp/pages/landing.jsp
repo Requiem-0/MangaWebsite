@@ -17,7 +17,9 @@
   <header class="navbar">
     <!-- Logo -->
     <div class="navbar-left">
-      <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
+      <a href="${pageContext.request.contextPath}/pages/landing.jsp">
+        <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
+      </a>
     </div>
 
     <!-- Navigation Links (Centered) -->
@@ -38,7 +40,7 @@
   <!-- Navbar End -->
 
   <!-- Hero Section -->
-  <section class="hero" style="background: url('${pageContext.request.contextPath}/resources/images/landing.jpg') no-repeat center center/cover;">
+  <section class="hero">
     <div class="hero-content">
       <h1>The best site to read manga online for Free</h1>
       <p>Enjoy a vast library of manga in high quality, with new releases updated daily.</p>
@@ -46,6 +48,9 @@
       <form action="${pageContext.request.contextPath}/HomeMangaServlet" method="get">
         <button type="submit" class="btn-primary">Read Now</button>
       </form>
+    </div>
+    <div class="hero-image">
+      <img src="${pageContext.request.contextPath}/resources/images/landing.png" alt="Animation" class="animation-image" />
     </div>
   </section>
 
