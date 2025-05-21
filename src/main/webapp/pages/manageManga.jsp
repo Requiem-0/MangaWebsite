@@ -97,6 +97,8 @@
       </main>
     </div>
   </div>
+  
+  
 
  <!-- Add Manga Modal -->
 <div class="modal fade" id="addMangaModal" tabindex="-1" aria-labelledby="addMangaModalLabel" aria-hidden="true">

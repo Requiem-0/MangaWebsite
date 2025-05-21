@@ -7,7 +7,7 @@ public class Volume {
     private String volume_img; 
     private int mangaId;
 
-   
+
     public int getVolumeId() {
         return volumeId;
     }

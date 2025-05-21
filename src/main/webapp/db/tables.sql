@@ -84,6 +84,16 @@ CREATE TABLE uploaded_pdf (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE bookmarks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    manga_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
+);
+
+
+
 CREATE TABLE reading_history (
     id INT PRIMARY KEY AUTO_INCREMENT,
     manga_id INT NOT NULL UNIQUE,

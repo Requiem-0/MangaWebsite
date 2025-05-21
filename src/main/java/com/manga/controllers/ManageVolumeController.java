@@ -22,7 +22,15 @@ import java.util.UUID;
     maxRequestSize = 1024 * 1024 * 10     // 10 MB
 )
 public class ManageVolumeController extends HttpServlet {
-    private VolumeDAO volumeDAO;
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private VolumeDAO volumeDAO;
+
+    
+
     private MangaDAO mangaDAO;  // Add MangaDAO instance
 
     @Override

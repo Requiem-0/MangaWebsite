@@ -28,7 +28,11 @@
 </header>
 
 <%
+<<<<<<< HEAD
+    int mangaId = 1;
+=======
     int mangaId = 2;
+>>>>>>> origin/main
     String mangaIdParam = request.getParameter("manga_id");
     if (mangaIdParam != null) {
         try {
@@ -120,15 +124,39 @@
 
 <div id="container">
   <div class="media-card">
+<<<<<<< HEAD
+    <img src="../resources/images/<%= mangaImage %>" alt="manga <%= mangaId %>" class="cover-img" />
+=======
   <img src="<%= request.getContextPath() + mangaImage %>" alt="manga <%= mangaId %>" class="cover-img" />
 
 
+>>>>>>> origin/main
     <div class="card-details">
       <h2 class="main-title"><%= mangatitle %></h2>
       <div class="meta-info">
         <p><strong>Type:</strong> Manga</p>
         <p><strong>Status:</strong> <%= status %></p>
         <p><strong>Authors:</strong> <%= author %></p>
+<<<<<<< HEAD
+        <p><strong>Magazines:</strong> Shounen Jump (Weekly)</p>
+        <p><strong>Published:</strong> <%= publishedDate %></p>
+        <p><strong>Score:</strong> 8.52</p>
+      </div>
+      <div class="genres">
+        <p>
+          <button>Action</button>
+          <button>Demons</button>
+          <button>Fantasy</button>
+          <button>Shounen</button>
+          <button>Supernatural</button>
+        </p>
+      </div>
+      <p class="desc">
+        <%= mangadescription %>
+      </p>
+      <a href="#" class="read-full">+ Read full</a>
+    </div>
+=======
       
         <p><strong>Published:</strong> <%= publishedDate %></p>
       
@@ -161,6 +189,7 @@
         <%= mangadescription %>
       </p>
         </div>
+>>>>>>> origin/main
   </div>
 </div>
 
@@ -168,6 +197,32 @@
 <div id="Volume1" style="padding: 20px;">
   <h1 style="color:#9656ce;">Volumes</h1>
   <div class="pro-container">
+<<<<<<< HEAD
+    <%
+      // Load volumes
+      String volumeQuery = "SELECT volumenumber, volume_img FROM volume WHERE manga_id = ? ORDER BY volumenumber";
+      pstmt = conn.prepareStatement(volumeQuery);
+      pstmt.setInt(1, mangaId);
+      rs = pstmt.executeQuery();
+
+      while (rs.next()) {
+        int volNumber = rs.getInt("volumenumber");
+        String volImg = rs.getString("volume_img");
+    %>
+    <div class="pro">
+      <a href="volume.jsp?manga_id=<%= mangaId %>&volume=<%= volNumber %>#SelectedChapters">
+        <img src="../resources/images/<%= volImg %>" alt="Volume <%= volNumber %>" />
+        <div class="des">Volume <%= volNumber %></div>
+      </a>
+    </div>
+    <%
+      }
+      rs.close();
+      pstmt.close();
+    %>
+  </div>
+</div>
+=======
     
     <%
     // Load volumes
@@ -194,6 +249,7 @@
 </div>
 </div>
 
+>>>>>>> origin/main
 
 <!-- Dynamic Chapter List -->
 <%
@@ -280,4 +336,8 @@
 </footer>
 
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> origin/main

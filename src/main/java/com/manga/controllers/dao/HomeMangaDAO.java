@@ -158,4 +158,6 @@ public class HomeMangaDAO {
         }
         return mangaList;
     }
+
+	
 }
