@@ -182,17 +182,26 @@ String error = (String) request.getAttribute("error");
         </div>
 
         <div class="text-start">
-          <!-- Form to update username and email -->
-          <form action="<%= request.getContextPath() %>/ProfileController" method="post">
-            <input type="text" name="newUsername" class="form-control mb-2" value="<%= username != null ? username : "" %>">
-            <input type="email" class="form-control mb-3" value="<%= email != null ? email : "" %>" readonly>
-            <input type="hidden" name="action" value="updateProfile"> <!-- Action for updating the profile -->
+          
 
             <div class="d-flex">
-              <button class="btn btn-danger btn-space" type="button">Delete Photo</button>
-              <button class="btn btn-primary" type="submit">Save Changes</button>
+              <!-- Form for updating username -->
+				<form action="<%= request.getContextPath() %>/ProfileController" method="post">
+				    <input type="text" name="newUsername" class="form-control mb-2" value="<%= username != null ? username : "" %>">
+				    <input type="email" class="form-control mb-3" value="<%= email != null ? email : "" %>" readonly>
+				    <input type="hidden" name="action" value="updateProfile">
+				
+				    <button class="btn btn-primary" type="submit">Save Changes</button>
+				</form>
+				
+				<!-- Separate form for deleting profile picture -->
+				
             </div>
-          </form>
+            <form action="<%= request.getContextPath() %>/ProfileController" method="post" style="margin-top: 10px;">
+				    <input type="hidden" name="action" value="deleteProfilePicture">
+				    <button class="btn btn-danger btn-space" type="submit">Delete Photo</button>
+				</form>
+     
         </div>
       </div>
     </div>
