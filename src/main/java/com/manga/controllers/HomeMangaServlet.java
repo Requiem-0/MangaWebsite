@@ -29,14 +29,34 @@ public class HomeMangaServlet extends HttpServlet {
         }
         int offset = (page - 1) * recordsPerPage;
 
-        List<Manga> mangaList = homeMangaDAO.getHomeManga(offset, recordsPerPage);
-        int totalMangaCount = homeMangaDAO.getTotalMangaCount();
+        String genre = request.getParameter("genre");
+        String sortBy = request.getParameter("sort");
+        String searchTerm = request.getParameter("search");
+
+        List<Manga> mangaList;
+        int totalMangaCount;
+
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            mangaList = homeMangaDAO.searchManga(searchTerm);
+            totalMangaCount = mangaList.size();
+        } else {
+            mangaList = homeMangaDAO.getHomeManga(offset, recordsPerPage, genre, sortBy);
+            totalMangaCount = homeMangaDAO.getTotalMangaCount(genre);
+        }
+
         int totalPages = (int) Math.ceil((double) totalMangaCount / recordsPerPage);
 
+        // Fetch ongoing manga
+        List<Manga> ongoingMangaList = homeMangaDAO.getOngoingManga(10); // Limit to 10 for the ongoing section
+
         request.setAttribute("mangaList", mangaList);
+        request.setAttribute("ongoingMangaList", ongoingMangaList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("recordsPerPage", recordsPerPage);
+        request.setAttribute("genre", genre != null ? genre : "");
+        request.setAttribute("sort", sortBy != null ? sortBy : "");
+        request.setAttribute("searchTerm", searchTerm != null ? searchTerm : "");
 
         request.getRequestDispatcher("/pages/home.jsp").forward(request, response);
     }
