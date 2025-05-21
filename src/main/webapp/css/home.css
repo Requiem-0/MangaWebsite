@@ -296,7 +296,7 @@ body {
 .manga-grid {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 40px;
+	gap: 60px;
 	justify-content: center;
 	margin: auto;
 	margin-bottom: 25px;

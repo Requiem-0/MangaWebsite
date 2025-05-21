@@ -15,12 +15,12 @@
   <div class="row">
     <!-- Sidebar -->
     <nav class="col-md-3 col-lg-2 mngchapter-sidebar d-md-block">
-      <h2>Manga Admin Panel</h2>
+      <h2>Admin Panel</h2>
       <a href="<%= request.getContextPath() %>/DashboardController">Dashboard</a>
       <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
       <a href="<%= request.getContextPath() %>/ManageVolumeController?action=list">Manage Volume</a>
       <a href="<%= request.getContextPath() %>/ManageChapterController?action=list" class="active">Manage Chapter</a>
-      <a href="<%= request.getContextPath() %>/ManageUsersController">Manage Users</a>
+      <a href="<%= request.getContextPath() %>/ManageUsersServlet">Manage Users</a>
       <a href="#">Logout</a>
     </nav>
 

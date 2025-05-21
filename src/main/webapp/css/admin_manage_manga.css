@@ -2,14 +2,14 @@
 body {
   background-color: #1e2124; /* Background color from palette */
   color: #fff;
-  overflow: hidden;
-  height: 1000px;
+  height: auto;
+  
 }
 
 .mngmanga-sidebar {
   background-color: #282b30; /* Sidebar background */
   color: #fff;
-  height: 1000px;
+  height: auto;
 }
 
 .mngmanga-sidebar h2 {
@@ -35,7 +35,7 @@ body {
 .mngmanga-main-content {
   padding: 20px;
   overflow-y: auto;
-  height: 1000px;
+  height: 100%;
   background-color: #1e2124; /* Main content background */
 }
 
