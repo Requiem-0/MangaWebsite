@@ -54,7 +54,7 @@
                 <th>User ID</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Password</th>
+
                 <th>Role</th>
                 <th>Actions</th>
                 
@@ -70,7 +70,6 @@
 	          <td><%= user.getUserId() %></td>
 	   		  <td><%= user.getUsername() %></td>
 	          <td><%= user.getEmail() %></td>
-	          <td><%= user.getPassword() %></td>
 	          <td><%= user.getRole() %></td>	          
 	          
                 <td>

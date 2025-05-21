@@ -1,6 +1,7 @@
 package com.manga.controllers.dao;
 
 import com.manga.models.User;
+import org.mindrot.jbcrypt.BCrypt;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +16,7 @@ public class UserDAO {
 	
 	
     //Checking user existence
-    public boolean userExists(String email, String password) {
+    public boolean userExists(String email) {
         boolean exists = false;
 
         try {
@@ -89,66 +90,61 @@ public class UserDAO {
 	
 	
 	public User loginUser(String email, String password) {
-	    System.out.println("loginUser() called with email: " + email + " and password: " + password); // Debugging line
-		User user = null; // Will store the user if found
+	    System.out.println("loginUser() called with email: " + email); // Removed password from logs for security
+	    User user = null;
 
 	    try {
 	        // Get a connection to the database
 	        Connection conn = DatabaseConnection.getConnection();
 
-	        // SQL query to find user with matching email and password
-	        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+	        // 🔁 UPDATED: Query ONLY by email, NOT by password
+	        String sql = "SELECT * FROM users WHERE email = ?";
 	        PreparedStatement stmt = conn.prepareStatement(sql);
-
-	        // Set the email and password into the SQL query
 	        stmt.setString(1, email);
-	        stmt.setString(2, password);
 
-	        // Execute the query
 	        ResultSet rs = stmt.executeQuery();
-	        // Debugging result count
-	        System.out.println("Query executed, checking if any user matches...");
+	        System.out.println("Query executed, checking if user exists...");
 
-	        // If a matching user is found
 	        if (rs.next()) {
-	            // Extract values from the database result
-	            String username = rs.getString("username");
-	            String role = rs.getString("role");
-	            Timestamp createdAt = rs.getTimestamp("created_at");
-	            String profilePicture = rs.getString("profile_picture");  // Retrieve the profile picture
+	            // Get stored hashed password from DB
+	            String storedHashedPassword = rs.getString("password");
 
-	            
-	            // Debugging the values fetched directly from the ResultSet
-	            System.out.println("Fetched data from DB:");
-	            System.out.println("Username: " + username);
-	            System.out.println("Role: " + role);
-	            System.out.println("Created At: " + createdAt);
+	            // 🔁 UPDATED: Check plain password against stored hashed password using BCrypt
+	            if (BCrypt.checkpw(password, storedHashedPassword)) {
+	                // Password matches, create user object
+	                String username = rs.getString("username");
+	                String role = rs.getString("role");
+	                Timestamp createdAt = rs.getTimestamp("created_at");
+	                String profilePicture = rs.getString("profile_picture");
 
-	            // Create a User object and populate it
-	            user = new User(username, email, password, role,profilePicture); // Pass the role here
-	            user.setCreatedAt(createdAt);
+	                System.out.println("Password matched. Creating user object...");
 
-//	            System.out.println("Login success for user: " + username);
+	                System.out.println("Fetched data from DB:");
+	                System.out.println("Username: " + username);
+	                System.out.println("Role: " + role);
+	                System.out.println("Created At: " + createdAt);
 
-	            // Debugging after User object creation
-	            System.out.println("User object created: Username = " + user.getUsername() + ", Role = " + user.getRole());  // <-- This should now print
+	                user = new User(username, email, storedHashedPassword, role, profilePicture);
+	                user.setCreatedAt(createdAt);
 
-	            
+	                System.out.println("User object created: Username = " + user.getUsername() + ", Role = " + user.getRole());
+	            } else {
+	                // Password does not match
+	                System.out.println("Login failed: Password does not match.");
+	            }
 	        } else {
-	            // No user found with given email/password
-	            System.out.println("Login failed: No matching user found.");
-	            
+	            // No user found with given email
+	            System.out.println("Login failed: No user found with email: " + email);
 	        }
 
 	    } catch (SQLException | ClassNotFoundException e) {
-	        // Handle errors connecting to DB or JDBC driver not found
 	        System.out.println("Exception during loginUser()");
 	        e.printStackTrace();
 	    }
 
-	    // Return the User object (or null if login failed)
 	    return user;
 	}
+
 	
 	    public int countUser() {
 	        int userCount = 0;
@@ -249,7 +245,7 @@ public class UserDAO {
             String sql = "SELECT * FROM users WHERE email = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);  // Set email parameter
-
+            
             // Execute the query
             ResultSet rs = stmt.executeQuery();
 
@@ -259,9 +255,14 @@ public class UserDAO {
                 String role = rs.getString("role");
                 String password = rs.getString("password");
                 Timestamp createdAt = rs.getTimestamp("created_at");
+                
+                String profilePicture = rs.getString("profile_picture");
+
 
                 user = new User(username, email, password, role);
                 user.setCreatedAt(createdAt);
+                user.setProfilePicture(profilePicture);
+
             }
         } catch (SQLException | ClassNotFoundException e) {
             // Handle exception and print the stack trace for debugging
