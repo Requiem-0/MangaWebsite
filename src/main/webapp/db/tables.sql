@@ -101,6 +101,13 @@ CREATE TABLE comment (
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );
 
+CREATE TABLE rating (
+    rating_id INT AUTO_INCREMENT PRIMARY KEY,
+    manga_id INT NOT NULL,
+    rating_value INT NOT NULL CHECK (rating_value BETWEEN 1 AND 10)
+);
+
+
 
 
 

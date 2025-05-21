@@ -160,6 +160,63 @@
       <p class="desc">
         <%= mangadescription %>
       </p>
+      <p class="desc">
+  <%= mangadescription %>
+</p>
+
+<%
+    // Handle rating submission
+    String ratingParam = request.getParameter("rating");
+    if (ratingParam != null) {
+        try {
+            int ratingValue = Integer.parseInt(ratingParam);
+            if (ratingValue >= 1 && ratingValue <= 10) {
+                String insertRatingSQL = "INSERT INTO rating (manga_id, rating_value) VALUES (?, ?)";
+                PreparedStatement insertPstmt = conn.prepareStatement(insertRatingSQL);
+                insertPstmt.setInt(1, mangaId);
+                insertPstmt.setInt(2, ratingValue);
+                insertPstmt.executeUpdate();
+                insertPstmt.close();
+            }
+        } catch (Exception e) {
+%>
+    <p style="color: red;">Failed to submit rating: <%= e.getMessage() %></p>
+<%
+        }
+    }
+
+    // Calculate average rating
+    double avgRating = 0.0;
+    int ratingCount = 0;
+    String avgQuery = "SELECT AVG(rating_value) AS avg_rating, COUNT(*) AS count FROM rating WHERE manga_id = ?";
+    PreparedStatement avgPstmt = conn.prepareStatement(avgQuery);
+    avgPstmt.setInt(1, mangaId);
+    ResultSet avgRs = avgPstmt.executeQuery();
+    if (avgRs.next()) {
+        avgRating = avgRs.getDouble("avg_rating");
+        ratingCount = avgRs.getInt("count");
+    }
+    avgRs.close();
+    avgPstmt.close();
+%>
+
+<!-- Rating Display and Dropdown -->
+<div class="rating-section" style="margin-top: 20px;">
+  <p><strong>Rating:</strong> <%= String.format("%.1f", avgRating) %>/10 (<%= ratingCount %> ratings)</p>
+
+  <form method="post" action="volume.jsp?manga_id=<%= mangaId %>">
+    <label for="rating">Rate this manga:</label>
+    <select name="rating" id="rating" style="margin-left: 10px;">
+      <% for (int i = 10; i >= 1; i--) { %>
+        <option value="<%= i %>"><%= i %></option>
+      <% } %>
+    </select>
+    <button type="submit" style="margin-left: 10px;">Submit</button>
+  </form>
+</div>
+      
+</div>
+      
         </div>
   </div>
 </div>
