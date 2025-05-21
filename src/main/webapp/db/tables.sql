@@ -18,8 +18,9 @@ CREATE TABLE manga (
     mangatitle VARCHAR(200) NOT NULL,
     author VARCHAR(150) NOT NULL,
     mangadescription TEXT,
-    status VARCHAR(50), 
-    published_date DATE
+    status VARCHAR(50),
+    published_date DATE,
+    mangaImage VARCHAR(255)    
 );
 
 
@@ -40,10 +41,11 @@ CREATE TABLE volume (
     volume_id INT PRIMARY KEY AUTO_INCREMENT,
     isbn VARCHAR(20) UNIQUE,
     volumenumber INT NOT NULL,
-    releasedate DATE,
+    volume_img VARCHAR(255),
     manga_id INT,
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );
+
 
 
 CREATE TABLE chapter (
