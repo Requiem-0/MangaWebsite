@@ -3,6 +3,8 @@ package com.manga.controllers;
 import java.io.IOException;
 
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,8 +55,6 @@ public class RegistrationController extends HttpServlet {
         String password = request.getParameter("password");
         String confirm = request.getParameter("confirmPassword");
         
-		
-      
         
         //Checking
         System.out.println("Form data: " + username + " | " + email + " | " + password + " | " + confirm);
@@ -68,7 +68,7 @@ public class RegistrationController extends HttpServlet {
             return;
         }
 
-        else if (userDAO.userExists(email, password)) {
+        if (userDAO.userExists(email)) {
             request.setAttribute("error", "user_exists");
             request.getRequestDispatcher("/pages/registerUser.jsp").forward(request, response);
             return;
@@ -76,7 +76,10 @@ public class RegistrationController extends HttpServlet {
 
         // Proceeding with registration if no issues
         else {
-        User user = new User(username, email, password,"user");
+        	
+        	// Hash the password
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());	
+        User user = new User(username, email, hashedPassword,"user");
        
         boolean success = userDAO.register(user);
         if (success) {
