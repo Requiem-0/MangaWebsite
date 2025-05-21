@@ -1,7 +1,9 @@
 package com.manga.controllers;
 
 import com.manga.controllers.dao.VolumeDAO;
+import com.manga.controllers.dao.MangaDAO;  // <-- import MangaDAO
 import com.manga.models.Volume;
+import com.manga.models.Manga;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -20,11 +22,17 @@ import java.util.UUID;
     maxRequestSize = 1024 * 1024 * 10     // 10 MB
 )
 public class ManageVolumeController extends HttpServlet {
-    private VolumeDAO volumeDAO;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private VolumeDAO volumeDAO;
+    private MangaDAO mangaDAO;  // Add MangaDAO instance
 
     @Override
     public void init() {
         volumeDAO = new VolumeDAO();
+        mangaDAO = new MangaDAO();  // Initialize mangaDAO
     }
 
     @Override
@@ -51,7 +59,12 @@ public class ManageVolumeController extends HttpServlet {
     private void listVolumes(HttpServletRequest request, HttpServletResponse response, int mangaId) throws ServletException, IOException {
         List<Volume> volumeList = volumeDAO.getVolumesByMangaId(mangaId);
         request.setAttribute("volumeList", volumeList);
-        request.setAttribute("mangaId", mangaId); // for reuse in form
+        request.setAttribute("mangaId", mangaId);
+
+        // Load all manga for the dropdown
+        List<Manga> mangaList = mangaDAO.getAllManga();
+        request.setAttribute("mangaList", mangaList);
+
         request.getRequestDispatcher("/pages/manageVolume.jsp").forward(request, response);
     }
 
@@ -89,7 +102,7 @@ public class ManageVolumeController extends HttpServlet {
         String volume_img = null;
 
         if (filePart != null && filePart.getSize() > 0) {
-            String uploadDirectory = request.getServletContext().getRealPath("/resources/volume_images");
+            String uploadDirectory = request.getServletContext().getRealPath("/resources/images");
             File uploadDir = new File(uploadDirectory);
             if (!uploadDir.exists()) uploadDir.mkdirs();
 
@@ -98,7 +111,7 @@ public class ManageVolumeController extends HttpServlet {
 
             try {
                 filePart.write(filePath);
-                volume_img = "/resources/volume_images/" + fileName;
+                volume_img = "/resources/images/" + fileName;
             } catch (IOException e) {
                 e.printStackTrace();
                 request.setAttribute("error", "Error uploading volume image.");

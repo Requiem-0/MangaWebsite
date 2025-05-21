@@ -1,27 +1,47 @@
 package com.manga.models;
 
 public class Bookmark {
-    private int id;
-    private int userId;
-    private String volumeTitle;
+    private int mangaId;
+    private String mangaTitle;
+    private String mangaImage;
+    private String username;
 
-    public Bookmark() {}
-
-    public Bookmark(int id, int userId, String volumeTitle) {
-        this.id = id;
-        this.userId = userId;
-        this.volumeTitle = volumeTitle;
+    public Bookmark(int mangaId, String mangaTitle, String mangaImage, String username) {
+        this.mangaId = mangaId;
+        this.mangaTitle = mangaTitle;
+        this.mangaImage = mangaImage;
+        this.username = username;
     }
 
-    public Bookmark(int userId, String volumeTitle) {
-        this.userId = userId;
-        this.volumeTitle = volumeTitle;
+    public int getMangaId() {
+        return mangaId;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    public int getUserId() { return userId; }
-    public void setUserId(int userId) { this.userId = userId; }
-    public String getVolumeTitle() { return volumeTitle; }
-    public void setVolumeTitle(String volumeTitle) { this.volumeTitle = volumeTitle; }
+    public void setMangaId(int mangaId) {
+        this.mangaId = mangaId;
+    }
+
+    public String getMangaTitle() {
+        return mangaTitle;
+    }
+
+    public void setMangaTitle(String mangaTitle) {
+        this.mangaTitle = mangaTitle;
+    }
+
+    public String getMangaImage() {
+        return mangaImage;
+    }
+
+    public void setMangaImage(String mangaImage) {
+        this.mangaImage = mangaImage;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

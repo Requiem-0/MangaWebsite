@@ -4,10 +4,10 @@ public class Volume {
     private int volumeId;
     private String isbn;
     private int volumeNumber;
-    private String volume_img; // Changed from volumeImage
+    private String volume_img; 
     private int mangaId;
 
-    // Getters and Setters
+
     public int getVolumeId() {
         return volumeId;
     }

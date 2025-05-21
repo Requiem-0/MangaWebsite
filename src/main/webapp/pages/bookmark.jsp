@@ -1,45 +1,77 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.manga.models.Bookmark" %>
 
 <html>
 <head>
-    <title>Your Bookmarks</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/home.css" />
+    <title>Bookmarked Mangas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #999;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        img {
+            width: 100px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .no-data {
+            margin: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-<h2>Your Bookmarks</h2>
+    <h1>Bookmarked Mangas</h1>
 
-<div class="manga-container">
-<%
-    List<Bookmark> bookmarks = (List<Bookmark>) request.getAttribute("bookmarks");
-    if (bookmarks == null || bookmarks.isEmpty()) {
-%>
-    <p>You have no bookmarks yet.</p>
-<%
-    } else {
-        for (Bookmark b : bookmarks) {
-            String volume = b.getVolumeTitle();
-
-            // Convert volume title to an image filename
-            // e.g., "One Piece" -> "onepiece.png"
-            String imageName = volume.toLowerCase().replaceAll("\\s+", "") + ".png";
-%>
-    <div class="bookmark-item" style="margin-bottom:20px;">
-        <img src="../resources/images/<%= imageName %>" alt="<%= volume %>" class="manga-cover" style="width:150px; height:auto; border:2px solid #444; border-radius:5px;" />
-        <p style="color:#fff; font-weight:bold; margin-top:5px;"><%= volume %></p>
-
-        <form action="BookmarkController" method="post">
-            <input type="hidden" name="action" value="remove" />
-            <input type="hidden" name="bookmarkId" value="<%= b.getId() %>" />
-            <button type="submit">Remove Bookmark</button>
-        </form>
-    </div>
-<%
+    <%
+        List<Bookmark> bookmarks = (List<Bookmark>) request.getAttribute("bookmarks");
+        if (bookmarks != null && !bookmarks.isEmpty()) {
+    %>
+        <table>
+            <tr>
+                <th>Manga ID</th>
+                <th>Title</th>
+                <th>Cover Image</th>
+                <th>Username</th>
+            </tr>
+            <%
+                for (Bookmark bookmark : bookmarks) {
+            %>
+            <tr>
+                <td><%= bookmark.getMangaId() %></td>
+                <td><%= bookmark.getMangaTitle() %></td>
+                <td>
+                    <img src="<%= request.getContextPath() %>/resources/images/<%= bookmark.getMangaImage() %>" 
+                         alt="<%= bookmark.getMangaTitle() %>">
+                </td>
+                <td><%= bookmark.getUsername() %></td>
+            </tr>
+            <%
+                }
+            %>
+        </table>
+    <%
+        } else {
+    %>
+        <p class="no-data">No bookmarks found.</p>
+    <%
         }
-    }
-%>
-</div>
+    %>
 
 </body>
 </html>

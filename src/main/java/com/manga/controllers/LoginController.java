@@ -18,80 +18,52 @@ import com.manga.models.User;
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
     public LoginController() {
         super();
-       
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		 // Check if the user is already logged in (i.e., session exists)
-        HttpSession session = request.getSession(false); // Get session (do not create a new one)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false); // Do not create a new session
         if (session != null && session.getAttribute("username") != null) {
-            // If session exists, user is logged in. Redirect to profile page
             response.sendRedirect(request.getContextPath() + "/pages/profile.jsp");
         } else {
-            // If no session exists, proceed to the login page
-        	request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
         }
-	}
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	     String email = request.getParameter("email");
-	        String password = request.getParameter("password");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
-	        UserDAO userDAO = new UserDAO();
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.loginUser(email, password);
 
-		        // Checking if user exists and the password matches
-		        User user = userDAO.loginUser(email, password);
-		       
-		        if (user != null) {
-		        	 System.out.println("User role from DB: " + user.getRole());
-		        	 // Successful login: Store user info in session
-		            HttpSession session = request.getSession();  // Creating or getting the existing session
-		           
-		            session.setAttribute("username", user.getUsername());  // Storing username in session
-		            
-		            // Optionally, you can store other user info like email
-		            session.setAttribute("email", user.getEmail());
-		            
-		            session.setAttribute("role", user.getRole());  // Storing user role for access control	
-		            
-		            session.setAttribute("user", user);  // Store full user object
+        if (user != null) {
+            System.out.println("User role from DB: " + user.getRole());
 
-		            
-		            // Redirect based on user role
-		            String role = user.getRole();
-		            
-		            if ("admin".equalsIgnoreCase(role)) {
-		                // If user is an admin, redirect to admin dashboard
-		                response.sendRedirect(request.getContextPath() + "/pages/dashboard.jsp");
-		            } else if ("user".equalsIgnoreCase(role)) {
-		                // If user is a regular user, redirect to profile page
-		                response.sendRedirect(request.getContextPath() + "/pages/profile.jsp");
-		            } else {
-		                // Fallback for unknown roles — redirect to login with error
-		            	request.setAttribute("error", "unknown_role");
-		            	request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
+            HttpSession session = request.getSession(); // Create or reuse session
 
-		            }
-		        } else {
-		            // Invalid credentials: redirect back to login with error
-		        	request.setAttribute("error", "invalid_credentials");
-		        	request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
+            session.setAttribute("username", user.getUsername());
+            session.setAttribute("email", user.getEmail());
+            session.setAttribute("role", user.getRole());
+            session.setAttribute("user", user);
 
-		        }
-		}
-	
-	}
+            //  Set userId in session for bookmark support
+            session.setAttribute("userId", user.getUserId());
+
+            String role = user.getRole();
+            if ("admin".equalsIgnoreCase(role)) {
+                response.sendRedirect(request.getContextPath() + "/pages/dashboard.jsp");
+            } else if ("user".equalsIgnoreCase(role)) {
+                response.sendRedirect(request.getContextPath() + "/pages/profile.jsp");
+            } else {
+                request.setAttribute("error", "unknown_role");
+                request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
+            }
+        } else {
+            request.setAttribute("error", "invalid_credentials");
+            request.getRequestDispatcher("/pages/login.jsp").forward(request, response);
+        }
+    }
+}

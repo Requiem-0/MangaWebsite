@@ -1,41 +1,28 @@
 package com.manga.controllers;
 
 import com.manga.controllers.dao.BookmarkDAO;
-import com.manga.models.User;
+import com.manga.models.Bookmark;
 
-import javax.servlet.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/BookmarkServlet")
+@WebServlet("/bookmark")
 public class BookmarkServlet extends HttpServlet {
+
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-
-        if (user == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        int mangaId = Integer.parseInt(request.getParameter("mangaId"));
-        String action = request.getParameter("action");
-
         BookmarkDAO bookmarkDAO = new BookmarkDAO();
-        if ("add".equalsIgnoreCase(action)) {
-            bookmarkDAO.addBookmark(user.getUserId(), mangaId);
-        } else if ("remove".equalsIgnoreCase(action)) {
-            bookmarkDAO.removeBookmark(user.getUserId(), mangaId);
-        }
+        List<Bookmark> bookmarks = bookmarkDAO.getAllBookmarks();
 
-        response.sendRedirect("MangaDetailsServlet?id=" + mangaId); // Change this if needed
+        request.setAttribute("bookmarks", bookmarks);
+        request.getRequestDispatcher("/pages/bookmark.jsp").forward(request, response);
     }
 }

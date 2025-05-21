@@ -1,55 +1,37 @@
 package com.manga.controllers.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import com.manga.database.DatabaseConnection;
+import com.manga.models.Bookmark;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookmarkDAO {
-    private Connection connection;
 
-    public BookmarkDAO() {
-        try {
-            connection = DatabaseConnection.getConnection();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+	public List<Bookmark> getAllBookmarks() {
+	    List<Bookmark> bookmarks = new ArrayList<>();
 
-    public void addBookmark(int userId, int mangaId) {
-        String sql = "INSERT IGNORE INTO bookmarks (user_id, manga_id) VALUES (?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, userId);
-            stmt.setInt(2, mangaId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	    try (Connection conn = DatabaseConnection.getConnection()) {
+	    	String sql = "SELECT b.manga_id, m.mangatitle AS manga_title, m.mangaImage AS manga_image, u.username " +
+	                "FROM bookmarks b " +
+	                "JOIN users u ON b.user_id = u.user_id " +
+	                "JOIN manga m ON b.manga_id = m.manga_id";
 
-    public void removeBookmark(int userId, int mangaId) {
-        String sql = "DELETE FROM bookmarks WHERE user_id = ? AND manga_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, userId);
-            stmt.setInt(2, mangaId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+	        PreparedStatement stmt = conn.prepareStatement(sql);
+	        ResultSet rs = stmt.executeQuery();
 
-    public boolean isBookmarked(int userId, int mangaId) {
-        String sql = "SELECT id FROM bookmarks WHERE user_id = ? AND manga_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, userId);
-            stmt.setInt(2, mangaId);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-}
+	        while (rs.next()) {
+	            int mangaId = rs.getInt("manga_id");
+	            String mangaTitle = rs.getString("manga_title");
+	            String mangaImage = rs.getString("manga_image");
+	            String username = rs.getString("username");
+	            bookmarks.add(new Bookmark(mangaId, mangaTitle, mangaImage, username));
+	        }
+
+	    } catch (SQLException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+
+	    return bookmarks;
+	} }
