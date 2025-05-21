@@ -4,13 +4,22 @@ import com.manga.controllers.dao.MangaDAO;
 import com.manga.models.Manga;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet("/ManageMangaController")
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024,      // 1 MB
+    maxFileSize = 1024 * 1024 * 5,        // 5 MB
+    maxRequestSize = 1024 * 1024 * 10     // 10 MB
+)
 public class ManageMangaController extends HttpServlet {
     private MangaDAO mangaDAO;
 
@@ -29,7 +38,6 @@ public class ManageMangaController extends HttpServlet {
             } else if (action.equals("deleteManga")) {
                 deleteManga(request, response);
             } else if (action.equals("editManga")) {
-                // Optional edit logic
                 listManga(request, response);
             } else {
                 listManga(request, response); // default action
@@ -60,6 +68,9 @@ public class ManageMangaController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Because of file upload, get parameters carefully (multipart)
+        
+        // Parse text fields
         String title = request.getParameter("title");
         String author = request.getParameter("author");
         String genre = request.getParameter("genre");
@@ -74,6 +85,36 @@ public class ManageMangaController extends HttpServlet {
         String publishedDate = request.getParameter("publishedDate");
         String description = request.getParameter("description");
 
+        // Handle file upload for manga image
+        Part filePart = request.getPart("mangaImageFile");  // the input name for file upload in your form
+
+        String mangaImagePath = null;  // to store relative image path
+
+        if (filePart != null && filePart.getSize() > 0) {
+            String uploadDirectory = request.getServletContext().getRealPath("/resources/images");
+            File uploadDir = new File(uploadDirectory);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            String fileName = UUID.randomUUID().toString() + "_" + Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String filePath = uploadDirectory + File.separator + fileName;
+
+            try {
+                filePart.write(filePath);
+                System.out.println("Manga image uploaded to: " + filePath);
+                mangaImagePath = "/resources/images/" + fileName; // relative path to save in DB
+            } catch (IOException e) {
+                e.printStackTrace();
+                request.setAttribute("error", "Error uploading manga image.");
+                listManga(request, response);
+                return;
+            }
+        } else {
+            // No image uploaded, mangaImagePath stays null or default image can be assigned
+            mangaImagePath = request.getParameter("existingMangaImage"); // in case edit and image not changed
+        }
+
         Manga manga = new Manga();
         manga.setTitle(title);
         manga.setAuthor(author);
@@ -81,8 +122,14 @@ public class ManageMangaController extends HttpServlet {
         manga.setStatus(status);
         manga.setPublishedDate(publishedDate);
         manga.setDescription(description);
+        manga.setMangaImage(mangaImagePath);
 
-        mangaDAO.addManga(manga);
+        boolean added = mangaDAO.addManga(manga);
+        if (added) {
+            request.setAttribute("message", "Manga added successfully.");
+        } else {
+            request.setAttribute("error", "Failed to add manga.");
+        }
         listManga(request, response);
     }
 }
