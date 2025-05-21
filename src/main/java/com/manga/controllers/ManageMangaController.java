@@ -25,7 +25,7 @@ public class ManageMangaController extends HttpServlet {
 
     @Override
     public void init() {
-        mangaDAO = new MangaDAO();
+        mangaDAO = new MangaDAO();	
     }
 
     @Override
