@@ -18,7 +18,7 @@
         <h2>Manga Admin Panel</h2>
         <a href="<%= request.getContextPath() %>/DashboardController">Dashboard</a>
         <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
-        <a href="<%= request.getContextPath() %>/ManageUsersController">Manage Users</a>
+        <a href="<%= request.getContextPath() %>/ManageUsersServlet?action=list">Manage Users</a>
         <a href="#">Logout</a>
       </nav>
 

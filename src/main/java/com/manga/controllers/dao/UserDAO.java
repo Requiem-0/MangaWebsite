@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.manga.database.DatabaseConnection;
 
@@ -292,4 +294,58 @@ public class UserDAO {
     }
 
 
+    public List<User> getAllUsers() throws SQLException, ClassNotFoundException {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM users";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            
+            while (rs.next()) {
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                String role = rs.getString("role");
+                
+                // Debug print to check values fetched
+                System.out.println("DEBUG: username=" + username + ", email=" + email + ", password=" + password + ", role=" + role);
+                
+                User user = new User(username, email, password, role);
+                user.setUserId(rs.getInt("user_id"));
+                user.setCreatedAt(rs.getTimestamp("created_at"));
+                users.add(user);
+            }
+        }
+        return users;
+    }
+    
+//update roles
+    public boolean updateUserRole(int userId, String newRole) throws SQLException, ClassNotFoundException {
+        String sql = "UPDATE users SET role = ? WHERE user_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, newRole);
+            stmt.setInt(2, userId);
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        }
+    }
+
+    
+    
+    // Delete user by ID
+    public boolean deleteUser(int userId) throws SQLException, ClassNotFoundException {
+        String sql = "DELETE FROM users WHERE user_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, userId);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+        }
+    }
+
+ 
+
+    
 }
