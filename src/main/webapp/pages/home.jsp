@@ -29,7 +29,9 @@
 
     <!-- Search and Login -->
     <div class="navbar-right">
-      <input type="text" placeholder="Search" class="search-bar" />
+      <form action="HomeMangaServlet" method="get">
+        <input type="text" name="search" placeholder="Search" class="search-bar" value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>" />
+      </form>
       <button class="login-btn">Login</button>
     </div>
   </header>
@@ -67,6 +69,9 @@
           <span>Shounen</span></p>
         </div>
         
+        <p><strong>Status:
+        </strong> Completed</p>
+        
         <p><strong>Rating:</strong> 10/10</p>
         
         <button class="read-button">Read Now</button>
@@ -74,6 +79,7 @@
     </div>
   </div>
 
+  <!-- Main Content Start -->
   <div class="comics">
     <div class="comics-header">
       <h2>Mangas</h2>
@@ -82,44 +88,41 @@
         <!-- Genre Filter -->
         <div class="filter-field">
           <label for="genre-select">Genre:</label>
-          <select id="genre-select" class="filter-select">
+          <select id="genre-select" class="filter-select" name="genre" onchange="applyFilter()">
             <option value="">All</option>
-			<option value="Action">Action</option>
-			<option value="Adventure">Adventure</option>
-			<option value="Comedy">Comedy</option>
-			<option value="Drama">Drama</option>
-			<option value="Fantasy">Fantasy</option>
-			<option value="Horror">Horror</option>
-			<option value="Mystery">Mystery</option>
-			<option value="Psychological">Psychological</option>
-			<option value="Sci-Fi">Sci-Fi</option>
-			<option value="Thriller">Thriller</option>
-			<option value="Supernatural">Supernatural</option>
-			<option value="Sports">Sports</option>
-			<option value="Dark Fantasy">Dark Fantasy</option>
-			<option value="Historical">Historical</option>
-			<option value="Slice of Life">Slice of Life</option>
-
+            <option value="Action">Action</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Drama">Drama</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Horror">Horror</option>
+            <option value="Mystery">Mystery</option>
+            <option value="Psychological">Psychological</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+            <option value="Thriller">Thriller</option>
+            <option value="Supernatural">Supernatural</option>
+            <option value="Sports">Sports</option>
+            <option value="Dark Fantasy">Dark Fantasy</option>
+            <option value="Historical">Historical</option>
+            <option value="Slice of Life">Slice of Life</option>
           </select>
         </div>
 
         <!-- Sort By Filter -->
         <div class="filter-field">
           <label for="sort-select">Sort By:</label>
-          <select id="sort-select" class="filter-select">
+          <select id="sort-select" class="filter-select" name="sort" onchange="applyFilter()">
             <option value="">Default</option>
             <option value="hottest">Hottest</option>
             <option value="latest">Latest</option>
             <option value="alpha">A-Z</option>
           </select>
         </div>
-
-        <!-- Apply Button -->
-        <button id="applyFilter" class="btn-filter">Filter</button>
       </div>
     </div>
   </div>
 
+  <!-- Manga Grid -->
   <div class="manga-grid">
     <%
       List<Manga> mangaList = (List<Manga>) request.getAttribute("mangaList");
@@ -138,95 +141,50 @@
     <%
       }
     %>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <%
+      Integer currentPage = (Integer) request.getAttribute("currentPage");
+      Integer totalPages = (Integer) request.getAttribute("totalPages");
+      String genre = (String) request.getAttribute("genre");
+      String sort = (String) request.getAttribute("sort");
+      if (currentPage == null) currentPage = 1;
+      if (totalPages == null) totalPages = 1;
+    %>
+    <button class="prev-btn" <%= (currentPage == 1) ? "disabled" : "" %> onclick="location.href='HomeMangaServlet?page=<%= Math.max(currentPage - 1, 1) %>&genre=<%= genre %>&sort=<%= sort %>'">Previous</button>
     
-   <div class="pagination">
-  <%
-    Integer currentPage = (Integer) request.getAttribute("currentPage");
-    Integer totalPages = (Integer) request.getAttribute("totalPages");
-    if (currentPage == null) currentPage = 1;
-    if (totalPages == null) totalPages = 1;
-  %>
-  <button class="prev-btn" <%= (currentPage == 1) ? "disabled" : "" %> onclick="location.href='HomeMangaServlet?page=<%= Math.max(currentPage - 1, 1) %>'">Previous</button>
-  
-  <% for (int i = 1; i <= totalPages; i++) { %>
-    <button class="page-btn" <%= (currentPage == i) ? "disabled" : "" %> onclick="location.href='HomeMangaServlet?page=<%= i %>'"><%= i %></button>
-  <% } %>
-  
-  <button class="next-btn" <%= (currentPage == totalPages) ? "disabled" : "" %> onclick="location.href='HomeMangaServlet?page=<%= Math.min(currentPage + 1, totalPages) %>'">Next</button>
-</div>
+    <% for (int i = 1; i <= totalPages; i++) { %>
+      <button class="page-btn" <%= (currentPage == i) ? "disabled" : "" %> onclick="location.href='HomeMangaServlet?page=<%= i %>&genre=<%= genre %>&sort=<%= sort %>'"><%= i %></button>
+    <% } %>
+    
+    <button class="next-btn" <%= (currentPage == totalPages) ? "disabled" : "" %> onclick="location.href='HomeMangaServlet?page=<%= Math.min(currentPage + 1, totalPages) %>&genre=<%= genre %>&sort=<%= sort %>'">Next</button>
   </div>
 
-  
-
-  <div class="one-lanebar"> 
-    <h2>Recommendation</h2>
-  </div>
-
-  <div class="manga-grid">
-    <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/one piece.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">onep</div>
-    </div>
-    <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/seven.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">seven</div>
-    </div>
-    <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/slam.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">slam</div>
-    </div>
-    <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/tail.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">tail</div>
-    </div>
-    <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/demon slayer.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">tanjiro</div>
-    </div>
-  </div>
-
-  <div class="share-bar">
-    <div class="share-info">
-      <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Avatar">
-      <div>
-        <div class="share-title">Share Book Choda Comic Padha</div>
-        <div class="share-subtitle">to your friends</div>
-      </div>
-    </div>
-
-    <div class="share-buttons">
-      <a href="#" class="btn telegram">Share</a>
-      <a href="#" class="btn twitter">Tweet</a>
-      <a href="#" class="btn facebook">Share</a>
-      <a href="#" class="btn reddit">Share</a>
-    </div>
-  </div>
-
+  <!-- Ongoing Section -->
   <div class="one-lanebar">
-    <h2>Completed</h2>
+    <h2>Ongoing</h2>
   </div>
 
   <div class="manga-grid">
+    <%
+      List<Manga> ongoingMangaList = (List<Manga>) request.getAttribute("ongoingMangaList");
+      if (ongoingMangaList != null && !ongoingMangaList.isEmpty()) {
+        for (Manga manga : ongoingMangaList) {
+    %>
     <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/tokyo ghoul.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">tokyo </div>
+      <img src="${pageContext.request.contextPath}/resources/images/<%= manga.getTitle().toLowerCase() %>.png" alt="<%= manga.getTitle() %>" class="manga-image" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/images/default.png';" />
+      <div class="manga-title"><%= manga.getTitle() %></div>
     </div>
-    <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/vega.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">vega</div>
-    </div>
-    <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/ghoul.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">ghoul</div>
-    </div>
-    <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/chainsaw man.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">chain</div>
-    </div>
-    <div class="manga-card">
-      <img src="${pageContext.request.contextPath}/resources/images/pokemon.png" alt="Manga Title" class="manga-image" />
-      <div class="manga-title">pokemon</div>
-    </div>
+    <%
+        }
+      } else {
+    %>
+    <p>No ongoing manga found.</p>
+    <%
+      }
+    %>
   </div>
 
   <!-- Footer -->
@@ -246,5 +204,12 @@
     <p class="footer-copy">Copyright © Book Choda Comic Padha</p>
   </footer>
 
+  <script>
+    function applyFilter() {
+      const genre = document.getElementById('genre-select').value;
+      const sort = document.getElementById('sort-select').value;
+      window.location.href = 'HomeMangaServlet?page=1&genre=' + genre + '&sort=' + sort;
+    }
+  </script>
 </body>
 </html>

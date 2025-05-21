@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -59,7 +60,7 @@
   <body>
     <div id="container">
       <div class="media-card">
-        <img src="../resources/images/jujutsu.jpg" alt="Volume 1 Cover" class="cover-img" />
+        <img src="../resources/images/jujutsu.png" alt="Volume 1 Cover" class="cover-img" />
         <div class="card-details">
           <h2 class="main-title">Jujutsu Kaisen</h2>
           <div class="meta-info">
@@ -81,6 +82,21 @@
             Hidden in plain sight, an age-old conflict rages on. Supernatural
             monsters known as "Curses"...
           </p>
+         <%
+    String volumeTitle = request.getParameter("title");
+    if (volumeTitle == null) {
+        volumeTitle = "One Piece";
+    }
+%>
+
+<h1><%= volumeTitle %></h1>
+
+<form action="../BookmarkController" method="post">
+    <input type="hidden" name="action" value="add" />
+    <input type="hidden" name="volume" value="<%= volumeTitle %>" />
+    <button type="submit">📌 Bookmark This Volume</button>
+</form>
+
           <a href="#" class="read-full">+ Read full</a>
         </div>
       </div>
@@ -264,11 +280,11 @@
       </div>
 
       <p class="footer-description">
-        Read. Track. Repeat. Manga made seamless – follow your favorites, pick
+        Read. Track. Repeat. Manga made seamless â follow your favorites, pick
         up where you left off, and dive into new worlds anytime.
       </p>
 
-      <p class="footer-copy">Copyright © Book Choda Comic Padha</p>
+      <p class="footer-copy">Copyright Â© Book Choda Comic Padha</p>
     </footer>
   </body>
 </html>

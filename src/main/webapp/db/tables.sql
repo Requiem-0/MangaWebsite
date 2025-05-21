@@ -79,4 +79,10 @@ CREATE TABLE uploaded_pdf (
     file_path VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
+CREATE TABLE bookmarks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    manga_id INT NOT NULL,
+    UNIQUE (user_id, manga_id)
+);
 
