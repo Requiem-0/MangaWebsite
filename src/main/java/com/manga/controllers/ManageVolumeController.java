@@ -1,4 +1,4 @@
-package com.manga.controllers;
+ package com.manga.controllers;
 
 import com.manga.controllers.dao.VolumeDAO;
 import com.manga.controllers.dao.MangaDAO;  // <-- import MangaDAO
@@ -22,11 +22,15 @@ import java.util.UUID;
     maxRequestSize = 1024 * 1024 * 10     // 10 MB
 )
 public class ManageVolumeController extends HttpServlet {
+<<<<<<< HEAD
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private VolumeDAO volumeDAO;
+=======
+    private VolumeDAO volumeDAO;
+>>>>>>> origin/main
     private MangaDAO mangaDAO;  // Add MangaDAO instance
 
     @Override

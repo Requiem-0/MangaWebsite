@@ -15,9 +15,11 @@
   <!-- Navbar Start -->
   <header class="navbar">
     <!-- Logo -->
-    <div class="navbar-left">
-      <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
-    </div>
+<div class="navbar-left">
+  <a href="${pageContext.request.contextPath}/pages/landing.jsp">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
+  </a>
+</div>
 
     <!-- Navigation Links (Centered) -->
     <nav class="nav-center">

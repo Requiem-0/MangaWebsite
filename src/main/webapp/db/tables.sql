@@ -47,14 +47,15 @@ CREATE TABLE volume (
 );
 
 
-
 CREATE TABLE chapter (
     chapter_id INT PRIMARY KEY AUTO_INCREMENT,
     chapterno INT NOT NULL,
     chaptertitle VARCHAR(200),
     volume_id INT,
+    chapter_pdf VARCHAR(255), 
     FOREIGN KEY (volume_id) REFERENCES volume(volume_id)
 );
+
 
 CREATE TABLE review (
     review_id INT PRIMARY KEY AUTO_INCREMENT,
