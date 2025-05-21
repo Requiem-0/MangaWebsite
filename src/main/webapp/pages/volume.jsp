@@ -1,3 +1,5 @@
+<%@ page import="java.sql.*, com.manga.database.DatabaseConnection" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,242 +34,194 @@
         display: block;
       }
     </style>
-
-    <!-- Navbar Start -->
+  </head>
+  <body>
     <header class="navbar">
-      <!-- Logo -->
       <div class="navbar-left">
         <img src="../resources/images/logo.png" alt="Logo" class="logo" />
       </div>
-
-      <!-- Navigation Links (Centered) -->
       <nav class="nav-center">
         <a href="home.jsp">Home</a>
         <a href="#">Bookmark</a>
         <a href="history.jsp">History</a>
         <a href="#">Random</a>
       </nav>
-
-      <!-- Search and Login -->
       <div class="navbar-right">
         <input type="text" placeholder="Search" class="search-bar" />
         <button class="login-btn">Login</button>
       </div>
     </header>
-    <!-- Navbar End -->
-  </head>
-  <body>
+
+    <%
+      int mangaId = 10;
+      if (request.getParameter("manga_id") != null) {
+        mangaId = Integer.parseInt(request.getParameter("manga_id"));
+      }
+
+      String mangatitle = "", author = "", mangadescription = "", status = "", publishedDate = "", mangaImage = "";
+      Connection conn = null;
+      PreparedStatement pstmt = null;
+      ResultSet rs = null;
+
+      try {
+        conn = DatabaseConnection.getConnection();
+
+        String mangaQuery = "SELECT * FROM manga WHERE manga_id = ?";
+        pstmt = conn.prepareStatement(mangaQuery);
+        pstmt.setInt(1, mangaId);
+        rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+          mangatitle = rs.getString("mangatitle");
+          author = rs.getString("author");
+          mangadescription = rs.getString("mangadescription");
+          status = rs.getString("status");
+          publishedDate = rs.getString("published_date");
+          mangaImage = rs.getString("mangaImage");
+        }
+        rs.close();
+        pstmt.close();
+    %>
+
     <div id="container">
       <div class="media-card">
-        <img src="../resources/images/jujutsu.jpg" alt="Volume 1 Cover" class="cover-img" />
+        <img src="../resources/images/<%= mangaImage %>" alt="manga <%= mangaId %>" class="cover-img" />
         <div class="card-details">
-          <h2 class="main-title">Jujutsu Kaisen</h2>
+          <h2 class="main-title"><%= mangatitle %></h2>
           <div class="meta-info">
             <p><strong>Type:</strong> Manga</p>
-            <p><strong>Status:</strong> Finished</p>
-            <p><strong>Authors:</strong> Akutami, Gege (Story & Art)</p>
+            <p><strong>Status:</strong> <%= status %></p>
+            <p><strong>Authors:</strong> <%= author %></p>
             <p><strong>Magazines:</strong> Shounen Jump (Weekly)</p>
-            <p><strong>Published:</strong> Mar 5, 2018 to ?</p>
+            <p><strong>Published:</strong> <%= publishedDate %></p>
             <p><strong>Score:</strong> 8.52</p>
           </div>
           <div class="genres">
-            <a href="#"><button>Action</button></a>
-            <a href="#"><button>Demons</button></a>
-            <a href="#"><button>Fantasy</button></a>
-            <a href="#"><button>Shounen</button></a>
-            <a href="#"><button>Supernatural</button></a>
+            <p>
+              <button>Action</button>
+              <button>Demons</button>
+              <button>Fantasy</button>
+              <button>Shounen</button>
+              <button>Supernatural</button>
+            </p>
           </div>
           <p class="desc">
-            Hidden in plain sight, an age-old conflict rages on. Supernatural
-            monsters known as "Curses"...
+            <%= mangadescription %>
           </p>
           <a href="#" class="read-full">+ Read full</a>
         </div>
       </div>
     </div>
 
-    <div class="nav-buttons">
-      <a href="#Volume1">List Volume</a>
-      <a href="#Chapters">List Chapter</a>
+  
+
+    <!-- Volume Display -->
+    <div id="Volume1" style="padding: 20px;">
+      <h1 style="color:#9656ce;">Volumes</h3>
+      <div class="pro-container">
+        <%
+          String volumeQuery = "SELECT volumenumber, volume_img FROM volume WHERE manga_id = ? ORDER BY volumenumber";
+          pstmt = conn.prepareStatement(volumeQuery);
+          pstmt.setInt(1, mangaId);
+          rs = pstmt.executeQuery();
+
+          while (rs.next()) {
+            int volNumber = rs.getInt("volumenumber");
+            String volImg = rs.getString("volume_img");
+        %>
+       <div class="pro">
+  		<a href="volume.jsp?manga_id=<%= mangaId %>&volume=<%= volNumber %>#SelectedChapters">
+    		<img src="../resources/images/<%= volImg %>" alt="Volume <%= volNumber %>" />
+    		<div class="des">
+      			Volume <%= volNumber %>
+    		</div>
+  			</a>
+		</div>
+        <%
+          }
+        } catch (Exception e) {
+          out.println("<p style='color:red;'>Error: " + e.getMessage() + "</p>");
+        } finally {
+          if (rs != null) try { rs.close(); } catch (Exception e) {}
+          if (pstmt != null) try { pstmt.close(); } catch (Exception e) {}
+        }
+        %>
+      </div>
     </div>
 
-    <section id="Volume1" class="section-p1 toggle-content">
-      <h2 style="color: #9656ce">List Volume</h2>
-      <div class="pro-container">
-        <a href="chapter-list.html"
-          ><div class="pro">
-            <img src="../resources/images/vega.png" alt="Vol 1" />
-            <div class="des"><h5>Vol 1</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/seven.png" alt="Vol 2" />
-            <div class="des"><h5>Vol 2</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/myhero.png" alt="Vol 3" />
-            <div class="des"><h5>Vol 3</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/eren.jpg" alt="Vol 4" />
-            <div class="des"><h5>Vol 4</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/gintama.png" alt="Vol 5" />
-            <div class="des"><h5>Vol 5</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/ghoul.jpg" alt="Vol 6" />
-            <div class="des"><h5>Vol 6</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/fullmetal.jpg" alt="Vol 7" />
-            <div class="des"><h5>Vol 7</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/eren.jpg" alt="Vol 8" />
-            <div class="des"><h5>Vol 8</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/dragon.png" alt="Vol 9" />
-            <div class="des"><h5>Vol 9</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/chain.jpg" alt="Vol 10" />
-            <div class="des"><h5>Vol 10</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/bad.png" alt="Vol 11" />
-            <div class="des"><h5>Vol 11</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/baki.png" alt="Vol 12" />
-            <div class="des"><h5>Vol 12</h5></div>
-          </div></a
-        >
-        <a href="#"
-          ><div class="pro">
-            <img src="../resources/images/berserk.png" alt="Vol 13" />
-            <div class="des"><h5>Vol 13</h5></div>
-          </div></a
-        >
-      </div>
-    </section>
+    
 
-    <section id="Chapters" class="section-p1 toggle-content">
-      <h2 style="color: #9656ce">List Chapter</h2>
+    <!-- Dynamic Chapter List by Volume -->
+    <%
+      String selectedVolumeParam = request.getParameter("volume");
+      if (selectedVolumeParam != null) {
+        int selectedVolume = Integer.parseInt(selectedVolumeParam);
+        int volumeId = -1;
+
+        try {
+          // Step 1: Get volume_id using manga_id and volumenumber
+          String getVolumeIdQuery = "SELECT volume_id FROM volume WHERE manga_id = ? AND volumenumber = ?";
+          pstmt = conn.prepareStatement(getVolumeIdQuery);
+          pstmt.setInt(1, mangaId);
+          pstmt.setInt(2, selectedVolume);
+          rs = pstmt.executeQuery();
+
+          if (rs.next()) {
+            volumeId = rs.getInt("volume_id");
+          }
+          rs.close();
+          pstmt.close();
+
+          if (volumeId != -1) {
+            // Step 2: Get chapters
+            String chapterQuery = "SELECT chapterno, chaptertitle FROM chapter WHERE volume_id = ? ORDER BY chapterno";
+            pstmt = conn.prepareStatement(chapterQuery);
+            pstmt.setInt(1, volumeId);
+            rs = pstmt.executeQuery();
+    %>
+    <div id="SelectedChapters" class="section-p1" style="padding: 20px;">
+      <h2 style="color: #9656ce">Chapters in Volume <%= selectedVolume %></h2>
       <div class="chapter-list">
-        <div class="chapter-list">
-          <div class="chapter-item">
-            <a href="chapter.html?ch=284">Chapter 20: Domain Expansion</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=283">Chapter 19: The Cursed Womb</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=282">Chapter 18: Hidden Inventory</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=281">Chapter 17: Premature Death</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=280">Chapter 16: The Shibuya Incident</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=279">Chapter 15: Black Flash</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=278">Chapter 14: Divergent Fist</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=277"
-              >Chapter 13: The Origin of Obedience</a
-            >
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=276">Chapter 12: Idle Transfiguration</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=275">Chapter 11: The Night Parade</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=274"
-              >Chapter 10: Kyoto Sister School Exchange</a
-            >
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=273">Chapter 9: The Strongest</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=272"
-              >Chapter 8: Cursed Spirit Manipulation</a
-            >
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=7"
-              >Chapter 7: The Origin of Blind Obedience</a
-            >
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=6">Chapter 6: Fearsome Womb</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=5">Chapter 5: Hidden Potential</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=4">Chapter 4: A Reason to Fight</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=3">Chapter 3: Reunion</a>
-          </div>
-          <div class="chapter-item">
-            <a href="chapter.html?ch=2">Chapter 2: Revenge</a>
-          </div>
-          <div class="chapter-item">
-            <a href="https://mangareader.to/read/jujutsu-kaisen-168/en/volume-1"
-              >Chapter 1: That Day</a
-            >
-          </div>
+        <%
+          boolean hasChapters = false;
+          while (rs.next()) {
+            hasChapters = true;
+            int chapterNum = rs.getInt("chapterno");
+            String chapterTitle = rs.getString("chaptertitle");
+        %>
+        <div class="chapter-item">
+          <a href="chapter.jsp?volume=<%= selectedVolume %>&chapter=<%= chapterNum %>">
+            Chapter <%= chapterNum %>: <%= chapterTitle %>
+          </a>
         </div>
-        <!-- More chapters can be added here -->
-      </div>
-    </section>
+        <%
+          }
+          if (!hasChapters) {
+        %>
+        <p>No chapters available for this volume.</p>
+        <%
+          }
+          rs.close();
+          pstmt.close();
+        }
+      } catch (Exception e) {
+        out.println("<p style='color:red;'>Error loading chapters: " + e.getMessage() + "</p>");
+      }
+    }
+    %>
+
     <!-- Footer -->
     <footer class="footer">
       <img src="../resources/images/logo.png" alt="Footer Logo" class="footer-logo" />
-
       <div class="footer-links">
         <a href="#">Home</a>
         <a href="#">Privacy</a>
         <a href="#">Terms of Service</a>
       </div>
-
       <p class="footer-description">
         Read. Track. Repeat. Manga made seamless – follow your favorites, pick
         up where you left off, and dive into new worlds anytime.
       </p>
-
       <p class="footer-copy">Copyright © Book Choda Comic Padha</p>
     </footer>
   </body>
