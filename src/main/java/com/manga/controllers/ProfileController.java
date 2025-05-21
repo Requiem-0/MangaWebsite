@@ -1,6 +1,7 @@
 package com.manga.controllers;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.UUID;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * Servlet implementation class ProfileController
@@ -65,6 +68,9 @@ public class ProfileController extends HttpServlet {
         else if ("uploadProfilePicture".equals(action)) {
             uploadProfilePicture(request, response); // Handle the profile picture upload
         }
+        else if ("deleteProfilePicture".equals(action)) {
+            deleteProfilePicture(request, response);
+        }
 	}
     // Method for updating the username
 	public void updateUsername(HttpServletRequest request, HttpServletResponse response)
@@ -99,9 +105,9 @@ public class ProfileController extends HttpServlet {
 	                
 	                if (isUpdated) {
 	                    System.out.println("Username updated successfully.");
-	                    // Update the username in session after successful update
-	                    session.setAttribute("username", newUsername);
-	                    // Forward to the profile page with a success message
+	                    user.setUsername(newUsername); // Update the User object
+	                    session.setAttribute("user", user); // Update session with the modified User object
+
 	                    request.setAttribute("message", "Username updated successfully.");
 	                    RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/profile.jsp");
 	                    dispatcher.forward(request, response);
@@ -161,9 +167,11 @@ public class ProfileController extends HttpServlet {
             User user = userDAO.getUserByEmail(email);  // Get the logged-in user by email from the session
 
             // Check if the current password matches the stored password
-            if (user != null && user.getPassword().equals(currentPassword)) {
+            if (user != null && BCrypt.checkpw(currentPassword, user.getPassword())) {
                 // Update the password in the database
-                boolean isUpdated = userDAO.updatePassword(user.getEmail(), newPassword);
+            	String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            	boolean isUpdated = userDAO.updatePassword(user.getEmail(), hashedNewPassword);
+
                 
                 if (isUpdated) {
                     // Forward to the profile page with a success message
@@ -282,6 +290,60 @@ public class ProfileController extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/profile.jsp");
             dispatcher.forward(request, response);
         }
+    }
+    
+    
+    
+    // delete method
+    public void deleteProfilePicture(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("email");
+
+        if (email == null) {
+            response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+            return;
+        }
+
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByEmail(email);
+
+        if (user != null) {
+            String currentPicPath = user.getProfilePicture();
+            
+            String defaultPic = null; 
+
+            boolean isUpdated = userDAO.updateProfilePicture(user.getEmail(), defaultPic);
+
+            if (isUpdated) {
+                // Delete old profile picture file from server if exists and not default
+                if (currentPicPath != null && !currentPicPath.trim().isEmpty()) {
+                    String fullPath = request.getServletContext().getRealPath(currentPicPath);
+                    File oldFile = new File(fullPath);
+                    if (oldFile.exists()) {
+                        if (oldFile.delete()) {
+                            System.out.println("Old profile picture deleted: " + fullPath);
+                        } else {
+                            System.out.println("Failed to delete old profile picture: " + fullPath);
+                        }
+                    }
+                }
+
+                // Update session
+                user.setProfilePicture(defaultPic);
+                session.setAttribute("user", user);
+
+                request.setAttribute("message", "Profile picture deleted successfully.");
+            } else {
+                request.setAttribute("error", "Failed to delete profile picture.");
+            }
+        } else {
+            request.setAttribute("error", "User not found.");
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/pages/profile.jsp");
+        dispatcher.forward(request, response);
     }
 
     

@@ -28,7 +28,7 @@
 </header>
 
 <%
-    int mangaId = 2;
+    int mangaId = 1;
     String mangaIdParam = request.getParameter("manga_id");
     if (mangaIdParam != null) {
         try {

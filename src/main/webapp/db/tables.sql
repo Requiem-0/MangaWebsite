@@ -57,16 +57,16 @@ CREATE TABLE chapter (
 );
 
 
-CREATE TABLE review (
-    review_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE rating (
+    rating_id INT PRIMARY KEY AUTO_INCREMENT,
     rating INT CHECK (rating >= 1 AND rating <= 5),
-    comment TEXT,
-    reviewdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    rating_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_id INT,
     manga_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );
+
 
 
 CREATE TABLE user_manga (

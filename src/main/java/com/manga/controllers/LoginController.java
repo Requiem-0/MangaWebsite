@@ -1,6 +1,8 @@
 package com.manga.controllers;
 
 import java.io.IOException;
+import org.mindrot.jbcrypt.BCrypt; 
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
