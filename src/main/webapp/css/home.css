@@ -296,7 +296,7 @@ body {
 .manga-grid {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 40px;
+	gap: 60px;
 	justify-content: center;
 	margin: auto;
 	margin-bottom: 25px;
@@ -340,6 +340,16 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+a {
+    color: white; /* Set the link color to white */
+    text-decoration: none; /* Optional: Remove underline from links */
+}
+
+a:hover {
+    color: lightgray; /* Optional: Change color on hover */
+    text-decoration: underline; /* Optional: Add underline on hover */
 }
 
 .pagination {

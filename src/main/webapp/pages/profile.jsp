@@ -50,10 +50,10 @@ String error = (String) request.getAttribute("error");
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/nav_footer.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/nav_footer.css">
   
   <style>
     .container {
@@ -62,7 +62,7 @@ String error = (String) request.getAttribute("error");
       gap: 20px;
       align-items: center;
       padding:20px 0;
-    }
+    }	
 
     .settings-box, .password-box {
       background-color: #2d2f33;
@@ -110,16 +110,19 @@ String error = (String) request.getAttribute("error");
   </style>
 </head>
 <body>
+ 
   <!-- Navbar Start -->
   <header class="navbar">
     <!-- Logo -->
     <div class="navbar-left">
-      <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
+      <a href="${pageContext.request.contextPath}/pages/landing.jsp">
+        <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
+      </a>
     </div>
 
     <!-- Navigation Links (Centered) -->
     <nav class="nav-center">
-      <a href="home.jsp">Home</a>
+      <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
       <a href="#">Bookmark</a>
       <a href="history.jsp">History</a>
       <a href="#">Random</a>
@@ -133,6 +136,11 @@ String error = (String) request.getAttribute("error");
   </header>
   
   <!-- Navbar End -->
+  
+  
+  
+  
+  
   
   
   <!-- Main Container -->
@@ -174,17 +182,26 @@ String error = (String) request.getAttribute("error");
         </div>
 
         <div class="text-start">
-          <!-- Form to update username and email -->
-          <form action="<%= request.getContextPath() %>/ProfileController" method="post">
-            <input type="text" name="newUsername" class="form-control mb-2" value="<%= username != null ? username : "" %>">
-            <input type="email" class="form-control mb-3" value="<%= email != null ? email : "" %>" readonly>
-            <input type="hidden" name="action" value="updateProfile"> <!-- Action for updating the profile -->
+          
 
             <div class="d-flex">
-              <button class="btn btn-danger btn-space" type="button">Delete Photo</button>
-              <button class="btn btn-primary" type="submit">Save Changes</button>
+              <!-- Form for updating username -->
+				<form action="<%= request.getContextPath() %>/ProfileController" method="post">
+				    <input type="text" name="newUsername" class="form-control mb-2" value="<%= username != null ? username : "" %>">
+				    <input type="email" class="form-control mb-3" value="<%= email != null ? email : "" %>" readonly>
+				    <input type="hidden" name="action" value="updateProfile">
+				
+				    <button class="btn btn-primary" type="submit">Save Changes</button>
+				</form>
+				
+				<!-- Separate form for deleting profile picture -->
+				
             </div>
-          </form>
+            <form action="<%= request.getContextPath() %>/ProfileController" method="post" style="margin-top: 10px;">
+				    <input type="hidden" name="action" value="deleteProfilePicture">
+				    <button class="btn btn-danger btn-space" type="submit">Delete Photo</button>
+				</form>
+     
         </div>
       </div>
     </div>

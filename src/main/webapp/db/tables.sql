@@ -47,25 +47,26 @@ CREATE TABLE volume (
 );
 
 
-
 CREATE TABLE chapter (
     chapter_id INT PRIMARY KEY AUTO_INCREMENT,
     chapterno INT NOT NULL,
     chaptertitle VARCHAR(200),
     volume_id INT,
+    chapter_pdf VARCHAR(255), 
     FOREIGN KEY (volume_id) REFERENCES volume(volume_id)
 );
 
-CREATE TABLE review (
-    review_id INT PRIMARY KEY AUTO_INCREMENT,
+
+CREATE TABLE rating (
+    rating_id INT PRIMARY KEY AUTO_INCREMENT,
     rating INT CHECK (rating >= 1 AND rating <= 5),
-    comment TEXT,
-    reviewdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    rating_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_id INT,
     manga_id INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );
+
 
 
 CREATE TABLE user_manga (
@@ -90,6 +91,16 @@ CREATE TABLE reading_history (
     user_id INT NOT NULL,
     manga_id INT NOT NULL,
     last_read_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
+);
+
+CREATE TABLE comment (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    manga_id INT NOT NULL,
+    comment_text TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );

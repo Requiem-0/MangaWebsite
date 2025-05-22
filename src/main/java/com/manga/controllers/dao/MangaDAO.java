@@ -284,6 +284,55 @@ public class MangaDAO {
 
         return count;
     }
+    
+    public Manga getMangaById(int mangaId) {
+        Manga manga = null;
+
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+
+            String sql = "SELECT m.manga_id, m.mangatitle, m.author, m.mangadescription, m.status, m.published_date, m.mangaImage, g.genrename " +
+                         "FROM manga m " +
+                         "LEFT JOIN manga_genre mg ON m.manga_id = mg.manga_id " +
+                         "LEFT JOIN genre g ON mg.genre_id = g.genre_id " +
+                         "WHERE m.manga_id = ?";
+            
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, mangaId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            List<String> genres = new ArrayList<>();
+
+            while (rs.next()) {
+                if (manga == null) {
+                    manga = new Manga();
+                    manga.setMangaId(rs.getInt("manga_id"));
+                    manga.setTitle(rs.getString("mangatitle"));
+                    manga.setAuthor(rs.getString("author"));
+                    manga.setDescription(rs.getString("mangadescription"));
+                    manga.setStatus(rs.getString("status"));
+                    manga.setPublishedDate(rs.getString("published_date"));
+                    manga.setMangaImage(rs.getString("mangaImage"));
+                }
+
+                String genreName = rs.getString("genrename");
+                if (genreName != null && !genreName.isEmpty()) {
+                    genres.add(genreName);
+                }
+            }
+
+            if (manga != null) {
+                manga.setGenres(genres);
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return manga;
+    }
+
 
     // New method to count total number of unique genres
     public int getGenreCount() {

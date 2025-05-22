@@ -1,14 +1,14 @@
 body {
-  height: 1000px;
-  overflow: hidden;
   background-color: #1e2124;
   color: #fff;
+  height: auto;
 }
 
 .dashbrd-sidebar {
-  height: 1000px;
+ 
   background-color: #282b30;
   color: #fff;
+  height: 100vh;
 }
 
 .dashbrd-sidebar h2 {
@@ -34,7 +34,7 @@ body {
 .dashbrd-main-content {
   padding: 20px;
   overflow-y: auto;
-  height: 1000px;
+  height: 100%;
   background-color: #1e2124;
 }
 
