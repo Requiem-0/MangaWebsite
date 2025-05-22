@@ -342,6 +342,16 @@ body {
 	justify-content: center;
 }
 
+a {
+    color: white; /* Set the link color to white */
+    text-decoration: none; /* Optional: Remove underline from links */
+}
+
+a:hover {
+    color: lightgray; /* Optional: Change color on hover */
+    text-decoration: underline; /* Optional: Add underline on hover */
+}
+
 .pagination {
   display: flex;
   justify-content: center;

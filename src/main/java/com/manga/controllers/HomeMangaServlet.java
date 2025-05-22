@@ -49,6 +49,13 @@ public class HomeMangaServlet extends HttpServlet {
         // Fetch ongoing manga
         List<Manga> ongoingMangaList = homeMangaDAO.getOngoingManga(10); // Limit to 10 for the ongoing section
 
+        // Fetch Naruto manga by ID
+        Manga narutoManga = homeMangaDAO.getMangaById(1); // Naruto's ID is 1
+
+        // Fetch genres for Naruto manga
+        List<String> narutoGenres = homeMangaDAO.getGenresByMangaId(1);
+        System.out.println("Naruto Genres: " + narutoGenres);
+
         request.setAttribute("mangaList", mangaList);
         request.setAttribute("ongoingMangaList", ongoingMangaList);
         request.setAttribute("currentPage", page);
@@ -57,6 +64,8 @@ public class HomeMangaServlet extends HttpServlet {
         request.setAttribute("genre", genre != null ? genre : "");
         request.setAttribute("sort", sortBy != null ? sortBy : "");
         request.setAttribute("searchTerm", searchTerm != null ? searchTerm : "");
+        request.setAttribute("narutoManga", narutoManga);
+        request.setAttribute("narutoGenres", narutoGenres);
 
         request.getRequestDispatcher("/pages/home.jsp").forward(request, response);
     }
