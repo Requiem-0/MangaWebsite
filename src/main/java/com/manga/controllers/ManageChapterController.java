@@ -108,6 +108,9 @@ public class ManageChapterController extends HttpServlet {
             String fileName = UUID.randomUUID() + "_" + originalFileName;
             File file = new File(uploadDir, fileName);
 
+            // Print full upload path to console
+            System.out.println("Uploading PDF to: " + file.getAbsolutePath());
+
             try (InputStream input = filePart.getInputStream()) {
                 Files.copy(input, file.toPath());
                 chapter_pdf = "pages/uploads/" + fileName;  // relative path saved to DB

@@ -81,7 +81,7 @@
                 <td><%= manga.getPublishedDate() %></td>
                 <td>
                  <a href="<%= request.getContextPath() %>/ManageMangaController?action=editManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-primary custom-btn">Edit</a>
-<a href="<%= request.getContextPath() %>/ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger custom-btn" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
+				 <a href="<%= request.getContextPath() %>/ManageMangaController?action=deleteManga&mangaId=<%= manga.getMangaId() %>" class="btn btn-sm btn-danger custom-btn" onclick="return confirm('Are you sure you want to delete this manga?')">Delete</a>
 
 
                 </td>
