@@ -55,7 +55,7 @@ public class LoginController extends HttpServlet {
 
 		        // Checking if user exists and the password matches
 		        User user = userDAO.loginUser(email, password);
-		       
+		        
 		        if (user != null) {
 		        	 System.out.println("User role from DB: " + user.getRole());
 		        	 // Successful login: Store user info in session
@@ -69,7 +69,12 @@ public class LoginController extends HttpServlet {
 		            session.setAttribute("role", user.getRole());  // Storing user role for access control	
 		            
 		            session.setAttribute("user", user);  // Store full user object
-
+		            
+		            
+		            System.out.println("---------------------------");
+		            System.out.println(user.getUserId());
+		            System.out.println("---------------------------");
+		           
 		            
 		            // Redirect based on user role
 		            String role = user.getRole();
