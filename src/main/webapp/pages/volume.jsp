@@ -27,6 +27,9 @@
   </div>
 </header>
 
+<%@ page import="com.manga.controllers.dao.ReadingHistoryDAO" %>
+
+
 <%
     int mangaId = 1;
     String mangaIdParam = request.getParameter("manga_id");
@@ -43,7 +46,12 @@
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
+    
     try {
+    	//Call reading history method
+    	ReadingHistoryDAO historyDAO = new ReadingHistoryDAO();
+        historyDAO.addOrUpdateReadingHistory(1, mangaId); // user ID is hardcoded as 1
+    	
         conn = DatabaseConnection.getConnection();
 
         // Get manga details

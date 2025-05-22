@@ -109,7 +109,8 @@
             for (ReadingHistoryWithManga history : historyList) {
         %>
           <div class="card">
-            <img src="<%=request.getContextPath()%>/resources/images/manga_default.jpg" alt="Manga Cover Image" />
+            <img src="<%=request.getContextPath()%>/resources/images/<%= (history.getMangaImage() != null && !history.getMangaImage().isEmpty()) ? history.getMangaImage() : "manga_default.jpg" %>" alt="Manga Cover Image" />
+
             <div class="details">
               <h2><%= history.getMangaTitle() %></h2>
               <p><strong>Author:</strong> <%= history.getAuthor() %></p>
@@ -117,7 +118,7 @@
               <p><strong>Last Read:</strong> <%= history.getLastReadDate() %></p>
               
               <!-- Link to volume.jsp inside pages folder -->
-              <a href="<%= request.getContextPath() %>/pages/volume.jsp?mangaId=<%= history.getMangaId() %>" class="continue-btn-hist">Continue</a>
+              <a href="<%= request.getContextPath() %>/pages/volume.jsp?manga_id=<%= history.getMangaId() %>" class="continue-btn-hist">Continue</a>
             </div>
           </div>
         <%
