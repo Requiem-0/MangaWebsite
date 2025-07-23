@@ -25,7 +25,7 @@
     <nav class="nav-center">
       <a href="HomeMangaServlet">Home</a>
       <a href="#">Bookmark</a>
-      <a href="history.jsp">History</a>
+     <a href="<%=request.getContextPath()%>/ReadingHistory">History</a>
       <a href="#">Random</a>
     </nav>
 

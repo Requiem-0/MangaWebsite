@@ -83,9 +83,9 @@
       <img src="<%=request.getContextPath()%>/resources/images/logo.png" alt="Logo" class="logo" />
     </div>
     <nav class="nav-center">
-      <a href="<%=request.getContextPath()%>/pages/home.jsp">Home</a>
+      <a href="<%=request.getContextPath()%>/HomeMangaServlet">Home</a>
       <a href="#">Bookmark</a>
-      <a href="<%=request.getContextPath()%>/pages/history.jsp">History</a>
+      <a href="<%=request.getContextPath()%>/ReadingHistory">History</a>
       <a href="#">Random</a>
     </nav>
     <div class="navbar-right">
@@ -109,8 +109,8 @@
             for (ReadingHistoryWithManga history : historyList) {
         %>
           <div class="card">
-            <img src="<%=request.getContextPath()%>/resources/images/<%= (history.getMangaImage() != null && !history.getMangaImage().isEmpty()) ? history.getMangaImage() : "manga_default.jpg" %>" alt="Manga Cover Image" />
-
+           <img src="${pageContext.request.contextPath}/resources/images/<%= history.getMangaTitle().toLowerCase() %>.png" alt="<%= history.getMangaTitle() %>" class="manga-image" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/images/default.png';" />
+           
             <div class="details">
               <h2><%= history.getMangaTitle() %></h2>
               <p><strong>Author:</strong> <%= history.getAuthor() %></p>

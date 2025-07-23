@@ -35,10 +35,7 @@ public class ReadingHistoryController extends HttpServlet {
             		1
             		);
         
-        for (ReadingHistory.ReadingHistoryWithManga history : historyList) {
-            System.out.println("Manga Title: " + history.getMangaTitle());
-            System.out.println("Manga Image: " + history.getMangaImage());
-        }
+        System.out.println(loggedInUser.getUserId());
 
         request.setAttribute("historyList", historyList);
         request.getRequestDispatcher("/pages/history.jsp").forward(request, response);

@@ -18,7 +18,7 @@
   <nav class="nav-center">
     <a href="home.jsp">Home</a>
     <a href="#">Bookmark</a>
-    <a href="history.jsp">History</a>
+    <a href="<%=request.getContextPath()%>/ReadingHistory">History</a>
     <a href="#">Random</a>
   </nav>
   <div class="navbar-right">
