@@ -1,0 +1,26 @@
+@charset "UTF-8";
+.mngmanga-sidebar {
+  background-color: #282b30; /* Sidebar background */
+  color: #fff;
+  height: auto;
+}
+
+.mngmanga-sidebar h2 {
+  padding: 20px;
+  font-size: 24px;
+  text-align: center;
+  border-bottom: 1px solid #36393e; /* Border color from palette */
+  color: #7289da; /* Heading color from palette */
+}
+
+.mngmanga-sidebar a {
+  display: block;
+  padding: 12px 20px;
+  color: #adb5bd; /* Light gray text color for links */
+  text-decoration: none;
+}
+
+.mngmanga-sidebar a:hover {
+  background-color: #36393e; /* Hover background */
+  color: #fff;
+}

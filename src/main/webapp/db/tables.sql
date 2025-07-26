@@ -84,10 +84,14 @@ CREATE TABLE uploaded_pdf (
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS reading_history;
+
 CREATE TABLE reading_history (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    manga_id INT NOT NULL UNIQUE,
+    user_id INT NOT NULL,
+    manga_id INT NOT NULL,
     last_read_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
 );
 

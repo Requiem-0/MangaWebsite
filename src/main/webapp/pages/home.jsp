@@ -41,45 +41,50 @@
   <!-- Navbar End -->
 
   <!-- body suru vayo -->
-  <div class="highest-rated-frame">
-  
+<!-- Highest Rated Section -->
+<div class="highest-rated-frame">
     <div class="highest-rated-text">
-      <h2>Highest Rated</h2>
+        <h2>Highest Rated</h2>
     </div>
-    
+
     <div class="image-and-content-section">
-      <div class="image-section">
-        <img src="${pageContext.request.contextPath}/resources/images/solo leveling.png" alt="solo leveling Poster" class="highest-rated-image" />
-      </div>
-      
-      <div class="content-section">
-        <h2>Solo Leveling</h2>
-        <p class="description">
-          E-class hunter Jinwoo Sung is the weakest of them all. Looked down on by everyone, <br>
-          he has no money, no abilities to speak of, and no other job prospects. So when his party <br>
-          finds a hidden dungeon, he's determined to use this chance to change his life...
-        </p>
-        <p><strong>Author:
-        </strong><br> 추공 (Chugong)</p>
-        
-        <div class="genres">
-          <p><strong>Genres:
-          </strong><br> 
-          <span>Action</span>
-          <span>Adventure</span>
-          <span>Fantasy</span>
-          <span>Shounen</span></p>
+        <div class="image-section">
+            <c:if test="${not empty narutoManga}">
+                <img src="${pageContext.request.contextPath}${narutoManga.mangaImage}" alt="${narutoManga.title} Poster" class="highest-rated-image" />
+            </c:if>
         </div>
-        
-        <p><strong>Status:
-        </strong> Completed</p>
-        
-        <p><strong>Rating:</strong> 10/10</p>
-        
-        <button class="read-button">Read Now</button>
-      </div>
+
+        <div class="content-section">
+            <c:if test="${not empty narutoManga}">
+                <h2>${narutoManga.title}</h2>
+                <p class="description">${narutoManga.description}</p>
+                <p><strong>Author:</strong><br>${narutoManga.author}</p>
+                <div class="genres">
+			    <p><strong>Genres:</strong><br>
+			        <%
+			            List<String> narutoGenres = (List<String>) request.getAttribute("narutoGenres");
+			            if (narutoGenres != null) {
+			                for (String genre : narutoGenres) {
+			        %>
+			                    <span><%= genre %></span>
+			        <%
+			                }
+			            }
+			        %>
+			    </p>
+			</div>
+                <p><strong>Status:</strong> ${narutoManga.status}</p>
+                <p><strong>Rating:</strong> 10/10</p>
+                <button class="read-button" placeholder="Read Now" onclick="location.href='${pageContext.request.contextPath}/pages/volume.jsp?manga_id=${narutoManga.mangaId}'">
+                Read Now
+                </button>
+            </c:if>
+            <c:if test="${empty narutoManga}">
+                <h2></h2>
+            </c:if>
+        </div>
     </div>
-  </div>
+</div>
 
   <!-- Main Content Start -->
   <div class="comics">
@@ -133,7 +138,10 @@
     %>
     <div class="manga-card">
       <img src="${pageContext.request.contextPath}/resources/images/<%= manga.getTitle().toLowerCase() %>.png" alt="<%= manga.getTitle() %>" class="manga-image" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/images/default.png';" />
-      <div class="manga-title"><%= manga.getTitle() %></div>
+      <div class="manga-title">
+      <a href="${pageContext.request.contextPath}/pages/volume.jsp?manga_id=<%= manga.getMangaId() %>"> <%= manga.getTitle() %> </a>
+      </div>
+    
     </div>
     <%
         }
@@ -177,7 +185,9 @@
     %>
     <div class="manga-card">
       <img src="${pageContext.request.contextPath}/resources/images/<%= manga.getTitle().toLowerCase() %>.png" alt="<%= manga.getTitle() %>" class="manga-image" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/images/default.png';" />
-      <div class="manga-title"><%= manga.getTitle() %></div>
+      <div class="manga-title">
+      <a href="${pageContext.request.contextPath}/pages/volume.jsp?manga_id=<%= manga.getMangaId() %>"> <%= manga.getTitle() %> </a>
+      </div>
     </div>
     <%
         }
