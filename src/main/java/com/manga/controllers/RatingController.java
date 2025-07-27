@@ -12,7 +12,7 @@ import java.io.IOException;
 public class RatingController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int mangaId = Integer.parseInt(request.getParameter("mangaId"));
-        int userId = Integer.parseInt(request.getParameter("userId")); // or use session
+        int userId = Integer.parseInt(request.getParameter("userId")); // Replace with session.getId() if using login
         int ratingValue = Integer.parseInt(request.getParameter("rating"));
 
         Rating rating = new Rating();
@@ -23,7 +23,6 @@ public class RatingController extends HttpServlet {
         RatingDAO ratingDAO = new RatingDAO();
         ratingDAO.addOrUpdateRating(rating);
 
-        response.sendRedirect("volume.jsp?manga_id=" + mangaId);
+        response.sendRedirect("pages/volume.jsp?manga_id=" + mangaId);
     }
 }
-
