@@ -46,6 +46,9 @@
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
+    Integer userRating = null; // To hold user’s existing rating if any
+    double avgRating = 0.0;
+
     try {
         // Call reading history method
         ReadingHistoryDAO historyDAO = new ReadingHistoryDAO();
@@ -66,6 +69,29 @@
             status = rs.getString("status");
             publishedDate = rs.getString("published_date");
             mangaImage = rs.getString("mangaImage");
+        }
+        rs.close();
+        pstmt.close();
+
+        // Get average rating
+        String avgQuery = "SELECT AVG(rating) AS avg_rating FROM rating WHERE manga_id = ?";
+        pstmt = conn.prepareStatement(avgQuery);
+        pstmt.setInt(1, mangaId);
+        rs = pstmt.executeQuery();
+        if (rs.next()) {
+            avgRating = rs.getDouble("avg_rating");
+        }
+        rs.close();
+        pstmt.close();
+
+        // Get current user's rating if exists
+        String userRatingQuery = "SELECT rating FROM rating WHERE manga_id = ? AND user_id = ?";
+        pstmt = conn.prepareStatement(userRatingQuery);
+        pstmt.setInt(1, mangaId);
+        pstmt.setInt(2, 1); // Hardcoded user id = 1, replace with session user id if available
+        rs = pstmt.executeQuery();
+        if (rs.next()) {
+            userRating = rs.getInt("rating");
         }
         rs.close();
         pstmt.close();
@@ -107,33 +133,31 @@
 
       <p class="desc"><%= mangadescription %></p>
 
-      <%
-        double avgRating = 0.0;
-        String avgQuery = "SELECT AVG(rating) AS avg_rating FROM rating WHERE manga_id = ?";
-        pstmt = conn.prepareStatement(avgQuery);
-        pstmt.setInt(1, mangaId);
-        rs = pstmt.executeQuery();
-        if (rs.next()) {
-            avgRating = rs.getDouble("avg_rating");
-        }
-        rs.close();
-        pstmt.close();
-      %>
-
       <!-- Rating Section -->
       <p><strong>Average Rating:</strong> <%= String.format("%.2f", avgRating) %> / 5</p>
       <form action="<%= request.getContextPath() %>/RatingController" method="post">
-          <input type="hidden" name="mangaId" value="<%= mangaId %>" />
-          <input type="hidden" name="userId" value="1" /> <!-- Replace with session later -->
-          <label for="rating">Rate this manga:</label>
-          <select name="rating" id="rating" required>
-              <option value="">-- Select --</option>
-              <% for (int i = 1; i <= 5; i++) { %>
-                  <option value="<%= i %>"><%= i %></option>
-              <% } %>
-          </select>
-          <button type="submit">Submit</button>
-      </form>
+    <input type="hidden" name="mangaId" value="<%= mangaId %>" />
+    <input type="hidden" name="userId" value="1" />
+    <label for="rating">Rate this manga:</label>
+    <select name="rating" id="rating" required>
+        <option value="">-- Select --</option>
+        <% for (int i = 1; i <= 5; i++) { %>
+            <option value="<%= i %>"><%= i %></option>
+        <% } %>
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+<button class="bookmark">
+  <span class="icon">
+    <svg viewBox="0 0 36 36">
+      <path class="default" d="M6 4h24v28l-12-8-12 8z" />
+      <path class="filled" d="M6 4h24v28l-12-8-12 8z" />
+    </svg>
+  </span>
+  <span>Bookmark</span>
+</button>
+
 
     </div>
   </div>
