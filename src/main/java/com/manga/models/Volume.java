@@ -47,4 +47,4 @@ public class Volume {
     public void setMangaId(int mangaId) {
         this.mangaId = mangaId;
     }
-}
+} 
