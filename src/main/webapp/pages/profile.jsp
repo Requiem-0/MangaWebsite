@@ -1,4 +1,4 @@
-<%@ page import="com.manga.models.User" %>
+ <%@ page import="com.manga.models.User" %>
 
 <%
 //Retrieve user object from session
