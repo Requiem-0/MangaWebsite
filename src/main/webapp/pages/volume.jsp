@@ -148,15 +148,7 @@
     <button type="submit">Submit</button>
 </form>
 
-<button class="bookmark">
-  <span class="icon">
-    <svg viewBox="0 0 36 36">
-      <path class="default" d="M6 4h24v28l-12-8-12 8z" />
-      <path class="filled" d="M6 4h24v28l-12-8-12 8z" />
-    </svg>
-  </span>
-  <span>Bookmark</span>
-</button>
+
 
 
     </div>
