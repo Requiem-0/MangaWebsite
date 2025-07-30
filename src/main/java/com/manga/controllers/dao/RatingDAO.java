@@ -1,14 +1,11 @@
 package com.manga.controllers.dao;
 
+import com.manga.database.DatabaseConnection;
 import com.manga.models.Rating;
 
 import java.sql.*;
 
 public class RatingDAO {
-
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/mangadb";
-    private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "";
 
     public void addOrUpdateRating(Rating rating) {
         Connection conn = null;
@@ -16,8 +13,7 @@ public class RatingDAO {
         ResultSet rs = null;
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+            conn = DatabaseConnection.getConnection();
 
             // Check if rating already exists
             String checkSql = "SELECT rating_id FROM rating WHERE user_id = ? AND manga_id = ?";
@@ -28,7 +24,7 @@ public class RatingDAO {
 
             if (rs.next()) {
                 int ratingId = rs.getInt("rating_id");
-                rs.close(); // ✅ Close ResultSet before reusing pstmt
+                rs.close(); 
                 pstmt.close();
 
                 // Update rating
@@ -40,7 +36,7 @@ public class RatingDAO {
 
                 System.out.println("Rating updated.");
             } else {
-                rs.close(); // ✅ Close ResultSet
+                rs.close();
                 pstmt.close();
 
                 // Insert new rating
@@ -65,5 +61,9 @@ public class RatingDAO {
                 e.printStackTrace();
             }
         }
+
+        System.out.println("User ID: " + rating.getUserId());
+        System.out.println("Manga ID: " + rating.getMangaId());
+        System.out.println("Rating Value: " + rating.getRating());
     }
 }

@@ -24,5 +24,7 @@ public class RatingController extends HttpServlet {
         ratingDAO.addOrUpdateRating(rating);
 
         response.sendRedirect("pages/volume.jsp?manga_id=" + mangaId);
+        System.out.println("RatingController called.");
+
     }
 }
