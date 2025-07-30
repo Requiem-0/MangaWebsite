@@ -26,8 +26,8 @@
       <!-- Navigation Links (Centered) -->
 		<nav class="nav-center">
 	    <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
-	    <a href="${pageContext.request.contextPath}/pages/bookmark.jsp">Bookmark</a>
 	    <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
+	    <a href="${pageContext.request.contextPath}/pages/profile.jsp">Profile</a>
 	    <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
 		</nav>
     </nav>
