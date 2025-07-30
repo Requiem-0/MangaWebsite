@@ -45,13 +45,14 @@
     .details {
       margin-top: 10px;
       text-align: center;
+      color: white;
     }
 
     .continue-btn-hist {
       display: inline-block;
       margin-top: 10px;
       padding: 8px 16px;
-      background-color: #007bff;
+      background-color: #7289DA;
       color: white;
       text-decoration: none;
       border-radius: 5px;
@@ -70,6 +71,7 @@
     h1 {
       text-align: center;
       margin-bottom: 20px;
+      color: white;
     }
   </style>
 </head>
@@ -103,21 +105,22 @@
         <%
           if (historyList == null || historyList.isEmpty()) {
         %>
-          <p>No reading history found.</p>
+          <p style="color: black; text-align: center;">No reading history found.</p>
         <%
           } else {
             for (ReadingHistoryWithManga history : historyList) {
         %>
           <div class="card">
-            <img src="<%=request.getContextPath()%>/resources/images/manga_default.jpg" alt="Manga Cover Image" />
+            <img src="<%=request.getContextPath()%>/resources/images/<%= (history.getMangaImage() != null && !history.getMangaImage().isEmpty()) ? history.getMangaImage() : "manga_default.jpg" %>" alt="Manga Cover Image" />
+
             <div class="details">
               <h2><%= history.getMangaTitle() %></h2>
               <p><strong>Author:</strong> <%= history.getAuthor() %></p>
               <p><strong>Description:</strong> <%= history.getDescription() %></p>
               <p><strong>Last Read:</strong> <%= history.getLastReadDate() %></p>
               
-              <!-- Redirect to volume.jsp with mangaId -->
-            <a href="<%= request.getContextPath() %>/pages/volume.jsp?mangaId=123">Continue</a>
+              <!-- Link to volume.jsp inside pages folder -->
+              <a href="<%= request.getContextPath() %>/pages/volume.jsp?manga_id=<%= history.getMangaId() %>" class="continue-btn-hist">Continue</a>
             </div>
           </div>
         <%
@@ -132,7 +135,7 @@
   <footer class="footer">
     <img src="<%=request.getContextPath()%>/resources/images/logo.png" alt="Footer Logo" class="footer-logo" />
     <div class="footer-links">
-      <a href="#">Home</a>
+      <a href="<%=request.getContextPath()%>/pages/home.jsp">Home</a>
       <a href="#">Privacy</a>
       <a href="#">Terms of Service</a>
     </div>
