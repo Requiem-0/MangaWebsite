@@ -23,10 +23,13 @@
 
     <!-- Navigation Links (Centered) -->
     <nav class="nav-center">
-      <a href="HomeMangaServlet">Home</a>
-      <a href="#">Bookmark</a>
-      <a href="history.jsp">History</a>
-      <a href="#">Random</a>
+      <!-- Navigation Links (Centered) -->
+		<nav class="nav-center">
+	    <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
+	    <a href="${pageContext.request.contextPath}/pages/bookmark.jsp">Bookmark</a>
+	    <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
+	    <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
+		</nav>
     </nav>
 
     <!-- Search and Login -->

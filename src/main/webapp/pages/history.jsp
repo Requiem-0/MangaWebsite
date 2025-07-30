@@ -80,13 +80,15 @@
   <!-- Navbar Start -->
   <header class="navbar">
     <div class="navbar-left">
-      <img src="<%=request.getContextPath()%>/resources/images/logo.png" alt="Logo" class="logo" />
-    </div>
+  <a href="${pageContext.request.contextPath}/pages/landing.jsp">
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
+  </a>
+</div>
     <nav class="nav-center">
-      <a href="<%=request.getContextPath()%>/pages/home.jsp">Home</a>
-      <a href="#">Bookmark</a>
-      <a href="<%=request.getContextPath()%>/pages/history.jsp">History</a>
-      <a href="#">Random</a>
+	    <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
+	    <a href="${pageContext.request.contextPath}/BookmarkServlet">Bookmark</a>
+	    <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
+	    <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
     </nav>
     <div class="navbar-right">
       <input type="text" placeholder="Search" class="search-bar" />
