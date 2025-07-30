@@ -127,7 +127,6 @@ body {
 	color: #888;
 }
 
-
 /* Highest Rated Frame */
 .highest-rated-frame {
 	display: flex;
@@ -152,7 +151,6 @@ body {
 
 .highest-rated-text h2 {
 	font-size: 24px;
-
 }
 
 /* Image and Content Section */
@@ -343,13 +341,13 @@ body {
 }
 
 a {
-    color: white; /* Set the link color to white */
-    text-decoration: none; /* Optional: Remove underline from links */
+    color: white;
+    text-decoration: none;
 }
 
 a:hover {
-    color: lightgray; /* Optional: Change color on hover */
-    text-decoration: underline; /* Optional: Add underline on hover */
+    color: lightgray;
+    text-decoration: underline;
 }
 
 .pagination {
@@ -364,7 +362,7 @@ a:hover {
   color: white;
   border: none;
   padding: 10px 20px;
-  margin: 0 5px; /* Increased margin for more space */
+  margin: 0 5px;
   font-size: 16px;
   font-weight: 600;
   border-radius: 8px;
@@ -453,7 +451,7 @@ a:hover {
 }
 
 /* Media Queries for Responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
 	.navbar {
 		flex-direction: column;
 		height: auto;

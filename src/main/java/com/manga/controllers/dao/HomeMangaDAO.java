@@ -201,4 +201,29 @@ public class HomeMangaDAO {
         manga.setMangaImage(resultSet.getString("mangaImage"));
         return manga;
     }
+    
+    
+    public Manga getRandomManga() {
+        Manga randomManga = null;
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            String query = "SELECT * FROM manga ORDER BY RAND() LIMIT 1";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        randomManga = new Manga();
+                        randomManga.setMangaId(resultSet.getInt("manga_id"));
+                        randomManga.setTitle(resultSet.getString("mangatitle"));
+                        randomManga.setAuthor(resultSet.getString("author"));
+                        randomManga.setDescription(resultSet.getString("mangadescription"));
+                        randomManga.setStatus(resultSet.getString("status"));
+                        randomManga.setPublishedDate(resultSet.getString("published_date"));
+                        randomManga.setMangaImage(resultSet.getString("mangaImage"));
+                    }
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return randomManga;
+    }
 }
