@@ -12,7 +12,6 @@ CREATE TABLE users (
     profile_picture VARCHAR(255) DEFAULT NULL
 );
 
-
 CREATE TABLE manga (
     manga_id INT PRIMARY KEY AUTO_INCREMENT,
     mangatitle VARCHAR(200) NOT NULL,
@@ -23,7 +22,6 @@ CREATE TABLE manga (
     mangaImage VARCHAR(255)    
 );
 
-
 CREATE TABLE genre (
     genre_id INT PRIMARY KEY AUTO_INCREMENT,
     genrename VARCHAR(100) UNIQUE NOT NULL
@@ -33,8 +31,8 @@ CREATE TABLE manga_genre (
     manga_id INT,
     genre_id INT,
     PRIMARY KEY (manga_id, genre_id),
-    FOREIGN KEY (manga_id) REFERENCES manga(manga_id),
-    FOREIGN KEY (genre_id) REFERENCES genre(genre_id)
+    FOREIGN KEY (manga_id) REFERENCES manga(manga_id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES genre(genre_id) ON DELETE CASCADE
 );
 
 CREATE TABLE volume (
@@ -43,9 +41,8 @@ CREATE TABLE volume (
     volumenumber INT NOT NULL,
     volume_img VARCHAR(255),
     manga_id INT,
-    FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
+    FOREIGN KEY (manga_id) REFERENCES manga(manga_id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE chapter (
     chapter_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -53,36 +50,18 @@ CREATE TABLE chapter (
     chaptertitle VARCHAR(200),
     volume_id INT,
     chapter_pdf VARCHAR(255), 
-    FOREIGN KEY (volume_id) REFERENCES volume(volume_id)
+    FOREIGN KEY (volume_id) REFERENCES volume(volume_id) ON DELETE CASCADE
 );
-
-
-CREATE TABLE rating (
-    rating_id INT PRIMARY KEY AUTO_INCREMENT,
-    rating INT CHECK (rating >= 1 AND rating <= 5),
-    rating_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    user_id INT,
-    manga_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
-);
-
 
 
 CREATE TABLE user_manga (
     user_id INT,
     manga_id INT,
     PRIMARY KEY (user_id, manga_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (manga_id) REFERENCES manga(manga_id) ON DELETE CASCADE
 );
 
-CREATE TABLE uploaded_pdf (
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    title VARCHAR(100) NOT NULL,
-    file_path VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
-);
 
 DROP TABLE IF EXISTS reading_history;
 
@@ -91,22 +70,6 @@ CREATE TABLE reading_history (
     user_id INT NOT NULL,
     manga_id INT NOT NULL,
     last_read_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (manga_id) REFERENCES manga(manga_id) ON DELETE CASCADE
 );
-
-CREATE TABLE comment (
-    comment_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    manga_id INT NOT NULL,
-    comment_text TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (manga_id) REFERENCES manga(manga_id)
-);
-
-
-
-
-
-
