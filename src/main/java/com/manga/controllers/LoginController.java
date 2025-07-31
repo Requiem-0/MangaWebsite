@@ -83,7 +83,7 @@ public class LoginController extends HttpServlet {
 		            
 		            if ("admin".equalsIgnoreCase(role)) {
 		                // If user is an admin, redirect to admin dashboard
-		                response.sendRedirect(request.getContextPath() + "/pages/dashboard.jsp");
+		                response.sendRedirect(request.getContextPath() + "/DashboardController");
 		            } else if ("user".equalsIgnoreCase(role)) {
 		                // If user is a regular user, redirect to profile page
 		                response.sendRedirect(request.getContextPath() + "/pages/profile.jsp");

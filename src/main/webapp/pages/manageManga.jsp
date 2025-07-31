@@ -18,11 +18,11 @@
       <nav class="col-md-3 col-lg-2 mngmanga-sidebar d-md-block">
       <h2>Admin Panel</h2>
       <a href="<%= request.getContextPath() %>/DashboardController">Dashboard</a>
-      <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
-      <a href="<%= request.getContextPath() %>/ManageVolumeController?action=list">Manage Volume</a>
-      <a href="<%= request.getContextPath() %>/ManageChapterController?action=list" class="active">Manage Chapter</a>
+      <a href="<%= request.getContextPath() %>/ManageMangaController">Manage Manga</a>
+      <a href="<%= request.getContextPath() %>/ManageVolumeController">Manage Volume</a>
+      <a href="<%= request.getContextPath() %>/ManageChapterController" class="active">Manage Chapter</a>
       <a href="<%= request.getContextPath() %>/ManageUsersServlet">Manage Users</a>
-      <a href="#">Logout</a>
+	  <a href="<%= request.getContextPath() %>/LogoutController" class="logout-link">Logout</a>
       </nav>
 
       <!-- Main Content -->
@@ -151,16 +151,7 @@
           <button type="submit" class="btn btn-primary w-100 w-md-auto">Save</button>
           <button type="button" class="btn btn-secondary w-100 w-md-auto" data-bs-dismiss="modal">Cancel</button>
         </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary w-100 w-md-auto">Save</button>
-            <button type="button" class="btn btn-secondary w-100 w-md-auto" data-bs-dismiss="modal">Cancel</button>
-          </div>
-        </form>
+     
       </div>
     </div>
   </div>

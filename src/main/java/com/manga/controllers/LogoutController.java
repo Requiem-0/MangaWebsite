@@ -12,33 +12,24 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/LogoutController")
 public class LogoutController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    private static final long serialVersionUID = 1L;
+
     public LogoutController() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 // Invalidate the session to log the user out
+    // Handle GET requests (for logout via <a href>)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Invalidate session to log out
         request.getSession().invalidate();
-        
-        // Redirect to the login page after logging out
-        response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
-	}
 
+        // Redirect to login page
+        response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+    }
+
+    // Handle POST requests (for logout via form submit)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().invalidate();
+        response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+    }
 }
