@@ -29,6 +29,8 @@ public class User {
         this.role = role;
         this.profilePicture = profilePicture;  // Profile picture might be available after login
     }
+    
+    
 
     // Getter and Setter methods
     public int getUserId() {

@@ -93,10 +93,7 @@ public class ManageUsersServlet extends HttpServlet {
 
        
     }
-
-    
-    
-    
+  
     private void listUsers(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException, ClassNotFoundException {
         List<User> userList = userDAO.getAllUsers();

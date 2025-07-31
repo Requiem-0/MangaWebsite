@@ -1,6 +1,7 @@
 package com.manga.database;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -15,4 +16,4 @@ public class DatabaseConnection{
         return DriverManager.getConnection(jdbcURL, username, password);
     }    
     
-}
+}	

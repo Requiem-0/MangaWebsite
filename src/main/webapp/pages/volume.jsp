@@ -1,19 +1,14 @@
-<%@ page import="java.sql.*, java.util.*, com.manga.database.DatabaseConnection, com.manga.models.Manga, com.manga.controllers.dao.ReadingHistoryDAO" %>
+<%@ page import="java.util.*, com.manga.models.Manga, com.manga.models.Volume, com.manga.models.Chapter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    Integer sessionUserId = (Integer) session.getAttribute("userId");
-    if (sessionUserId == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
-%>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manga Reader</title>
-  <link rel="stylesheet" href="../css/volume.css" />
+  <link rel="stylesheet" href="<%= request.getContextPath() %>/css/volume.css" />
 </head>
 <body>
 
@@ -23,240 +18,99 @@
     <img src="../resources/images/logo.png" alt="Logo" class="logo" />
   </div>
   <nav class="nav-center">
+
 	    <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
-	    <a href="${pageContext.request.contextPath}/BookmarkServlet">Bookmark</a>
 	    <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
+	    <a href="${pageContext.request.contextPath}/pages/profile.jsp">Profile</a>
 	    <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
+
   </nav>
   <div class="navbar-right">
     <input type="text" placeholder="Search" class="search-bar" />
-    <button class="login-btn">Login</button>
+
   </div>
 </header>
 
 <%
-    int mangaId = 1;
-    String mangaIdParam = request.getParameter("manga_id");
-    String selectedVolumeParam = request.getParameter("volume");
-    String selectedChapterParam = request.getParameter("chapter");
-
-    if (mangaIdParam != null) {
-        try {
-            mangaId = Integer.parseInt(mangaIdParam);
-        } catch (NumberFormatException e) {
-            mangaId = 1;
-        }
-    }
-
-    String mangatitle = "", author = "", mangadescription = "", status = "", publishedDate = "", mangaImage = "";
-    Connection conn = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-
-    Integer userRating = null;
-    double avgRating = 0.0;
-
-    try {
-        ReadingHistoryDAO historyDAO = new ReadingHistoryDAO();
-        historyDAO.addOrUpdateReadingHistory(sessionUserId, mangaId);
-
-        conn = DatabaseConnection.getConnection();
-
-        // Get manga details
-        String mangaQuery = "SELECT * FROM manga WHERE manga_id = ?";
-        pstmt = conn.prepareStatement(mangaQuery);
-        pstmt.setInt(1, mangaId);
-        rs = pstmt.executeQuery();
-
-        if (rs.next()) {
-            mangatitle = rs.getString("mangatitle");
-            author = rs.getString("author");
-            mangadescription = rs.getString("mangadescription");
-            status = rs.getString("status");
-            publishedDate = rs.getString("published_date");
-            mangaImage = rs.getString("mangaImage");
-        }
-        rs.close(); pstmt.close();
-
-        // Get average rating
-        String avgQuery = "SELECT AVG(rating) AS avg_rating FROM rating WHERE manga_id = ?";
-        pstmt = conn.prepareStatement(avgQuery);
-        pstmt.setInt(1, mangaId);
-        rs = pstmt.executeQuery();
-        if (rs.next()) {
-            avgRating = rs.getDouble("avg_rating");
-        }
-        rs.close(); pstmt.close();
-
-        // Get current user's rating
-        String userRatingQuery = "SELECT rating FROM rating WHERE manga_id = ? AND user_id = ?";
-        pstmt = conn.prepareStatement(userRatingQuery);
-        pstmt.setInt(1, mangaId);
-        pstmt.setInt(2, sessionUserId);
-        rs = pstmt.executeQuery();
-        if (rs.next()) {
-            userRating = rs.getInt("rating");
-        }
-        rs.close(); pstmt.close();
+    Manga manga = (Manga) request.getAttribute("manga");
+    List<String> genres = (List<String>) request.getAttribute("genres");
+    List<Volume> volumes = (List<Volume>) request.getAttribute("volumes");
+    List<Chapter> chapters = (List<Chapter>) request.getAttribute("chapters");
+    Integer selectedVolumeParam = (Integer) request.getAttribute("selectedVolume");
 %>
 
-<div id="container">
-  <div class="media-card">
-    <img src="<%= request.getContextPath() + mangaImage %>" alt="manga <%= mangaId %>" class="cover-img" />
-    <div class="card-details">
-      <h2 class="main-title"><%= mangatitle %></h2>
-      <div class="meta-info">
-        <p><strong>Type:</strong> Manga</p>
-        <p><strong>Status:</strong> <%= status %></p>
-        <p><strong>Authors:</strong> <%= author %></p>
-        <p><strong>Published:</strong> <%= publishedDate %></p>
+<!-- Manga Info Section -->
+<% if (manga != null) { %>
+  <div id="container">
+    <div class="media-card">
+      <img src="<%= manga.getMangaImage() != null ? request.getContextPath() + manga.getMangaImage() : request.getContextPath() + "/resources/images/default.png" %>"
+           alt="manga <%= manga.getMangaId() %>" class="cover-img" />
+      <div class="card-details">
+        <h2 class="main-title"><%= manga.getTitle() %></h2>
+        <div class="meta-info">
+          <p><strong>Type:</strong> Manga</p>
+          <p><strong>Status:</strong> <%= manga.getStatus() %></p>
+          <p><strong>Authors:</strong> <%= manga.getAuthor() %></p>
+          <p><strong>Published:</strong> <%= manga.getPublishedDate() %></p>
+        </div>
+
+        <div class="genres">
+          <p>
+            <% if (genres != null) {
+                 for (String genre : genres) { %>
+              <button><%= genre %></button>
+            <% }} %>
+          </p>
+        </div>
+
+        <p class="desc"><%= manga.getDescription() %></p>
       </div>
-
-      <%
-        // Genre retrieval
-        String genreQuery = "SELECT g.genrename FROM genre g JOIN manga_genre mg ON g.genre_id = mg.genre_id WHERE mg.manga_id = ?";
-        pstmt = conn.prepareStatement(genreQuery);
-        pstmt.setInt(1, mangaId);
-        rs = pstmt.executeQuery();
-      %>
-      <div class="genres">
-        <p>
-          <%
-            while (rs.next()) {
-              String genre = rs.getString("genrename");
-          %>
-          <button><%= genre %></button>
-          <%
-            }
-            rs.close(); pstmt.close();
-          %>
-        </p>
-      </div>
-
-      <p class="desc"><%= mangadescription %></p>
-
-      <!-- Rating -->
-      <p><strong>Average Rating:</strong> <%= String.format("%.2f", avgRating) %> / 5</p>
-      <form action="<%= request.getContextPath() %>/RatingController" method="post">
-        <input type="hidden" name="mangaId" value="<%= mangaId %>" />
-        <input type="hidden" name="userId" value="<%= sessionUserId %>" />
-        <label for="rating">Rate this manga:</label>
-        <select name="rating" id="rating" required>
-          <option value="">-- Select --</option>
-          <% for (int i = 1; i <= 5; i++) { %>
-            <option value="<%= i %>" <%= (userRating != null && userRating == i) ? "selected" : "" %>>
-              <%= i %>
-            </option>
-          <% } %>
-        </select>
-        <button type="submit">Submit</button>
-      </form>
-
-      <button class="bookmark">
-        <span class="icon">
-          <svg viewBox="0 0 36 36">
-            <path class="default" d="M6 4h24v28l-12-8-12 8z" />
-            <path class="filled" d="M6 4h24v28l-12-8-12 8z" />
-          </svg>
-        </span>
-        <span>Bookmark</span>
-      </button>
 
     </div>
   </div>
-</div>
+<% } else { %>
+  <div id="container">
+    <p style="color: red; padding: 20px;">Manga details could not be loaded.</p>
+  </div>
+<% } %>
 
+<% if (manga != null && volumes != null) { %>
 <!-- Volume Section -->
 <div id="Volume1" style="padding: 20px;">
   <h1 style="color:#9656ce;">Volumes</h1>
   <div class="pro-container">
-    <%
-      String volumeQuery = "SELECT volumenumber, volume_img FROM volume WHERE manga_id = ? ORDER BY volumenumber";
-      pstmt = conn.prepareStatement(volumeQuery);
-      pstmt.setInt(1, mangaId);
-      rs = pstmt.executeQuery();
-
-      while (rs.next()) {
-        int volNumber = rs.getInt("volumenumber");
-        String volImg = rs.getString("volume_img");
-    %>
-    <div class="pro">
-      <a href="volume.jsp?manga_id=<%= mangaId %>&volume=<%= volNumber %>#SelectedChapters">
-        <img src="<%= request.getContextPath() + volImg %>" alt="Volume <%= volNumber %>" />
-        <div class="des">Volume <%= volNumber %></div>
-      </a>
-    </div>
-    <%
-      }
-      rs.close(); pstmt.close();
-    %>
+    <% for (Volume vol : volumes) { %>
+      <div class="pro">
+        <a href="<%= request.getContextPath() %>/volume?manga_id=<%= manga.getMangaId() %>&volume=<%= vol.getVolumeNumber() %>#SelectedChapters">
+          <img src="<%= vol.getVolume_img() != null ? request.getContextPath() + vol.getVolume_img() : request.getContextPath() + "/resources/images/default-volume.png" %>"
+               alt="Volume <%= vol.getVolumeNumber() %>" />
+          <div class="des">Volume <%= vol.getVolumeNumber() %></div>
+        </a>
+      </div>
+    <% } %>
   </div>
 </div>
+<% } else { %>
+  <p style="padding: 20px; color: red;">No volume data available.</p>
+<% } %>
 
-<%
-    if (selectedVolumeParam != null) {
-        int selectedVolume = Integer.parseInt(selectedVolumeParam);
-        int volumeId = -1;
-
-        String getVolumeIdQuery = "SELECT volume_id FROM volume WHERE manga_id = ? AND volumenumber = ?";
-        pstmt = conn.prepareStatement(getVolumeIdQuery);
-        pstmt.setInt(1, mangaId);
-        pstmt.setInt(2, selectedVolume);
-        rs = pstmt.executeQuery();
-
-        if (rs.next()) {
-            volumeId = rs.getInt("volume_id");
-        }
-        rs.close(); pstmt.close();
-
-        if (volumeId != -1) {
-            String chapterQuery = "SELECT chapterno, chaptertitle FROM chapter WHERE volume_id = ? ORDER BY chapterno";
-            pstmt = conn.prepareStatement(chapterQuery);
-            pstmt.setInt(1, volumeId);
-            rs = pstmt.executeQuery();
-%>
-<div id="SelectedChapters" class="section-p1" style="padding: 20px;">
-  <h2 style="color: #9656ce">Chapters in Volume <%= selectedVolume %></h2>
-  <div class="chapter-list">
-<%
-      boolean hasChapters = false;
-      while (rs.next()) {
-        hasChapters = true;
-        int chapterNum = rs.getInt("chapterno");
-        String chapterTitle = rs.getString("chaptertitle");
-%>
-    <div class="chapter-item">
-      <a href="read.jsp?manga_id=<%= mangaId %>&volume=<%= selectedVolume %>&chapter=<%= chapterNum %>">
-        Chapter <%= chapterNum %>: <%= chapterTitle %>
-      </a>
+<% if (chapters != null && selectedVolumeParam != null) { %>
+  <div id="SelectedChapters" class="section-p1" style="padding: 20px;">
+    <h2 style="color: #9656ce">Chapters in Volume <%= selectedVolumeParam %></h2>
+    <div class="chapter-list">
+      <% if (chapters.isEmpty()) { %>
+        <p>No chapters available for this volume.</p>
+      <% } else {
+          for (Chapter chap : chapters) { %>
+            <div class="chapter-item">
+              <a href="<%= request.getContextPath() %>/pages/read.jsp?manga_id=<%= manga.getMangaId() %>&volume=<%= selectedVolumeParam %>&chapter=<%= chap.getChapterno() %>">
+                Chapter <%= chap.getChapterno() %>: <%= chap.getChaptertitle() %>
+              </a>
+            </div>
+      <% } } %>
     </div>
-<%
-      }
-      if (!hasChapters) {
-%>
-    <p>No chapters available for this volume.</p>
-<%
-      }
-      rs.close(); pstmt.close();
-%>
   </div>
-</div>
-<%
-        }
-    }
-%>
-
-<%
-    } catch (Exception e) {
-%>
-  <p style="color:red; text-align:center;">Error: <%= e.getMessage() %></p>
-<%
-    } finally {
-        if (rs != null) try { rs.close(); } catch (Exception e) {}
-        if (pstmt != null) try { pstmt.close(); } catch (Exception e) {}
-        if (conn != null) try { conn.close(); } catch (Exception e) {}
-    }
-%>
+<% } %>
 
 <!-- Footer -->
 <footer class="footer">

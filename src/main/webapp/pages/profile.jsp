@@ -1,4 +1,4 @@
-<%@ page import="com.manga.models.User" %>
+ <%@ page import="com.manga.models.User" %>
 
 <%
 //Retrieve user object from session
@@ -122,16 +122,16 @@ String error = (String) request.getAttribute("error");
 
     <!-- Navigation Links (Centered) -->
     <nav class="nav-center">
-      <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
-      <a href="#">Bookmark</a>
-      <a href="history.jsp">History</a>
-      <a href="#">Random</a>
+        <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
+	    <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
+	    <a href="${pageContext.request.contextPath}/pages/profile.jsp">Profile</a>
+	    <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
     </nav>
 
     <!-- Search and Login -->
     <div class="navbar-right">
       <input type="text" placeholder="Search" class="search-bar" />
-      <button class="login-btn">Login</button>
+
     </div>
   </header>
   
