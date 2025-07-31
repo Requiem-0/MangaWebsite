@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, com.manga.models.Manga" %>
-
+<%@ page import="com.manga.models.User" %>
+<%
+User loggedInUser = (User) session.getAttribute("user");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +40,7 @@
       <form action="HomeMangaServlet" method="get">
         <input type="text" name="search" placeholder="Search" class="search-bar" value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>" />
       </form>
-      <button class="login-btn">Login</button>
+     
     </div>
   </header>
   

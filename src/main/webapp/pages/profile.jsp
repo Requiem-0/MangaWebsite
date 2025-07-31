@@ -131,7 +131,7 @@ String error = (String) request.getAttribute("error");
     <!-- Search and Login -->
     <div class="navbar-right">
       <input type="text" placeholder="Search" class="search-bar" />
-      <button class="login-btn">Login</button>
+
     </div>
   </header>
   

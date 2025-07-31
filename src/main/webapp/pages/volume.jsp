@@ -22,13 +22,14 @@
   </div>
   <nav class="nav-center">
 	    <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
-	    <a href="${pageContext.request.contextPath}/BookmarkServlet">Bookmark</a>
 	    <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
+	    <a href="${pageContext.request.contextPath}/pages/profile.jsp">Profile</a>
 	    <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
+
   </nav>
   <div class="navbar-right">
     <input type="text" placeholder="Search" class="search-bar" />
-    <button class="login-btn">Login</button>
+
   </div>
 </header>
 
