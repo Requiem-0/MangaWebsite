@@ -1,6 +1,15 @@
+ <%@ page import="com.manga.models.User" %>
 <%@ page import="java.util.*, com.manga.models.Manga, com.manga.models.Volume, com.manga.models.Chapter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+//Retrieve user object from session
+User loggedInUser = (User) session.getAttribute("user");
 
+//Redirect if not logged in
+if (loggedInUser == null) {
+ response.sendRedirect(request.getContextPath() + "/pages/login.jsp");
+ return;
+}%>
 
 <!DOCTYPE html>
 <html lang="en">
