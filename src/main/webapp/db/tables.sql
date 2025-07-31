@@ -53,15 +53,6 @@ CREATE TABLE chapter (
     FOREIGN KEY (volume_id) REFERENCES volume(volume_id) ON DELETE CASCADE
 );
 
-CREATE TABLE rating (
-    rating_id INT PRIMARY KEY AUTO_INCREMENT,
-    rating INT CHECK (rating >= 1 AND rating <= 5),
-    rating_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    user_id INT,
-    manga_id INT,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (manga_id) REFERENCES manga(manga_id) ON DELETE CASCADE
-);
 
 CREATE TABLE user_manga (
     user_id INT,
@@ -71,12 +62,6 @@ CREATE TABLE user_manga (
     FOREIGN KEY (manga_id) REFERENCES manga(manga_id) ON DELETE CASCADE
 );
 
-CREATE TABLE uploaded_pdf (
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    title VARCHAR(100) NOT NULL,
-    file_path VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id)
-);
 
 DROP TABLE IF EXISTS reading_history;
 
