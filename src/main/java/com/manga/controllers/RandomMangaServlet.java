@@ -24,10 +24,11 @@ public class RandomMangaServlet extends HttpServlet {
         Manga randomManga = homeMangaDAO.getRandomManga();
         if (randomManga != null) {
             // Redirect to the volume page with the manga ID
-            response.sendRedirect(request.getContextPath() + "/pages/volume.jsp?manga_id=" + randomManga.getMangaId());
+            response.sendRedirect(request.getContextPath() + "/volume?manga_id=" + randomManga.getMangaId());
         } else {
             // Handle the case where no manga is found
             response.sendRedirect(request.getContextPath() + "/pages/home.jsp");
         }
     }
 }
+
