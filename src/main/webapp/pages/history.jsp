@@ -77,25 +77,32 @@
 </head>
 
 <body>
-  <!-- Navbar Start -->
+<!-- Navbar Start -->
   <header class="navbar">
-    <div class="navbar-left">
+    <!-- Logo -->
+<div class="navbar-left">
   <a href="${pageContext.request.contextPath}/pages/landing.jsp">
     <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
   </a>
 </div>
+
+    <!-- Navigation Links (Centered) -->
     <nav class="nav-center">
-	    <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
-	    <a href="${pageContext.request.contextPath}/BookmarkServlet">Bookmark</a>
-	    <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
-	    <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
+      <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
+      <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
+      <a href="${pageContext.request.contextPath}/pages/profile.jsp">Profile</a>
+      <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
     </nav>
+
+    <!-- Search and Login -->
     <div class="navbar-right">
-      <input type="text" placeholder="Search" class="search-bar" />
-      <button class="login-btn">Login</button>
+      <form action="HomeMangaServlet" method="get">
+        <input type="text" name="search" placeholder="Search" class="search-bar" value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>" />
+      </form>
     </div>
   </header>
   <!-- Navbar End -->
+
 
   <section>
     <div class="container">
@@ -111,8 +118,8 @@
             for (ReadingHistoryWithManga history : historyList) {
         %>
           <div class="card">
-            <img src="<%=request.getContextPath()%>/resources/images/<%= (history.getMangaImage() != null && !history.getMangaImage().isEmpty()) ? history.getMangaImage() : "manga_default.jpg" %>" alt="Manga Cover Image" />
-
+           <img src="${pageContext.request.contextPath}/resources/images/<%= history.getMangaTitle().toLowerCase() %>.png" alt="<%= history.getMangaTitle() %>" class="manga-image" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/images/default.png';" />
+           
             <div class="details">
               <h2><%= history.getMangaTitle() %></h2>
               <p><strong>Author:</strong> <%= history.getAuthor() %></p>
@@ -133,16 +140,20 @@
 
   <!-- Footer -->
   <footer class="footer">
-    <img src="<%=request.getContextPath()%>/resources/images/logo.png" alt="Footer Logo" class="footer-logo" />
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Footer Logo" class="footer-logo" />
+
     <div class="footer-links">
-      <a href="<%=request.getContextPath()%>/pages/home.jsp">Home</a>
+      <a href="#">Home</a>
       <a href="#">Privacy</a>
       <a href="#">Terms of Service</a>
     </div>
+
     <p class="footer-description">
       Read. Track. Repeat. Manga made seamless – follow your favorites, pick up where you left off, and dive into new worlds anytime.
     </p>
+
     <p class="footer-copy">Copyright © Book Choda Comic Padha</p>
   </footer>
+
 </body>
 </html>

@@ -1,3 +1,4 @@
+
 package com.manga.models;
 
 import java.sql.Date;

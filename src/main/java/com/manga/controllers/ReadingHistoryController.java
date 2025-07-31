@@ -31,14 +31,11 @@ public class ReadingHistoryController extends HttpServlet {
         User loggedInUser = (User) session.getAttribute("user");
         List<ReadingHistory.ReadingHistoryWithManga> historyList =
             readingHistoryDAO.getByUserIdWithMangaDetails(
-            		//loggedInUser.getUserId()
-            		1
-            		);
-        
-        for (ReadingHistory.ReadingHistoryWithManga history : historyList) {
-            System.out.println("Manga Title: " + history.getMangaTitle());
-            System.out.println("Manga Image: " + history.getMangaImage());
-        }
+                    //loggedInUser.getUserId()
+                    1
+                    );
+
+        System.out.println(loggedInUser.getUserId());
 
         request.setAttribute("historyList", historyList);
         request.getRequestDispatcher("/pages/history.jsp").forward(request, response);
