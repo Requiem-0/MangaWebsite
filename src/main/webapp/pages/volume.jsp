@@ -24,7 +24,7 @@ if (loggedInUser == null) {
 <!-- Header -->
 <header class="navbar">
   <div class="navbar-left">
-    <img src="../resources/images/logo.png" alt="Logo" class="logo" />
+    <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
   </div>
   <nav class="nav-center">
 
@@ -123,7 +123,7 @@ if (loggedInUser == null) {
 
 <!-- Footer -->
 <footer class="footer">
-  <img src="../resources/images/logo.png" alt="Footer Logo" class="footer-logo" />
+  <img src="${pageContext.request.contextPath}/resources/images/logo.png" alt="Logo" class="logo" />
   <div class="footer-links">
     <a href="#">Home</a>
     <a href="#">Privacy</a>

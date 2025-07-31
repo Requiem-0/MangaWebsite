@@ -76,9 +76,10 @@ User loggedInUser = (User) session.getAttribute("user");
                 </p>
             </div>
             <p><strong>Status:</strong> <%= narutoManga.getStatus() %></p>
-            <button class="read-button" onclick="location.href='${pageContext.request.contextPath}/pages/volume.jsp?manga_id=<%= narutoManga.getMangaId() %>'">
-                Read Now
-            </button>
+            <button class="read-button"
+        onclick="location.href='${pageContext.request.contextPath}/volume?manga_id=<%= narutoManga.getMangaId() %>'">
+  Read Now
+</button>
         </div>
 <%
     }
