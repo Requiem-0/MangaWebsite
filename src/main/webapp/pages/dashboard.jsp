@@ -32,12 +32,12 @@
       <!-- Sidebar -->
       <nav class="col-md-3 col-lg-2 dashbrd-sidebar d-md-block">
       <h2>Admin Panel</h2>
-      <a href="<%= request.getContextPath() %>/DashboardController">Dashboard</a>
-      <a href="<%= request.getContextPath() %>/ManageMangaController?action=list">Manage Manga</a>
-      <a href="<%= request.getContextPath() %>/ManageVolumeController?action=list">Manage Volume</a>
-      <a href="<%= request.getContextPath() %>/ManageChapterController?action=list" class="active">Manage Chapter</a>
+     <a href="<%= request.getContextPath() %>/DashboardController">Dashboard</a>
+      <a href="<%= request.getContextPath() %>/ManageMangaController">Manage Manga</a>
+      <a href="<%= request.getContextPath() %>/ManageVolumeController">Manage Volume</a>
+      <a href="<%= request.getContextPath() %>/ManageChapterController" class="active">Manage Chapter</a>
       <a href="<%= request.getContextPath() %>/ManageUsersServlet">Manage Users</a>
-      <a href="#">Logout</a>
+	  <a href="<%= request.getContextPath() %>/LogoutController" class="logout-link">Logout</a>
       </nav>
 
       <!-- Main Content -->
@@ -72,31 +72,6 @@
                 <h3><%= request.getAttribute("genreCount") %></h3>
               </div>
             </div>
-
-            <!-- Total Reviews -->
-            <div class="col-md-4">
-              <div class="dashbrd-stat-card">
-                <h5>Total Reviews</h5>
-                <h3><%= request.getAttribute("reviewCount") %></h3>
-              </div>
-            </div>
-
-            <!-- Most Bookmarked Manga -->
-            <div class="col-md-4">
-              <div class="dashbrd-stat-card">
-                <h5>Most Bookmarked Manga</h5>
-                <h3><%= request.getAttribute("mostBookmarkedTitle") != null ? request.getAttribute("mostBookmarkedTitle") : "N/A" %></h3>
-                <small>Bookmarked by <%= request.getAttribute("mostBookmarkedCount") != null ? request.getAttribute("mostBookmarkedCount") : "0" %> users</small>
-              </div>
-            </div>
-
-            <!-- Highest Rated Manga -->
-            <div class="col-md-4">
-              <div class="dashbrd-stat-card">
-                <h5>Highest Rated Manga</h5>
-                <h3><%= request.getAttribute("highestRatedTitle") != null ? request.getAttribute("highestRatedTitle") : "N/A" %></h3>
-                <small>Average Rating: <%= request.getAttribute("highestRating") != null ? request.getAttribute("highestRating") : "0.0" %></small>
-              </div>
             </div>
           </div>
         </div>
