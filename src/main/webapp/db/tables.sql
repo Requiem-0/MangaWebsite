@@ -54,15 +54,6 @@ CREATE TABLE chapter (
 );
 
 
-CREATE TABLE user_manga (
-    user_id INT,
-    manga_id INT,
-    PRIMARY KEY (user_id, manga_id),
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (manga_id) REFERENCES manga(manga_id) ON DELETE CASCADE
-);
-
-
 DROP TABLE IF EXISTS reading_history;
 
 CREATE TABLE reading_history (
