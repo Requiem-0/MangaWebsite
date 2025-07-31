@@ -26,13 +26,10 @@ User loggedInUser = (User) session.getAttribute("user");
 
     <!-- Navigation Links (Centered) -->
     <nav class="nav-center">
-      <!-- Navigation Links (Centered) -->
-		<nav class="nav-center">
-	    <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
-	    <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
-	    <a href="${pageContext.request.contextPath}/pages/profile.jsp">Profile</a>
-	    <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
-		</nav>
+      <a href="${pageContext.request.contextPath}/HomeMangaServlet">Home</a>
+      <a href="${pageContext.request.contextPath}/pages/history.jsp">History</a>
+      <a href="${pageContext.request.contextPath}/pages/profile.jsp">Profile</a>
+      <a href="${pageContext.request.contextPath}/RandomMangaServlet">Random</a>
     </nav>
 
     <!-- Search and Login -->
@@ -40,55 +37,52 @@ User loggedInUser = (User) session.getAttribute("user");
       <form action="HomeMangaServlet" method="get">
         <input type="text" name="search" placeholder="Search" class="search-bar" value="<%= request.getParameter("search") != null ? request.getParameter("search") : "" %>" />
       </form>
-     
     </div>
   </header>
-  
   <!-- Navbar End -->
 
   <!-- body suru vayo -->
 <!-- Highest Rated Section -->
 <div class="highest-rated-frame">
     <div class="highest-rated-text">
-        <h2>Highest Rated</h2>
+        <h2>Recommended</h2>
     </div>
 
     <div class="image-and-content-section">
+<%
+    com.manga.models.Manga narutoManga = (com.manga.models.Manga) request.getAttribute("narutoManga");
+    if (narutoManga != null) {
+%>
         <div class="image-section">
-            <c:if test="${not empty narutoManga}">
-                <img src="${pageContext.request.contextPath}${narutoManga.mangaImage}" alt="${narutoManga.title} Poster" class="highest-rated-image" />
-            </c:if>
+            <img src="${pageContext.request.contextPath}<%= narutoManga.getMangaImage() %>" alt="<%= narutoManga.getTitle() %> Poster" class="highest-rated-image" />
         </div>
 
         <div class="content-section">
-            <c:if test="${not empty narutoManga}">
-                <h2>${narutoManga.title}</h2>
-                <p class="description">${narutoManga.description}</p>
-                <p><strong>Author:</strong><br>${narutoManga.author}</p>
-                <div class="genres">
-			    <p><strong>Genres:</strong><br>
-			        <%
-			            List<String> narutoGenres = (List<String>) request.getAttribute("narutoGenres");
-			            if (narutoGenres != null) {
-			                for (String genre : narutoGenres) {
-			        %>
-			                    <span><%= genre %></span>
-			        <%
-			                }
-			            }
-			        %>
-			    </p>
-			</div>
-                <p><strong>Status:</strong> ${narutoManga.status}</p>
-                <p><strong>Rating:</strong> 10/10</p>
-                <button class="read-button" placeholder="Read Now" onclick="location.href='${pageContext.request.contextPath}/pages/volume.jsp?manga_id=${narutoManga.mangaId}'">
+            <h2><%= narutoManga.getTitle() %></h2>
+            <p class="description"><%= narutoManga.getDescription() %></p>
+            <p><strong>Author:</strong><br><%= narutoManga.getAuthor() %></p>
+            <div class="genres">
+                <p><strong>Genres:</strong><br>
+                <%
+                    List<String> narutoGenres = (List<String>) request.getAttribute("narutoGenres");
+                    if (narutoGenres != null) {
+                        for (String genre : narutoGenres) {
+                %>
+                            <span><%= genre %></span>
+                <%
+                        }
+                    }
+                %>
+                </p>
+            </div>
+            <p><strong>Status:</strong> <%= narutoManga.getStatus() %></p>
+            <button class="read-button" onclick="location.href='${pageContext.request.contextPath}/pages/volume.jsp?manga_id=<%= narutoManga.getMangaId() %>'">
                 Read Now
-                </button>
-            </c:if>
-            <c:if test="${empty narutoManga}">
-                <h2></h2>
-            </c:if>
+            </button>
         </div>
+<%
+    }
+%>
     </div>
 </div>
 
@@ -147,7 +141,6 @@ User loggedInUser = (User) session.getAttribute("user");
       <div class="manga-title">
       <a href="${pageContext.request.contextPath}/pages/volume.jsp?manga_id=<%= manga.getMangaId() %>"> <%= manga.getTitle() %> </a>
       </div>
-    
     </div>
     <%
         }
