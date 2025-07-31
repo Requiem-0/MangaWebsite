@@ -139,7 +139,9 @@ User loggedInUser = (User) session.getAttribute("user");
     <div class="manga-card">
       <img src="${pageContext.request.contextPath}/resources/images/<%= manga.getTitle().toLowerCase() %>.png" alt="<%= manga.getTitle() %>" class="manga-image" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/resources/images/default.png';" />
       <div class="manga-title">
-      <a href="${pageContext.request.contextPath}/pages/volume.jsp?manga_id=<%= manga.getMangaId() %>"> <%= manga.getTitle() %> </a>
+<a href="<%= request.getContextPath() %>/volume?manga_id=<%= manga.getMangaId() %>">
+  <%= manga.getTitle() %>
+</a>
       </div>
     </div>
     <%

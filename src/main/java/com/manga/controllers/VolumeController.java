@@ -1,6 +1,7 @@
 package com.manga.controllers;
 
 import com.manga.controllers.dao.MangaDAO;
+
 import com.manga.controllers.dao.ReadingHistoryDAO;
 import com.manga.database.DatabaseConnection;
 import com.manga.models.Chapter;
