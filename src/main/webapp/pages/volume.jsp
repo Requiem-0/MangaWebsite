@@ -2,10 +2,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Integer sessionUserId = (Integer) session.getAttribute("userId");
-    if (sessionUserId == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
+  
+
 %>
 <!DOCTYPE html>
 <html lang="en">
